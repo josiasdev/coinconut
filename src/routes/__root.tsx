@@ -76,6 +76,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Cadeia da casca de coco on-chain — ERC-4337 + ERC-1155." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "COINCONUT" },
+      { name: "twitter:title", content: "COINCONUT" },
+      { property: "og:description", content: "Cadeia da casca de coco on-chain — ERC-4337 + ERC-1155." },
+      { name: "twitter:description", content: "Cadeia da casca de coco on-chain — ERC-4337 + ERC-1155." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7791a120-2abd-4efa-9531-f85a9e534989/id-preview-efd3ee55--b67082f8-b4d5-4f07-86e2-2c16aa4319ea.lovable.app-1779547570021.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7791a120-2abd-4efa-9531-f85a9e534989/id-preview-efd3ee55--b67082f8-b4d5-4f07-86e2-2c16aa4319ea.lovable.app-1779547570021.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
