@@ -8,14 +8,25 @@ Plataforma que conecta **produtores rurais**, **postos de coleta** e **fábricas
 
 ## 🌍 O Problema
 
-O Brasil é o 4° maior produtor de coco do mundo. No Nordeste, a casca — que representa ~85% do peso do fruto — é em grande parte descartada como lixo.
+O coco é uma das culturas mais importantes do agronegócio brasileiro. Em 2021, a produção mundial foi de 63 milhões de toneladas, com o **Brasil sendo o 5º maior produtor** (4,5% do total). O Nordeste concentra 81% da área plantada, e **o Ceará é o 2º maior produtor em área plantada** no país.
 
-A cadeia atual sofre de:
+A casca representa ~85% do peso do fruto. Com a magnitude desses números, o descarte inadequado cria um **problema ambiental gigantesco**, com grande parte do resíduo parando em aterros sanitários e lixões urbanos.
+
+A cadeia atual de reciclagem dessa casca sofre de:
 
 - **Pagamentos atrasados e informais** para produtores rurais
-- **Sem rastreabilidade**: impossível provar a origem da matéria-prima
+- **Sem rastreabilidade**: impossível provar a origem sustentável da matéria-prima
 - **Desconfiança**: produtores não sabem quanto vão receber ou quando
 - **Impacto invisível**: sem dados auditáveis de sustentabilidade
+
+## 🏭 Case Real: Brasil Eco Fibras
+
+Este MVP foi modelado para atender empresas inovadoras como a **Brasil Eco Fibras**, localizada em Pindoretama, na região metropolitana de Fortaleza (CE). A empresa:
+- Coleta resíduos de vizinhos e emprega mão-de-obra local.
+- Converte a casca de coco seco em **Fibra**, **Pó/Substrato**, **Chip** e briquetes.
+- Substitui matérias-primas poluentes (como plásticos) por fibras naturais em aplicações na agricultura, jardinagem e indústria.
+
+O COINCONUT atua fornecendo a infraestrutura financeira e logística para que essa coleta seja transparente e eficiente.
 
 ## 💡 A Solução
 
@@ -79,9 +90,9 @@ O **COINCONUT** digitaliza toda a cadeia — da coleta ao briquete — usando bl
 
 O frontend usa dados simulados realistas para demonstração:
 
-- **Produtores**: Maria das Graças (Limoeiro do Norte-CE), João Batista (Aracati-CE), Francisca Lima (Mossoró-RN)
-- **Valores**: R$ 2,40/kg de casca · Bônus verde por sustentabilidade
-- **Fábrica**: FabriBriquete Nordeste Ltda. (8.420 kg de estoque)
+- **Produtores**: Maria das Graças (Pindoretama-CE), João Batista (Cascavel-CE), Francisca Lima (Aquiraz-CE)
+- **Valores**: Dinâmicos conforme o produto de destino (Fibra: R$ 3,20/kg · Pó: R$ 1,80/kg · Chip: R$ 2,50/kg)
+- **Fábrica**: Brasil Eco Fibras (Estoque de matérias e produtos acabados)
 
 ## 🛠️ Tecnologias
 

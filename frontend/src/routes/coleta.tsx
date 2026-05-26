@@ -10,9 +10,9 @@ export const Route = createFileRoute("/coleta")({
 });
 
 const produtores = [
-  { id: "p1", name: "Maria das Graças Silva", cidade: "Limoeiro do Norte, CE" },
-  { id: "p2", name: "João Batista Pereira", cidade: "Aracati, CE" },
-  { id: "p3", name: "Francisca Lima", cidade: "Mossoró, RN" },
+  { id: "p1", name: "Maria das Graças Silva", cidade: "Pindoretama, CE" },
+  { id: "p2", name: "João Batista Pereira", cidade: "Cascavel, CE" },
+  { id: "p3", name: "Francisca Lima", cidade: "Aquiraz, CE" },
   { id: "p4", name: "Antônio Ferreira", cidade: "Pacajus, CE" },
 ];
 
@@ -49,7 +49,7 @@ function Coleta() {
       <main className="max-w-3xl mx-auto px-6 pt-28 pb-12">
         <div className="flex items-center justify-between mb-2">
           <div className="text-xs font-mono uppercase tracking-widest text-accent">
-            Posto de Coleta · Agente
+            Pindoretama, CE — Rua do Cajueiro
           </div>
           <div
             className={`flex items-center gap-1.5 text-xs font-medium ${online ? "text-accent" : "text-amber-500"}`}

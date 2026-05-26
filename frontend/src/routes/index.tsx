@@ -21,7 +21,7 @@ const actors = [
   {
     icon: Factory,
     name: "Fábrica",
-    role: "Compra a matéria-prima certificada e transforma em briquetes ecológicos.",
+    role: "Compra a matéria-prima certificada e transforma em fibras, substrato, pó e briquetes ecológicos.",
     detail: "Rastreabilidade total da origem",
     color: "from-coconut to-gold",
   },
@@ -60,8 +60,8 @@ function Landing() {
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
               className="mt-6 text-lg text-muted-foreground max-w-xl"
             >
-              Do produtor no campo à fábrica de briquetes — o pagamento chega via PIX,
-              a logística é rastreada e o produtor não paga nenhuma taxa. 
+              Do produtor no campo à fábrica de fibras, pó e briquetes — o pagamento chega via PIX,
+              a logística é rastreada e o produtor não paga nenhuma taxa.
               Tudo em <span className="text-foreground">uma única operação</span>.
             </motion.p>
             <motion.div
@@ -153,21 +153,21 @@ function Landing() {
             <img src={briquettesImg} alt="Briquetes de coco sendo produzidos em fábrica brasileira" className="w-full h-full object-cover" loading="lazy" width={1024} height={1024} />
           </motion.div>
           <div className="order-1 lg:order-2">
-            <div className="text-xs font-mono uppercase tracking-widest text-accent mb-3">Da casca ao briquete</div>
+            <div className="text-xs font-mono uppercase tracking-widest text-accent mb-3">O resíduo vira matéria-prima</div>
             <h2 className="font-display text-4xl md:text-5xl leading-tight">
               A fábrica transforma,<br />
               <span className="text-gradient-gold italic">o sistema registra.</span>
             </h2>
             <p className="mt-6 text-muted-foreground text-lg">
-              Quando a fábrica transforma a casca em briquete, a plataforma registra 
-              automaticamente: a matéria-prima é baixada do estoque do produtor e o
-              produto acabado é lançado para a fábrica. Tudo com certificado de origem.
+              O Brasil é o 5º maior produtor de coco do mundo e o Ceará é o 2º maior estado produtor.
+              Quando a fábrica transforma a casca em fibra, pó, chip ou briquete, a plataforma registra
+              automaticamente a conversão do ativo e garante a rastreabilidade da origem ao produto final.
             </p>
 
             <div className="mt-10 space-y-3">
               <FlowRow label="Casca de coco" amount="-1.000 kg" type="entrada" />
-              <FlowRow label="Briquete ecológico" amount="+450 kg" type="saida" />
-              <FlowRow label="Pagamento" amount="R$ 2.400,00" type="pago" />
+              <FlowRow label="Fibra, Pó e Chip de coco" amount="+450 kg" type="saida" />
+              <FlowRow label="Pagamento" amount="R$ 3.200,00" type="pago" />
             </div>
           </div>
         </div>

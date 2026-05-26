@@ -25,16 +25,16 @@ const produtorData = {
   kgMes: 142,
   bonusVerde: 28.00,
   entregas: [
-    { data: "28/mai", local: "Posto Limoeiro do Norte", kg: 80, valor: 192.00, status: "certificado" },
-    { data: "21/mai", local: "Posto Limoeiro do Norte", kg: 62, valor: 148.80, status: "certificado" },
-    { data: "14/mai", local: "Posto Russas, CE", kg: 45, valor: 108.00, status: "certificado" },
-    { data: "07/mai", local: "Posto Limoeiro do Norte", kg: 90, valor: 216.00, status: "certificado" },
+    { data: "28/mai", local: "Posto Pindoretama, CE", kg: 80, valor: 192.00, status: "certificado" },
+    { data: "21/mai", local: "Posto Cascavel, CE", kg: 62, valor: 148.80, status: "certificado" },
+    { data: "14/mai", local: "Posto Pacajus, CE", kg: 45, valor: 108.00, status: "certificado" },
+    { data: "07/mai", local: "Posto Pindoretama, CE", kg: 90, valor: 216.00, status: "certificado" },
   ],
 };
 
 const agenteData = {
   nome: "Carlos Mendes",
-  posto: "Posto Coleta Norte — Limoeiro do Norte, CE",
+  posto: "Pindoretama, CE — Rua do Cajueiro",
   registrosHoje: 5,
   kgHoje: 312,
   filaOffline: 0,
@@ -47,14 +47,19 @@ const agenteData = {
 };
 
 const fabricaData = {
-  nome: "FabriBriquete Nordeste Ltda.",
+  nome: "Brasil Eco Fibras",
   estoqueKg: 8420,
-  briquetesKg: 3789,
+  produtos: {
+    fibra: 2400,
+    substrato: 4800,
+    chip: 1220,
+    briquetes: 3789,
+  },
   saldoBRL: 128450,
   compras: [
-    { data: "28/mai", produtor: "Maria das Graças Silva", kg: 1000, valor: 2400.00 },
-    { data: "26/mai", produtor: "Coop. Verde Litoral", kg: 2500, valor: 6000.00 },
-    { data: "20/mai", produtor: "João Batista Pereira", kg: 800, valor: 1920.00 },
+    { data: "28/mai", produtor: "Maria das Graças Silva (Pindoretama)", kg: 1000, valor: 2400.00 },
+    { data: "26/mai", produtor: "Coop. Verde Litoral (Cascavel)", kg: 2500, valor: 6000.00 },
+    { data: "20/mai", produtor: "João Batista Pereira (Pacajus)", kg: 800, valor: 1920.00 },
     { data: "15/mai", produtor: "Francisca Lima", kg: 500, valor: 1200.00 },
   ],
 };
@@ -183,10 +188,11 @@ function FabricaView() {
         </Link>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-4 mb-8">
-        <StatCard label="Estoque de casca" value={`${d.estoqueKg.toLocaleString("pt-BR")} kg`} sub="matéria-prima disponível" color="bg-gradient-to-br from-coconut to-gold" />
-        <StatCard label="Briquetes produzidos" value={`${d.briquetesKg.toLocaleString("pt-BR")} kg`} sub="produto acabado" color="bg-gradient-to-br from-moss to-accent" />
-        <StatCard label="Saldo disponível" value={`R$ ${d.saldoBRL.toLocaleString("pt-BR")}`} color="bg-gradient-to-br from-gold to-coconut" />
+      <div className="grid md:grid-cols-4 gap-4 mb-8">
+        <StatCard label="Estoque de casca" value={`${d.estoqueKg.toLocaleString("pt-BR")} kg`} sub="matéria-prima" color="bg-gradient-to-br from-coconut to-gold" />
+        <StatCard label="Fibra produzida" value={`${d.produtos.fibra.toLocaleString("pt-BR")} kg`} sub="produto acabado" color="bg-gradient-to-br from-moss to-accent" />
+        <StatCard label="Substrato / Pó" value={`${d.produtos.substrato.toLocaleString("pt-BR")} kg`} sub="produto acabado" color="bg-gradient-to-br from-moss to-accent" />
+        <StatCard label="Chip / Briquete" value={`${(d.produtos.chip + d.produtos.briquetes).toLocaleString("pt-BR")} kg`} sub="produto acabado" color="bg-gradient-to-br from-moss to-accent" />
       </div>
 
       <div className="glass-card rounded-2xl p-6">

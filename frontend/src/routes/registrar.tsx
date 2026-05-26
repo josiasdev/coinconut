@@ -16,13 +16,29 @@ const produtores = [
 ];
 
 type Stage = "idle" | "bundling" | "sponsored" | "settled";
+type ProdutoFinal = "fibra" | "po" | "chip" | "briquete";
+
+const PRECOS: Record<ProdutoFinal, number> = {
+  fibra: 3.20,
+  po: 1.80,
+  chip: 2.50,
+  briquete: 2.40
+};
+
+const NOMES_PRODUTOS: Record<ProdutoFinal, string> = {
+  fibra: "Fibra de Coco",
+  po: "Pó / Substrato de Coco",
+  chip: "Chip de Coco",
+  briquete: "Briquete Ecológico"
+};
 
 function Registrar() {
   const [produtor, setProdutor] = useState(produtores[0].id);
   const [peso, setPeso] = useState("1000");
+  const [produtoDestino, setProdutoDestino] = useState<ProdutoFinal>("fibra");
   const [stage, setStage] = useState<Stage>("idle");
 
-  const preco = (Number(peso) || 0) * 2.4;
+  const preco = (Number(peso) || 0) * PRECOS[produtoDestino];
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -42,7 +58,7 @@ function Registrar() {
     <div className="min-h-screen">
       <Nav />
       <main className="max-w-5xl mx-auto px-6 pt-28 pb-12">
-        <div className="text-xs font-mono uppercase tracking-widest text-accent mb-3">Fábrica · Compra de matéria-prima</div>
+        <div className="text-xs font-mono uppercase tracking-widest text-accent mb-3">Brasil Eco Fibras · Compra de matéria-prima</div>
         <h1 className="font-display text-4xl md:text-5xl mb-10">
           Registrar compra de <span className="text-gradient-gold italic">casca de coco</span>
         </h1>
@@ -73,7 +89,7 @@ function Registrar() {
             </div>
 
             <div>
-              <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Peso entregue (kg)</label>
+              <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Peso entregue da casca (kg)</label>
               <input
                 type="number"
                 value={peso}
@@ -81,6 +97,27 @@ function Registrar() {
                 min={1}
                 className="mt-3 w-full bg-secondary/40 border border-border rounded-xl px-4 py-3.5 font-display text-2xl focus:outline-none focus:border-gold/60 transition"
               />
+            </div>
+
+            <div>
+              <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground block mb-3">Produto a ser gerado</label>
+              <div className="grid grid-cols-2 gap-2">
+                {(Object.keys(PRECOS) as ProdutoFinal[]).map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setProdutoDestino(key)}
+                    className={`p-3 rounded-xl border text-left transition ${
+                      produtoDestino === key
+                        ? "border-gold/60 bg-gold/5"
+                        : "border-border hover:border-border/80 bg-secondary/30"
+                    }`}
+                  >
+                    <div className="text-sm font-medium">{NOMES_PRODUTOS[key]}</div>
+                    <div className="text-xs text-muted-foreground mt-0.5">R$ {PRECOS[key].toFixed(2)} / kg</div>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="flex items-center justify-between p-4 rounded-xl bg-secondary/30 border border-border/60">
