@@ -6,12 +6,6 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/registrar")({
-  head: () => ({
-    meta: [
-      { title: "Registrar compra — COINCONUT" },
-      { name: "description", content: "UC01 — Fábrica registra compra de matéria-prima do produtor. Transferência atômica via ERC-1155 com gas patrocinado." },
-    ],
-  }),
   component: Registrar,
 });
 

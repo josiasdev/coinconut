@@ -7,14 +7,6 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "COINCONUT — Cadeia da casca de coco, on-chain" },
-      { name: "description", content: "Tokenização da cadeia da casca de coco com Account Abstraction (ERC-4337) e ativos unificados ERC-1155. Sem seed phrases, sem gas, total rastreabilidade." },
-      { property: "og:title", content: "COINCONUT — Cadeia da casca de coco, on-chain" },
-      { property: "og:description", content: "Do produtor à fábrica de briquetes: pagamento, logística e queima atômica em uma única transação." },
-    ],
-  }),
   component: Landing,
 });
 

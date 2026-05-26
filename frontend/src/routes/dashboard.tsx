@@ -5,12 +5,6 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — COINCONUT" },
-      { name: "description", content: "Visão geral on-chain da cadeia da casca de coco: saldos, transações e atores." },
-    ],
-  }),
   component: Dashboard,
 });
 
