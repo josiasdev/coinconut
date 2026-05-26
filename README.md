@@ -185,7 +185,7 @@ coinconut/
 
 | Membro | Foco |
 |---|---|
-| **Josias** | Frontend · UX · Integração |
+| <img src="https://github.com/josiasdev.png" width="50" style="border-radius:50%"/><br/>**[Josias](https://github.com/josiasdev)** | Frontend · UX · Integração |
 | **Co-founder** | Smart Contracts · Solidity · Deploy |
 
 ## 📄 Licença
@@ -195,6 +195,6 @@ MIT
 ---
 
 <p align="center">
-  <strong>COINCONUT</strong> · Da casca ao pagamento, rastreado.<br/>
-  Hackathon Web3 RESTIC 29 · ImpactLedger · 2025
+  <strong>COINCONUT</strong> Da casca ao pagamento, rastreado.<br/>
+  Hackathon Web3 RESTIC 29 ImpactLedger · 2026
 </p>
