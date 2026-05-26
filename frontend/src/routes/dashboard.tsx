@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { ArrowUpRight, Sprout, Factory, Building2, Activity } from "lucide-react";
+import { useState } from "react";
+import { Sprout, Factory, Package, ArrowUpRight, Activity, Leaf, Banknote, TrendingUp, Wifi } from "lucide-react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
@@ -8,100 +9,244 @@ export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
 });
 
-const balances = [
-  { token: "COINCONUT_PAY", id: "#0", amount: "128.450,00", unit: "CCP", color: "from-gold to-[oklch(0.72_0.18_60)]" },
-  { token: "CASCA_COCO", id: "#1", amount: "8.420", unit: "kg", color: "from-coconut to-gold" },
-  { token: "BRIQUETE", id: "#2", amount: "3.789", unit: "kg", color: "from-moss to-accent" },
+type Role = "produtor" | "agente" | "fabrica";
+
+const roles: { key: Role; label: string; icon: React.ElementType }[] = [
+  { key: "produtor", label: "Produtor", icon: Sprout },
+  { key: "agente", label: "Agente de Coleta", icon: Package },
+  { key: "fabrica", label: "Fábrica", icon: Factory },
 ];
 
-const txs = [
-  { actor: "Fábrica → Produtor", op: "compra · CASCA_COCO", amount: "1.000 kg", value: "R$ 2.400", status: "atomic", time: "há 2min", hash: "0x8af3…b21c" },
-  { actor: "Fábrica (burn → mint)", op: "RF06 · transformação", amount: "1.000 → 450 kg", value: "—", status: "mint", time: "há 14min", hash: "0x1c92…ee0d" },
-  { actor: "Empresa Y → Fábrica", op: "venda · BRIQUETE", amount: "200 kg", value: "R$ 1.800", status: "atomic", time: "há 1h", hash: "0xa4ff…3092" },
-  { actor: "Produtor Maria S.", op: "onboarding · Social Login", amount: "—", value: "—", status: "info", time: "há 3h", hash: "0x33de…a112" },
-];
+// ── Dados mockados ─────────────────────────────────────────────────────────────
 
-function Dashboard() {
+const produtorData = {
+  nome: "Maria das Graças",
+  saldo: 340.80,
+  kgMes: 142,
+  bonusVerde: 28.00,
+  entregas: [
+    { data: "28/mai", local: "Posto Limoeiro do Norte", kg: 80, valor: 192.00, status: "certificado" },
+    { data: "21/mai", local: "Posto Limoeiro do Norte", kg: 62, valor: 148.80, status: "certificado" },
+    { data: "14/mai", local: "Posto Russas, CE", kg: 45, valor: 108.00, status: "certificado" },
+    { data: "07/mai", local: "Posto Limoeiro do Norte", kg: 90, valor: 216.00, status: "certificado" },
+  ],
+};
+
+const agenteData = {
+  nome: "Carlos Mendes",
+  posto: "Posto Coleta Norte — Limoeiro do Norte, CE",
+  registrosHoje: 5,
+  kgHoje: 312,
+  filaOffline: 0,
+  entradas: [
+    { hora: "10:45", produtor: "João Batista Pereira", kg: 120, valor: 288.00 },
+    { hora: "09:30", produtor: "Maria das Graças Silva", kg: 80, valor: 192.00 },
+    { hora: "08:15", produtor: "Francisca Lima", kg: 112, valor: 268.80 },
+    { hora: "07:50", produtor: "Antônio Ferreira", kg: 55, valor: 132.00 },
+  ],
+};
+
+const fabricaData = {
+  nome: "FabriBriquete Nordeste Ltda.",
+  estoqueKg: 8420,
+  briquetesKg: 3789,
+  saldoBRL: 128450,
+  compras: [
+    { data: "28/mai", produtor: "Maria das Graças Silva", kg: 1000, valor: 2400.00 },
+    { data: "26/mai", produtor: "Coop. Verde Litoral", kg: 2500, valor: 6000.00 },
+    { data: "20/mai", produtor: "João Batista Pereira", kg: 800, valor: 1920.00 },
+    { data: "15/mai", produtor: "Francisca Lima", kg: 500, valor: 1200.00 },
+  ],
+};
+
+// ── Componentes auxiliares ─────────────────────────────────────────────────────
+
+function StatCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color: string }) {
   return (
-    <div className="min-h-screen">
-      <Nav />
-      <main className="max-w-7xl mx-auto px-6 pt-28 pb-12">
-        <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
-          <div>
-            <div className="text-xs font-mono uppercase tracking-widest text-accent mb-2">Carteira da Fábrica · 0xB7…f3A1</div>
-            <h1 className="font-display text-4xl md:text-5xl">Boa tarde, <span className="text-gradient-gold italic">Fábrica</span>.</h1>
-          </div>
-          <Link to="/registrar" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow">
-            Nova compra <ArrowUpRight className="size-4" />
-          </Link>
-        </div>
+    <div className="glass-card rounded-2xl p-6 relative overflow-hidden">
+      <div className={`absolute -top-10 -right-10 size-36 rounded-full ${color} opacity-20 blur-2xl`} />
+      <div className="relative">
+        <div className="text-xs font-mono uppercase tracking-widest text-muted-foreground">{label}</div>
+        <div className="mt-3 font-display text-3xl">{value}</div>
+        {sub && <div className="text-xs text-muted-foreground mt-1">{sub}</div>}
+      </div>
+    </div>
+  );
+}
 
-        {/* Balances */}
-        <div className="grid md:grid-cols-3 gap-4 mb-10">
-          {balances.map((b, i) => (
-            <motion.div
-              key={b.token}
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-              className="glass-card rounded-2xl p-6 relative overflow-hidden"
-            >
-              <div className={`absolute -top-12 -right-12 size-40 rounded-full bg-gradient-to-br ${b.color} opacity-20 blur-2xl`} />
-              <div className="flex items-center justify-between font-mono text-xs">
-                <span className="text-muted-foreground">{b.token}</span>
-                <span className="text-gold/80">ID {b.id}</span>
+// ── Views por papel ────────────────────────────────────────────────────────────
+
+function ProdutorView() {
+  const d = produtorData;
+  return (
+    <div>
+      <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
+        <div>
+          <div className="text-xs font-mono uppercase tracking-widest text-accent mb-2">Sua conta</div>
+          <h1 className="font-display text-4xl md:text-5xl">Olá, <span className="text-gradient-gold italic">{d.nome}</span> 👋</h1>
+        </div>
+        <Link to="/saque" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow">
+          Sacar via PIX <ArrowUpRight className="size-4" />
+        </Link>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-4 mb-8">
+        <StatCard label="Disponível para saque" value={`R$ ${d.saldo.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`} sub="Clique em 'Sacar via PIX'" color="bg-gradient-to-br from-gold to-coconut" />
+        <StatCard label="Entregas este mês" value={`${d.kgMes} kg`} sub="de casca certificada" color="bg-gradient-to-br from-moss to-accent" />
+        <StatCard label="Bônus Verde" value={`R$ ${d.bonusVerde.toFixed(2)}`} sub="Sustentabilidade acumulada" color="bg-gradient-to-br from-accent to-moss" />
+      </div>
+
+      <div className="glass-card rounded-2xl p-6">
+        <h2 className="font-display text-xl mb-5 flex items-center gap-2"><Leaf className="size-4 text-accent" /> Suas entregas recentes</h2>
+        <div className="space-y-2">
+          {d.entregas.map((e, i) => (
+            <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
+              className="flex items-center justify-between p-4 rounded-xl hover:bg-secondary/40 transition border border-transparent hover:border-border">
+              <div>
+                <div className="text-sm">{e.local}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">{e.data} · {e.kg} kg</div>
               </div>
-              <div className="mt-5 font-display text-4xl">{b.amount}</div>
-              <div className="text-xs text-muted-foreground uppercase tracking-widest mt-1">{b.unit}</div>
+              <div className="text-right">
+                <div className="text-sm font-medium">R$ {e.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</div>
+                <div className="text-xs text-accent mt-0.5">✓ Certificado</div>
+              </div>
             </motion.div>
           ))}
         </div>
+      </div>
+    </div>
+  );
+}
 
-        {/* Atores ativos */}
-        <div className="grid lg:grid-cols-[1fr_1.5fr] gap-4">
-          <div className="glass-card rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-5">
-              <Activity className="size-4 text-gold" />
-              <h2 className="font-display text-xl">Rede ativa</h2>
-            </div>
-            <div className="space-y-3">
-              {[
-                { icon: Sprout, label: "Produtores", count: 24, color: "text-accent" },
-                { icon: Factory, label: "Fábricas", count: 3, color: "text-gold" },
-                { icon: Building2, label: "Compradoras", count: 11, color: "text-coconut" },
-              ].map((a) => (
-                <div key={a.label} className="flex items-center justify-between p-3 rounded-xl bg-secondary/40">
-                  <div className="flex items-center gap-3">
-                    <a.icon className={`size-4 ${a.color}`} />
-                    <span className="text-sm">{a.label}</span>
-                  </div>
-                  <span className="font-mono text-sm">{a.count}</span>
-                </div>
-              ))}
-            </div>
+function AgenteView() {
+  const d = agenteData;
+  return (
+    <div>
+      <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
+        <div>
+          <div className="text-xs font-mono uppercase tracking-widest text-accent mb-2">{d.posto}</div>
+          <h1 className="font-display text-4xl md:text-5xl">Olá, <span className="text-gradient-gold italic">{d.nome}</span> 👋</h1>
+        </div>
+        <Link to="/coleta" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow">
+          Registrar entrega <ArrowUpRight className="size-4" />
+        </Link>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-4 mb-8">
+        <StatCard label="Registros hoje" value={`${d.registrosHoje}`} sub="entregas certificadas" color="bg-gradient-to-br from-gold to-coconut" />
+        <StatCard label="Kg certificados hoje" value={`${d.kgHoje} kg`} color="bg-gradient-to-br from-moss to-accent" />
+        <div className="glass-card rounded-2xl p-6 flex items-center gap-4">
+          <div className={`size-10 rounded-full grid place-items-center ${d.filaOffline === 0 ? "bg-accent/20" : "bg-amber-500/20"}`}>
+            <Wifi className={`size-4 ${d.filaOffline === 0 ? "text-accent" : "text-amber-500"}`} />
           </div>
-
-          {/* Tx Feed */}
-          <div className="glass-card rounded-2xl p-6">
-            <h2 className="font-display text-xl mb-5">Eventos on-chain</h2>
-            <div className="space-y-2">
-              {txs.map((tx, i) => (
-                <motion.div
-                  key={tx.hash}
-                  initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
-                  className="grid grid-cols-[1fr_auto] gap-4 p-4 rounded-xl hover:bg-secondary/40 transition border border-transparent hover:border-border"
-                >
-                  <div className="min-w-0">
-                    <div className="text-sm truncate">{tx.actor}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">{tx.op}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm">{tx.amount}</div>
-                    <div className="font-mono text-[10px] text-muted-foreground mt-0.5">{tx.hash} · {tx.time}</div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+          <div>
+            <div className="text-xs text-muted-foreground uppercase tracking-widest">Fila offline</div>
+            <div className="font-display text-2xl mt-1">{d.filaOffline === 0 ? "Nenhuma" : `${d.filaOffline} pendente`}</div>
           </div>
         </div>
+      </div>
+
+      <div className="glass-card rounded-2xl p-6">
+        <h2 className="font-display text-xl mb-5 flex items-center gap-2"><Activity className="size-4 text-gold" /> Entradas de hoje</h2>
+        <div className="space-y-2">
+          {d.entradas.map((e, i) => (
+            <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
+              className="flex items-center justify-between p-4 rounded-xl hover:bg-secondary/40 transition border border-transparent hover:border-border">
+              <div>
+                <div className="text-sm">{e.produtor}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">{e.hora} · {e.kg} kg</div>
+              </div>
+              <div className="text-right">
+                <div className="text-sm font-medium">R$ {e.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</div>
+                <div className="text-xs text-accent mt-0.5">✓ Certificado</div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FabricaView() {
+  const d = fabricaData;
+  return (
+    <div>
+      <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
+        <div>
+          <div className="text-xs font-mono uppercase tracking-widest text-accent mb-2">Conta empresarial</div>
+          <h1 className="font-display text-4xl md:text-5xl"><span className="text-gradient-gold italic">Olá, Fábrica</span> 👋</h1>
+          <p className="text-xs text-muted-foreground mt-1">{d.nome}</p>
+        </div>
+        <Link to="/registrar" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow">
+          Registrar compra <ArrowUpRight className="size-4" />
+        </Link>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-4 mb-8">
+        <StatCard label="Estoque de casca" value={`${d.estoqueKg.toLocaleString("pt-BR")} kg`} sub="matéria-prima disponível" color="bg-gradient-to-br from-coconut to-gold" />
+        <StatCard label="Briquetes produzidos" value={`${d.briquetesKg.toLocaleString("pt-BR")} kg`} sub="produto acabado" color="bg-gradient-to-br from-moss to-accent" />
+        <StatCard label="Saldo disponível" value={`R$ ${d.saldoBRL.toLocaleString("pt-BR")}`} color="bg-gradient-to-br from-gold to-coconut" />
+      </div>
+
+      <div className="glass-card rounded-2xl p-6">
+        <h2 className="font-display text-xl mb-5 flex items-center gap-2"><TrendingUp className="size-4 text-gold" /> Compras recentes</h2>
+        <div className="space-y-2">
+          {d.compras.map((c, i) => (
+            <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
+              className="flex items-center justify-between p-4 rounded-xl hover:bg-secondary/40 transition border border-transparent hover:border-border">
+              <div>
+                <div className="text-sm">{c.produtor}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">{c.data} · {c.kg.toLocaleString("pt-BR")} kg</div>
+              </div>
+              <div className="text-right">
+                <div className="text-sm font-medium">R$ {c.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</div>
+                <div className="text-xs text-accent mt-0.5">✓ Pago</div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Componente principal ────────────────────────────────────────────────────────
+
+function Dashboard() {
+  const [role, setRole] = useState<Role>("produtor");
+
+  return (
+    <div className="min-h-screen">
+      <Nav />
+      <main className="max-w-7xl mx-auto px-6 pt-24 pb-12">
+
+        {/* Role switcher */}
+        <div className="mb-8 flex items-center gap-1 p-1 rounded-full border border-border/60 bg-secondary/30 w-fit">
+          <span className="text-xs text-muted-foreground px-3 font-mono">Demo:</span>
+          {roles.map((r) => (
+            <button
+              key={r.key}
+              onClick={() => setRole(r.key)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm transition ${
+                role === r.key
+                  ? "bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <r.icon className="size-3.5" />
+              {r.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Role view */}
+        <motion.div key={role} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+          {role === "produtor" && <ProdutorView />}
+          {role === "agente" && <AgenteView />}
+          {role === "fabrica" && <FabricaView />}
+        </motion.div>
+
       </main>
       <Footer />
     </div>

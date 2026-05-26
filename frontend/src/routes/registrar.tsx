@@ -42,7 +42,7 @@ function Registrar() {
     <div className="min-h-screen">
       <Nav />
       <main className="max-w-5xl mx-auto px-6 pt-28 pb-12">
-        <div className="text-xs font-mono uppercase tracking-widest text-accent mb-3">UC01 · Compra de matéria-prima</div>
+        <div className="text-xs font-mono uppercase tracking-widest text-accent mb-3">Fábrica · Compra de matéria-prima</div>
         <h1 className="font-display text-4xl md:text-5xl mb-10">
           Registrar compra de <span className="text-gradient-gold italic">casca de coco</span>
         </h1>
@@ -98,7 +98,7 @@ function Registrar() {
               {stage === "idle" ? (<>Confirmar compra <ArrowRight className="size-4" /></>) : "Processando…"}
             </button>
             <p className="text-xs text-muted-foreground text-center -mt-2">
-              Gas patrocinado pelo Paymaster · sem custo para o produtor
+              Sem taxas adicionais · custo zero para o produtor
             </p>
           </form>
 
@@ -107,8 +107,8 @@ function Registrar() {
             <h2 className="font-display text-xl mb-6">Ciclo da UserOperation</h2>
             <div className="space-y-4">
               <Step done={stage !== "idle"} active={stage === "bundling"} label="Empacotando UserOperation" sub="Bundler agrupando transação" />
-              <Step done={stage === "sponsored" || stage === "settled"} active={stage === "sponsored"} label="Gas patrocinado" sub="Paymaster cobre a taxa de rede" />
-              <Step done={stage === "settled"} active={false} label="safeBatchTransferFrom" sub="ERC-1155 · liquidação atômica" />
+              <Step done={stage === "sponsored" || stage === "settled"} active={stage === "sponsored"} label="Autorizando transação" sub="Sem custo adicional para o produtor" />
+              <Step done={stage === "settled"} active={false} label="Pagamento registrado" sub="Produtor notificado automaticamente" />
             </div>
 
             <AnimatePresence>
@@ -122,7 +122,7 @@ function Registrar() {
                     <span className="text-xs font-mono uppercase tracking-widest">Sucesso</span>
                   </div>
                   <div className="mt-2 text-sm">
-                    Compra registrada on-chain. CASCA_COCO debitada do produtor,
+                    Compra registrada com sucesso. Produtor receberá o pagamento automaticamente.
                     COINCONUT_PAY creditada — em uma única transação atômica.
                   </div>
                   <div className="font-mono text-xs text-muted-foreground mt-3">tx 0x7c4f…91a3</div>

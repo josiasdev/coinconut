@@ -9,10 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SaqueRouteImport } from './routes/saque'
 import { Route as RegistrarRouteImport } from './routes/registrar'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ColetaRouteImport } from './routes/coleta'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SaqueRoute = SaqueRouteImport.update({
+  id: '/saque',
+  path: '/saque',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegistrarRoute = RegistrarRouteImport.update({
   id: '/registrar',
   path: '/registrar',
@@ -23,6 +30,11 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ColetaRoute = ColetaRouteImport.update({
+  id: '/coleta',
+  path: '/coleta',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,36 +43,51 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/coleta': typeof ColetaRoute
   '/dashboard': typeof DashboardRoute
   '/registrar': typeof RegistrarRoute
+  '/saque': typeof SaqueRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/coleta': typeof ColetaRoute
   '/dashboard': typeof DashboardRoute
   '/registrar': typeof RegistrarRoute
+  '/saque': typeof SaqueRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/coleta': typeof ColetaRoute
   '/dashboard': typeof DashboardRoute
   '/registrar': typeof RegistrarRoute
+  '/saque': typeof SaqueRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/registrar'
+  fullPaths: '/' | '/coleta' | '/dashboard' | '/registrar' | '/saque'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/registrar'
-  id: '__root__' | '/' | '/dashboard' | '/registrar'
+  to: '/' | '/coleta' | '/dashboard' | '/registrar' | '/saque'
+  id: '__root__' | '/' | '/coleta' | '/dashboard' | '/registrar' | '/saque'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ColetaRoute: typeof ColetaRoute
   DashboardRoute: typeof DashboardRoute
   RegistrarRoute: typeof RegistrarRoute
+  SaqueRoute: typeof SaqueRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/saque': {
+      id: '/saque'
+      path: '/saque'
+      fullPath: '/saque'
+      preLoaderRoute: typeof SaqueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/registrar': {
       id: '/registrar'
       path: '/registrar'
@@ -75,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/coleta': {
+      id: '/coleta'
+      path: '/coleta'
+      fullPath: '/coleta'
+      preLoaderRoute: typeof ColetaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,8 +121,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ColetaRoute: ColetaRoute,
   DashboardRoute: DashboardRoute,
   RegistrarRoute: RegistrarRoute,
+  SaqueRoute: SaqueRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

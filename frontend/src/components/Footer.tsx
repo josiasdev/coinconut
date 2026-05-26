@@ -5,10 +5,10 @@ export function Footer() {
         <div className="flex items-center gap-2">
           <div className="size-6 rounded-full bg-gradient-to-br from-gold to-coconut" />
           <span className="font-display">COINCONUT</span>
-          <span className="opacity-60">— Cadeia da casca, on-chain.</span>
+          <span className="opacity-60">Da casca ao pagamento, rastreado.</span>
         </div>
-        <div className="font-mono text-xs opacity-70">
-          ERC-4337 · ERC-1155 · Account Abstraction
+        <div className="text-xs opacity-70">
+          Hackathon Web3 RESTIC 29 · ImpactLedger · 2026
         </div>
       </div>
     </footer>
