@@ -104,9 +104,9 @@ function Registrar() {
 
           {/* Status */}
           <div className="glass-card rounded-2xl p-7">
-            <h2 className="font-display text-xl mb-6">Ciclo da UserOperation</h2>
+            <h2 className="font-display text-xl mb-6">Status da operação</h2>
             <div className="space-y-4">
-              <Step done={stage !== "idle"} active={stage === "bundling"} label="Empacotando UserOperation" sub="Bundler agrupando transação" />
+              <Step done={stage !== "idle"} active={stage === "bundling"} label="Verificando dados" sub="Conferindo peso e identificação" />
               <Step done={stage === "sponsored" || stage === "settled"} active={stage === "sponsored"} label="Autorizando transação" sub="Sem custo adicional para o produtor" />
               <Step done={stage === "settled"} active={false} label="Pagamento registrado" sub="Produtor notificado automaticamente" />
             </div>
@@ -122,10 +122,10 @@ function Registrar() {
                     <span className="text-xs font-mono uppercase tracking-widest">Sucesso</span>
                   </div>
                   <div className="mt-2 text-sm">
-                    Compra registrada com sucesso. Produtor receberá o pagamento automaticamente.
-                    COINCONUT_PAY creditada — em uma única transação atômica.
+                    Compra registrada com sucesso. O pagamento será enviado
+                    automaticamente para a conta do produtor.
                   </div>
-                  <div className="font-mono text-xs text-muted-foreground mt-3">tx 0x7c4f…91a3</div>
+                  <div className="font-mono text-xs text-muted-foreground mt-3">Comprovante #7C4F91A3</div>
                   <button onClick={reset} className="mt-4 text-xs font-medium text-gold hover:underline">
                     Registrar nova compra →
                   </button>
