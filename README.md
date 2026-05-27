@@ -6,6 +6,21 @@ Plataforma que conecta **produtores rurais**, **postos de coleta** e **fábricas
 
 ---
 
+## 🔗 Smart Contracts Deployados (Sepolia Testnet)
+
+| Contrato | Endereço | Link Etherscan |
+|---|---|---|
+| **CocoAsset** | `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
+| **CoconutRegistry** | `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
+| **PaymentLedger** | `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
+| **BriquetteMarket** | `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
+| **SustainabilityNFT** | `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
+| **CoinconutPaymaster**| `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
+
+*(Atualize os endereços acima após finalizar o deploy)*
+
+---
+
 ## 🌍 O Problema
 
 O coco é uma das culturas mais importantes do agronegócio brasileiro. Em 2021, a produção mundial foi de 63 milhões de toneladas, com o **Brasil sendo o 5º maior produtor** (4,5% do total). O Nordeste concentra 81% da área plantada, e **o Ceará é o 2º maior produtor em área plantada** no país.
@@ -139,7 +154,91 @@ cd frontend
 bun install   # ou npm install
 ```
 
-### Compilar contratos e rodar o frontend
+### 🌐 Deploy de Smart Contracts na Sepolia
+
+Para fazer o deploy dos contratos na testnet pública Sepolia, siga os passos abaixo:
+
+#### 1. Antes do deploy (Preparação)
+
+**SEPOLIA_RPC_URL**
+1. Acesse [infura.io](https://infura.io) → crie uma conta → clique em **Create New API Key**.
+2. Selecione Web3 API → dê um nome qualquer.
+3. No painel do projeto, copie o endpoint HTTPS da Sepolia:
+   `SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/abc123sua_chave`
+
+**PRIVATE_KEY**
+É a chave privada da carteira que vai fazer o deploy e ser o *owner* de todos os contratos (quem pode setar preço, adicionar pontos de coleta e autorizar operadores).
+1. Abra o MetaMask → clique no ícone da conta (canto superior direito).
+2. Detalhes da conta → Exportar chave privada → digite sua senha.
+3. Cole no arquivo `.env` **sem o 0x** no início:
+   `PRIVATE_KEY=sua_chave_de_64_caracteres_aqui`
+> *Nota: Essa conta precisa ter ETH de teste na Sepolia. Faucet: [sepoliafaucet.com](https://sepoliafaucet.com)*
+
+**ETHERSCAN_API_KEY** *(opcional — só para verificar contratos)*
+1. Acesse [etherscan.io](https://etherscan.io) → crie uma conta.
+2. Menu do perfil → API Keys → Add → copie a chave:
+   `ETHERSCAN_API_KEY=sua_chave_etherscan`
+
+#### 2. Executando o deploy
+
+Rode o script de deploy:
+```bash
+npm run deploy
+# ou: npx hardhat run scripts/deploy.js --network sepolia
+```
+
+O terminal vai imprimir os endereços gerados:
+```text
+CocoAsset:          0x...
+PaymentLedger:      0x...
+SustainabilityNFT:  0x...
+CoconutRegistry:    0x...
+BriquetteMarket:    0x...
+CoinconutPaymaster: 0x...
+```
+
+Cole cada endereço gerado no seu arquivo `.env`:
+```env
+COCO_ASSET_ADDRESS=0x...
+PAYMENT_LEDGER_ADDRESS=0x...
+REGISTRY_ADDRESS=0x...
+SUSTAINABILITY_NFT_ADDRESS=0x...
+MARKET_ADDRESS=0x...
+PAYMASTER_ADDRESS=0x...
+```
+
+#### 3. Depois do deploy (Ações manuais no terminal)
+
+Essas ações não vão para o `.env`, mas precisam ser feitas antes de usar o sistema. No console do Hardhat (`npx hardhat console --network sepolia`) ou via script:
+
+**Conceder ORACLE_ROLE** 
+É o endereço do serviço que vai confirmar os PIX. No MVP pode ser sua própria carteira para testar:
+```javascript
+await paymentLedger.grantRole(ORACLE_ROLE, "0x_endereço_do_oráculo")
+await market.grantRole(ORACLE_ROLE, "0x_endereço_do_oráculo")
+```
+
+**Depositar ETH no Paymaster** 
+Para que ele pague o gas dos fornecedores (Account Abstraction):
+```javascript
+await paymaster.deposit({ value: ethers.parseEther("0.1") })
+```
+
+#### Exemplo de `.env` final preenchido:
+```env
+SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/abc123
+PRIVATE_KEY=chave_privada_64_chars
+ETHERSCAN_API_KEY=chave_etherscan
+
+COCO_ASSET_ADDRESS=0x...
+PAYMENT_LEDGER_ADDRESS=0x...
+REGISTRY_ADDRESS=0x...
+SUSTAINABILITY_NFT_ADDRESS=0x...
+MARKET_ADDRESS=0x...
+PAYMASTER_ADDRESS=0x...
+```
+
+### 💻 Compilar contratos e rodar o frontend
 
 ```bash
 # Compilar smart contracts (Hardhat)
