@@ -3,12 +3,13 @@ pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 
 import "./interfaces/ICocoAsset.sol";
 import "./interfaces/IPaymentLedger.sol";
 
 // Ponto de entrada para registro de entregas, cálculo de pagamento e orquestração de batchs.
-contract CoconutRegistry is Ownable, ReentrancyGuard {
+contract CoconutRegistry is Ownable, ReentrancyGuard, ERC1155Holder {
     ICocoAsset     public immutable cocoAsset;
     IPaymentLedger public immutable paymentLedger;
 
