@@ -47,36 +47,35 @@ O **COINCONUT** digitaliza toda a cadeia — da coleta ao briquete — usando bl
 ## 🏗️ Arquitetura
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                   FRONTEND (Vite SPA)               │
-│   React 19 · TanStack Router · Tailwind CSS v4      │
-│   Motion (Framer) · Radix UI · Recharts             │
-└──────────────────────┬──────────────────────────────┘
-                       │
-          ┌────────────┼────────────┐
-          ▼            ▼            ▼
-   ┌────────────┐ ┌─────────┐ ┌─────────────┐
-   │  ERC-4337  │ │ ERC-1155│ │   ERC-20    │
-   │  Account   │ │  Multi  │ │   BRL1      │
-   │ Abstraction│ │  Token  │ │ (Stablecoin)│
-   └─────┬──────┘ └────┬────┘ └──────┬──────┘
-         │              │             │
-         ▼              ▼             ▼
-   ┌─────────────────────────────────────────┐
-   │        Smart Contract Router/Escrow     │
-   │    Liquidação atômica (DvP) · Paymaster │
-   │         Polygon / Sepolia Testnet       │
-   └─────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────┐
+│                   FRONTEND (Vite SPA)                     │
+│   React 19 · TanStack Router · Tailwind CSS v4            │
+│   Motion (Framer) · Radix UI · Recharts                   │
+└──────────────────────┬────────────────────────────┬───────┘
+                       │                        │
+          ┌────────────┼───────────────┐        ▼
+          ▼            ▼               ▼   ┌─────────────────────┐
+   ┌─────────────┐ ┌───────────────┐ ┌───────────────┐ │ EntryPoint / ERC-4337 │
+   │ CoconutRegistry│ │ BriquetteMarket│ │   Paymaster   │ └─────────────────────┘
+   │ (registro)     │ │ (marketplace)  │ │ (gas sponsor) │
+   └────┬──────────┘ └────┬───────────┘ └────┬───────────┘
+        │                 │                 │
+        ▼                 ▼                 ▼
+   ┌──────────────┐ ┌──────────────────┐ ┌────────────────┐
+   │  CocoAsset   │ │ PaymentLedger     │ │ SustainabilityNFT │
+   │  (ERC-1155)  │ │ (pagamentos PIX)  │ │ (NFT soulbound)   │
+   └──────────────┘ └──────────────────┘ └────────────────┘
 ```
-
-### Contratos Inteligentes (em desenvolvimento pelo co-founder)
+### Contratos Inteligentes (implementados neste repositório)
 
 | Contrato | Padrão | Função |
 |---|---|---|
-| **CoconutToken** | ERC-1155 | ID 1 = Casca de Coco (kg) · ID 2 = Briquete (kg) |
-| **BRL1** | ERC-20 | Stablecoin pareada 1:1 com o Real |
-| **Router/Escrow** | Custom | Troca atômica (Delivery vs. Payment) |
-| **Paymaster** | ERC-4337 | Patrocínio de gas — custo zero para o produtor |
+| **CocoAsset.sol** | ERC-1155 | Representa batches de coco e acompanha a transformação física da casca até briquete ou adubo |
+| **CoconutRegistry.sol** | Custom | Registra entregas, controla operadores, calcula pagamento e orquestra batchs |
+| **PaymentLedger.sol** | Custom | Livro de pagamentos on-chain para obrigações PIX com status `PENDING`, `PAID` e `FAILED` |
+| **BriquetteMarket.sol** | Custom | Marketplace para venda de briquetes/adubo que emite NFT sustentável e cria pagamento |
+| **SustainabilityNFT.sol** | ERC-721 soulbound | Certificado imutável de compra sustentável, não transferível após emissão |
+| **CoinconutPaymaster.sol** | ERC-4337 | Patrocina gas para transações em contratos autorizados via EntryPoint |
 
 ## 📱 Funcionalidades da Plataforma
 
@@ -129,26 +128,34 @@ O frontend usa dados simulados realistas para demonstração:
 - [Node.js 18+](https://nodejs.org/) ou [Bun](https://bun.sh/)
 - Git
 
-### Instalar e rodar
+### Instalar dependências do projeto
 
 ```bash
-# Clonar o repositório
-git clone https://github.com/josiasdev/coinconut.git
-cd coinconut
+# Na raiz do repositório
+npm install --legacy-peer-deps
 
-# Instalar dependências do frontend
+# Frontend
 cd frontend
 bun install   # ou npm install
+```
 
-# Rodar em desenvolvimento
+### Compilar contratos e rodar o frontend
+
+```bash
+# Compilar smart contracts (Hardhat)
+npx hardhat compile
+
+# Rodar frontend em desenvolvimento
+cd frontend
 bun run dev   # ou npm run dev
 ```
 
 A aplicação estará disponível em `http://localhost:5173`.
 
-### Build de produção
+### Build de produção do frontend
 
 ```bash
+cd frontend
 bun run build
 bun run preview
 ```
