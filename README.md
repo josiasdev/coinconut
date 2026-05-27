@@ -19,14 +19,18 @@ A cadeia atual de reciclagem dessa casca sofre de:
 - **Desconfiança**: produtores não sabem quanto vão receber ou quando
 - **Impacto invisível**: sem dados auditáveis de sustentabilidade
 
-## 🏭 Case Real: Brasil Eco Fibras
+## ⚖️ Marco Legal e Desafio Logístico
 
-Este MVP foi modelado para atender empresas inovadoras como a **Brasil Eco Fibras**, localizada em Pindoretama, na região metropolitana de Fortaleza (CE). A empresa:
-- Coleta resíduos de vizinhos e emprega mão-de-obra local.
-- Converte a casca de coco seco em **Fibra**, **Pó/Substrato**, **Chip** e briquetes.
-- Substitui matérias-primas poluentes (como plásticos) por fibras naturais em aplicações na agricultura, jardinagem e indústria.
+Este MVP foi desenhado para viabilizar os objetivos da **Política Nacional de Resíduos Sólidos (PNRS - Lei nº 12.305/2010)** e se antecipar às diretrizes do **Projeto de Lei nº 616/2024**, que propõe a inclusão de sistemas de coleta seletiva e logística reversa específicos para o coco verde.
 
-O COINCONUT atua fornecendo a infraestrutura financeira e logística para que essa coleta seja transparente e eficiente.
+A implementação da logística reversa para a casca do coco é complexa porque:
+- **O comércio é difuso e informal:** o consumo ocorre em pontos pulverizados (praias, comércio de rua), dificultando a organização da coleta.
+- **Custos operacionais elevados:** recolher volumes fracionados de um resíduo pesado, mas de baixo valor comercial bruto, onera toda a cadeia.
+- **Falta de rastreabilidade:** não existem mecanismos práticos para auditar os volumes devolvidos ao ciclo produtivo e recompensar os agentes responsáveis (catadores, cooperativas e pequenos produtores).
+
+A proposta do PL 616/2024, em debate na Comissão de Desenvolvimento Urbano, faculta a estados e municípios estruturarem essa logística, de preferência com associações de catadores.
+
+Para que a reciclagem (transformação em fibra, substrato, pó e bioenergia) seja economicamente viável e transparente, é necessária uma inovação estrutural. O **COINCONUT** atua fornecendo a infraestrutura financeira, tecnológica e logística que comprova a destinação correta e desburocratiza a remuneração de quem coleta.
 
 ## 💡 A Solução
 
@@ -92,7 +96,7 @@ O frontend usa dados simulados realistas para demonstração:
 
 - **Produtores**: Maria das Graças (Pindoretama-CE), João Batista (Cascavel-CE), Francisca Lima (Aquiraz-CE)
 - **Valores**: Dinâmicos conforme o produto de destino (Fibra: R$ 3,20/kg · Pó: R$ 1,80/kg · Chip: R$ 2,50/kg)
-- **Fábrica**: Brasil Eco Fibras (Estoque de matérias e produtos acabados)
+- **Fábrica/Cooperativa**: Central de Reciclagem (Estoque de matérias-primas e produtos acabados)
 
 ## 🛠️ Tecnologias
 
@@ -186,7 +190,10 @@ coinconut/
 | Membro | Foco |
 |---|---|
 | <img src="https://github.com/josiasdev.png" width="50" style="border-radius:50%"/><br/>**[Josias](https://github.com/josiasdev)** | Frontend · UX · Integração |
-| **Co-founder** | Smart Contracts · Solidity · Deploy |
+| <img src="https://github.com/davicorreia-dev.png" width="50" style="border-radius:50%"/><br/>**[Davi](https://github.com/davicorreia-dev)** | Smart Contracts · Solidity · Deploy |
+| <img src="https://github.com/JadeProg.png" width="50" style="border-radius:50%"/><br/>**[Jade](https://github.com/JadeProg)** | Pitch |
+| <img src="https://github.com/willian-uiu.png" width="50" style="border-radius:50%"/><br/>**[Willian](https://github.com/willian-uiu)** | Pitch |
+
 
 ## 📄 Licença
 
