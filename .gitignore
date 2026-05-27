@@ -21,3 +21,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# ENV
+.env
+.env.*
+!.env.example
+
+# HARDHAT
+cache/
+artifacts/
+typechain/
+typechain-types/
