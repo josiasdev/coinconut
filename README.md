@@ -10,14 +10,13 @@ Plataforma que conecta **produtores rurais**, **postos de coleta** e **fábricas
 
 | Contrato | Endereço | Link Etherscan |
 |---|---|---|
-| **CocoAsset** | `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
-| **CoconutRegistry** | `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
-| **PaymentLedger** | `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
-| **BriquetteMarket** | `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
-| **SustainabilityNFT** | `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
-| **CoinconutPaymaster**| `0x...` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x...) |
+| **CocoAsset** | `0x9613...2bcb` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x961379292204ED01DC6436dC2db666f5E9532bCb) |
+| **CoconutRegistry** | `0xF6f3...2E70` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0xF6f39040a3dA724E466Eb31f9Da0EBc8Fc552E70) |
+| **PaymentLedger** | `0x80d9...Ed64` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x80d9A97CEE8F8530888879d09fc1010082aFEd64) |
+| **BriquetteMarket** | `0xFFd4...DA8e` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0xFFd48Fd40f6C3c734a384d1f7FB2581185AaDA8e) |
+| **SustainabilityNFT** | `0x6C3a...4619` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x6C3aa917f8C10C3608cb0dA877eb3F4eE6284619) |
+| **CoinconutPaymaster**| `0x0911...72bA` | [Ver na Sepolia](https://sepolia.etherscan.io/address/0x09111165AC75767E23926bfAA56C884bCD1172bA) |
 
-*(Atualize os endereços acima após finalizar o deploy)*
 
 ---
 
@@ -104,13 +103,13 @@ O **COINCONUT** digitaliza toda a cadeia — da coleta ao briquete — usando bl
 | `/registrar` | Fábrica | Compra de matéria-prima do produtor |
 | `/saque` | Produtor | Saque via PIX com timeline de progresso |
 
-### Dados mockados
+### Integração Web3 (Ao Vivo na Sepolia)
 
-O frontend usa dados simulados realistas para demonstração:
+O frontend deixou de ser apenas um mock e agora está **100% integrado aos Smart Contracts na Sepolia**:
 
-- **Produtores**: Maria das Graças (Pindoretama-CE), João Batista (Cascavel-CE), Francisca Lima (Aquiraz-CE)
-- **Valores**: Dinâmicos conforme o produto de destino (Fibra: R$ 3,20/kg · Pó: R$ 1,80/kg · Chip: R$ 2,50/kg)
-- **Fábrica/Cooperativa**: Central de Reciclagem (Estoque de matérias-primas e produtos acabados)
+- **Conexão MetaMask (`useWeb3`)**: Todas as transações financeiras e de logística exigem assinatura Web3.
+- **Produtores (Teste)**: O sistema permite usar sua própria carteira ("Meu Produtor") para testar o fluxo de ponta a ponta.
+- **Rastreabilidade Dinâmica**: O dashboard consulta saldos e entregas diretamente do `PaymentLedger` e do `CoconutRegistry`.
 
 ## 🛠️ Tecnologias
 
