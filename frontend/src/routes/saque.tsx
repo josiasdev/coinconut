@@ -12,6 +12,8 @@ import {
   Loader2,
   Wallet,
 } from "lucide-react";
+import confetti from "canvas-confetti";
+import { toast } from "sonner";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { useWeb3 } from "@/hooks/useWeb3";
@@ -100,11 +102,25 @@ function Saque() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!isValid) return;
+    
     setStage("confirmando");
+    const tId = toast.loading("Verificando limites e dados do PIX...", { description: "Conectando ao sistema bancário" });
     await new Promise((r) => setTimeout(r, 1500));
+    
     setStage("processando");
+    toast.loading("Processando transferência via PIX...", { id: tId, description: "Aguarde alguns segundos" });
     await new Promise((r) => setTimeout(r, 2500));
+    
     setStage("concluido");
+    toast.success("PIX enviado com sucesso!", { id: tId });
+    
+    // Dispara a chuva de confetes
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#FFE175', '#A5E289', '#FFFFFF']
+    });
   }
 
   return (

@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { useState } from "react";
-import { Check, Loader2, Sparkles, ArrowRight, AlertCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Check, Loader2, Sparkles, ArrowRight, AlertCircle, ExternalLink } from "lucide-react";
+import { toast } from "sonner";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { useWeb3 } from "@/hooks/useWeb3";
@@ -45,6 +46,7 @@ function Registrar() {
   const [errMsg, setErrMsg] = useState<string | null>(null);
   const [batchId, setBatchId] = useState<number>(0);
   const [weightGrams, setWeightGrams] = useState<number>(0);
+  const [txHash, setTxHash] = useState<string | null>(null);
   const [isLoadingBatch, setIsLoadingBatch] = useState(false);
 
   const produtorSel = produtores.find(p => p.id === produtor)!;
@@ -91,6 +93,7 @@ function Registrar() {
     }
 
     setStage("bundling");
+    const tId = toast.loading("Verificando dados...", { description: "Iniciando processo na blockchain" });
     
     try {
       const registry = getRegistryContract(signer);
@@ -99,6 +102,7 @@ function Registrar() {
       const isAdubo = produtoDestino === "po";
       
       // 1. Avança estágio no registro de ativos
+      toast.loading("Avançando estágio do material...", { id: tId, description: "Assine a transação no MetaMask" });
       if (isAdubo) {
         const tx1 = await registry.finalizeBatchAsAdubo(batchId);
         await tx1.wait();
@@ -108,15 +112,19 @@ function Registrar() {
       }
       
       setStage("sponsored");
+      toast.loading("Listando produto no mercado B2B...", { id: tId, description: "Assine a transação no MetaMask" });
       
       // 2. Lista o produto no mercado
       const priceCents = Math.floor(PRECOS[produtoDestino] * 100);
       const tx2 = await market.list(batchId, weightGrams, priceCents, isAdubo);
-      await tx2.wait();
+      const receipt = await tx2.wait();
 
+      setTxHash(receipt.hash);
       setStage("settled");
+      toast.success("Compra finalizada com sucesso!", { id: tId });
     } catch(err: any) {
       console.error(err);
+      toast.error("Falha na transação.", { id: tId });
       setErrMsg("Falha na transação. Tente novamente.");
       setStage("idle");
     }
@@ -256,10 +264,22 @@ function Registrar() {
                     Compra registrada com sucesso. O pagamento será enviado
                     automaticamente para a conta do produtor.
                   </div>
-                  <div className="font-mono text-xs text-muted-foreground mt-3">Comprovante #7C4F91A3</div>
-                  <button onClick={reset} className="mt-4 text-xs font-medium text-gold hover:underline">
-                    Registrar nova compra →
-                  </button>
+                  {txHash && (
+                    <a
+                      href={`https://sepolia.etherscan.io/tx/${txHash}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 text-xs mt-3 text-accent hover:underline font-mono bg-secondary/50 px-3 py-1.5 rounded-lg border border-border"
+                    >
+                      <ExternalLink className="size-3" />
+                      Ver na Blockchain
+                    </a>
+                  )}
+                  <div className="block mt-4">
+                    <button onClick={reset} className="text-xs font-medium text-gold hover:underline">
+                      Registrar nova compra →
+                    </button>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

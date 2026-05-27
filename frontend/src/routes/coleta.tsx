@@ -5,6 +5,7 @@ import {
   Wifi, WifiOff, Check, AlertCircle, Loader2,
   Leaf, CheckCircle2, Wallet, MapPin, ExternalLink
 } from "lucide-react";
+import { toast } from "sonner";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { useWeb3 } from "@/hooks/useWeb3";
@@ -100,6 +101,7 @@ function Coleta() {
     }
 
     setStage("registrando");
+    const tId = toast.loading("Assine a transação no MetaMask...", { description: "Registrando entrega na Sepolia" });
     try {
       const registry    = getRegistryContract(signer);
       const weightGrams = Math.floor(Number(peso) * 1000);
@@ -109,22 +111,28 @@ function Coleta() {
         weightGrams,
         produtorSel.pixKey
       );
+      toast.loading("Processando na rede...", { id: tId, description: "Aguardando confirmação do bloco" });
       const receipt = await tx.wait();
       setTxHash(receipt.hash);
       setStage("confirmado");
+      toast.success("Entrega certificada com sucesso!", { id: tId });
     } catch (err: any) {
       console.error(err);
       const reason = err?.reason ?? err?.message ?? "";
+      let msg = "Erro ao registrar.";
       if (reason.includes("Collection point not active"))
-        setErrMsg("Ponto de coleta não está ativo. Rode o script de setup primeiro.");
+        msg = "Ponto de coleta não está ativo. Rode o script de setup primeiro.";
       else if (reason.includes("Minimum 1kg"))
-        setErrMsg("O peso mínimo para entrega é de 1 kg (1.000 g).");
+        msg = "O peso mínimo para entrega é de 1 kg (1.000 g).";
       else if (reason.includes("Not authorized"))
-        setErrMsg("Sua carteira não tem permissão de operador. Contate o administrador.");
+        msg = "Sua carteira não tem permissão de operador. Contate o administrador.";
       else if (reason.includes("user rejected") || reason.includes("ACTION_REJECTED"))
-        setErrMsg("Você cancelou a transação no MetaMask.");
+        msg = "Você cancelou a transação no MetaMask.";
       else
-        setErrMsg("Erro ao registrar: " + reason.substring(0, 160));
+        msg = "Erro ao registrar: " + reason.substring(0, 160);
+      
+      setErrMsg(msg);
+      toast.error(msg, { id: tId });
       setStage("idle");
     }
   }

@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TransparenciaRouteImport } from './routes/transparencia'
 import { Route as SaqueRouteImport } from './routes/saque'
 import { Route as RegistrarRouteImport } from './routes/registrar'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ColetaRouteImport } from './routes/coleta'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TransparenciaRoute = TransparenciaRouteImport.update({
+  id: '/transparencia',
+  path: '/transparencia',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SaqueRoute = SaqueRouteImport.update({
   id: '/saque',
   path: '/saque',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/registrar': typeof RegistrarRoute
   '/saque': typeof SaqueRoute
+  '/transparencia': typeof TransparenciaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/registrar': typeof RegistrarRoute
   '/saque': typeof SaqueRoute
+  '/transparencia': typeof TransparenciaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,33 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/registrar': typeof RegistrarRoute
   '/saque': typeof SaqueRoute
+  '/transparencia': typeof TransparenciaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/coleta' | '/dashboard' | '/registrar' | '/saque'
+  fullPaths:
+    | '/'
+    | '/coleta'
+    | '/dashboard'
+    | '/registrar'
+    | '/saque'
+    | '/transparencia'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/coleta' | '/dashboard' | '/registrar' | '/saque'
-  id: '__root__' | '/' | '/coleta' | '/dashboard' | '/registrar' | '/saque'
+  to:
+    | '/'
+    | '/coleta'
+    | '/dashboard'
+    | '/registrar'
+    | '/saque'
+    | '/transparencia'
+  id:
+    | '__root__'
+    | '/'
+    | '/coleta'
+    | '/dashboard'
+    | '/registrar'
+    | '/saque'
+    | '/transparencia'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,10 +105,18 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   RegistrarRoute: typeof RegistrarRoute
   SaqueRoute: typeof SaqueRoute
+  TransparenciaRoute: typeof TransparenciaRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/transparencia': {
+      id: '/transparencia'
+      path: '/transparencia'
+      fullPath: '/transparencia'
+      preLoaderRoute: typeof TransparenciaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/saque': {
       id: '/saque'
       path: '/saque'
@@ -125,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   RegistrarRoute: RegistrarRoute,
   SaqueRoute: SaqueRoute,
+  TransparenciaRoute: TransparenciaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

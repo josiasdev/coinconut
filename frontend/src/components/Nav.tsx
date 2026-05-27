@@ -29,6 +29,9 @@ export function Nav() {
           <Link to="/saque" className="text-muted-foreground hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
             Saque PIX
           </Link>
+          <Link to="/transparencia" className="text-muted-foreground hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+            Transparência
+          </Link>
         </div>
 
         <Link
