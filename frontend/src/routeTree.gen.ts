@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TransparenciaRouteImport } from './routes/transparencia'
 import { Route as SaqueRouteImport } from './routes/saque'
 import { Route as RegistrarRouteImport } from './routes/registrar'
+import { Route as EsgRouteImport } from './routes/esg'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ColetaRouteImport } from './routes/coleta'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +30,11 @@ const SaqueRoute = SaqueRouteImport.update({
 const RegistrarRoute = RegistrarRouteImport.update({
   id: '/registrar',
   path: '/registrar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EsgRoute = EsgRouteImport.update({
+  id: '/esg',
+  path: '/esg',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/coleta': typeof ColetaRoute
   '/dashboard': typeof DashboardRoute
+  '/esg': typeof EsgRoute
   '/registrar': typeof RegistrarRoute
   '/saque': typeof SaqueRoute
   '/transparencia': typeof TransparenciaRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/coleta': typeof ColetaRoute
   '/dashboard': typeof DashboardRoute
+  '/esg': typeof EsgRoute
   '/registrar': typeof RegistrarRoute
   '/saque': typeof SaqueRoute
   '/transparencia': typeof TransparenciaRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/coleta': typeof ColetaRoute
   '/dashboard': typeof DashboardRoute
+  '/esg': typeof EsgRoute
   '/registrar': typeof RegistrarRoute
   '/saque': typeof SaqueRoute
   '/transparencia': typeof TransparenciaRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/coleta'
     | '/dashboard'
+    | '/esg'
     | '/registrar'
     | '/saque'
     | '/transparencia'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/coleta'
     | '/dashboard'
+    | '/esg'
     | '/registrar'
     | '/saque'
     | '/transparencia'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/coleta'
     | '/dashboard'
+    | '/esg'
     | '/registrar'
     | '/saque'
     | '/transparencia'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ColetaRoute: typeof ColetaRoute
   DashboardRoute: typeof DashboardRoute
+  EsgRoute: typeof EsgRoute
   RegistrarRoute: typeof RegistrarRoute
   SaqueRoute: typeof SaqueRoute
   TransparenciaRoute: typeof TransparenciaRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/registrar'
       fullPath: '/registrar'
       preLoaderRoute: typeof RegistrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/esg': {
+      id: '/esg'
+      path: '/esg'
+      fullPath: '/esg'
+      preLoaderRoute: typeof EsgRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ColetaRoute: ColetaRoute,
   DashboardRoute: DashboardRoute,
+  EsgRoute: EsgRoute,
   RegistrarRoute: RegistrarRoute,
   SaqueRoute: SaqueRoute,
   TransparenciaRoute: TransparenciaRoute,

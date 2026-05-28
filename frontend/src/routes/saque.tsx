@@ -40,6 +40,7 @@ function Saque() {
   const [stage, setStage] = useState<Stage>("idle");
   const [saldoCents, setSaldoCents] = useState<number | null>(null);
   const [pendingPaymentsIds, setPendingPaymentsIds] = useState<number[]>([]);
+  const [isSimulatingOracle, setIsSimulatingOracle] = useState(false);
 
   // Carrega o saldo real pendente do PaymentLedger
   useEffect(() => {
@@ -121,6 +122,39 @@ function Saque() {
       origin: { y: 0.6 },
       colors: ['#FFE175', '#A5E289', '#FFFFFF']
     });
+  }
+
+  async function simulateOracle() {
+    if (!signer || pendingPaymentsIds.length === 0) return;
+    try {
+      setIsSimulatingOracle(true);
+      const ledger = getPaymentLedgerContract(signer);
+      const tId = toast.loading("Oráculo PIX: Confirmando pagamentos on-chain...", { description: "Chamando ledger.confirmPayment()" });
+      
+      // Confirma todos os pagamentos pendentes passando o Comprovante (pixProof)
+      for (const pId of pendingPaymentsIds) {
+        const tx = await ledger.confirmPayment(pId, "COMPROVANTE_PIX_PITCH_DEMO");
+        await tx.wait();
+      }
+      
+      toast.success("Oráculo PIX: Status atualizado para PAID!", { id: tId });
+      setStage("concluido");
+      setSaldoCents(0);
+      setPendingPaymentsIds([]);
+      setAmount("");
+      
+      confetti({
+        particleCount: 200,
+        spread: 90,
+        origin: { y: 0.6 },
+        colors: ['#FFE175', '#A5E289', '#FFFFFF']
+      });
+    } catch (err: any) {
+      console.error(err);
+      toast.error("Oráculo PIX falhou: " + (err.reason || err.message));
+    } finally {
+      setIsSimulatingOracle(false);
+    }
   }
 
   return (
@@ -292,6 +326,20 @@ function Saque() {
           )}
         </AnimatePresence>
       </main>
+      
+      {/* Admin: Oráculo PIX */}
+      {account && pendingPaymentsIds.length > 0 && (
+        <div className="fixed bottom-4 left-4 z-50">
+          <button
+            onClick={simulateOracle}
+            disabled={isSimulatingOracle}
+            className="text-[10px] uppercase font-mono tracking-widest px-3 py-1.5 rounded bg-accent/10 border border-accent/20 text-accent hover:bg-accent/20 hover:border-accent/40 transition disabled:opacity-50"
+            title="Apenas para demonstração: simula a confirmação do banco via Oráculo"
+          >
+            {isSimulatingOracle ? "Sincronizando..." : "Admin: Simular Oráculo PIX"}
+          </button>
+        </div>
+      )}
       <Footer />
     </div>
   );

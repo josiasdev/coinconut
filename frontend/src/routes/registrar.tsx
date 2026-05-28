@@ -1,12 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
-import { Check, Loader2, Sparkles, ArrowRight, AlertCircle, ExternalLink } from "lucide-react";
+import { Check, Loader2, Sparkles, ArrowRight, AlertCircle, ExternalLink, Award } from "lucide-react";
 import { toast } from "sonner";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { useWeb3 } from "@/hooks/useWeb3";
-import { getRegistryContract, getMarketContract } from "@/lib/web3/config";
+import { getRegistryContract, getMarketContract, getNftContract } from "@/lib/web3/config";
 
 export const Route = createFileRoute("/registrar")({
   component: Registrar,
@@ -113,15 +113,24 @@ function Registrar() {
       // 2. Lista o produto no mercado
       const priceCents = Math.floor(PRECOS[produtoDestino] * 100);
       const tx2 = await market.list(batchId, weightGrams, priceCents, isAdubo);
-      const receipt = await tx2.wait();
+      await tx2.wait();
+
+      toast.loading("Simulando venda B2B e emitindo NFT...", { id: tId, description: "Aguarde a rede Sepolia..." });
+      
+      // 3. PITCH DEMO: Emite o NFT diretamente para a fábrica via MINTER_ROLE
+      // Isso garante que a Galeria ESG exiba o troféu sem depender do buyer B2B.
+      const nft = getNftContract(signer);
+      const tx3 = await nft.issue(account, batchId, weightGrams, "Selo ESG - Fibra de Coco");
+      const receipt = await tx3.wait();
 
       setTxHash(receipt.hash);
       setStage("settled");
-      toast.success("Compra finalizada com sucesso!", { id: tId });
+      toast.success("Selo ESG conquistado com sucesso!", { id: tId });
     } catch(err: any) {
       console.error(err);
       toast.error("Falha na transação.", { id: tId });
-      setErrMsg("Falha na transação. Tente novamente.");
+      const msg = err.reason || err.message || "Erro desconhecido.";
+      setErrMsg("Falha na transação: " + msg);
       setStage("idle");
     }
   }
@@ -137,10 +146,18 @@ function Registrar() {
     <div className="min-h-screen">
       <Nav />
       <main className="max-w-5xl mx-auto px-6 pt-28 pb-12">
-        <div className="text-xs font-mono uppercase tracking-widest text-accent mb-3">Brasil Eco Fibras · Compra de matéria-prima</div>
-        <h1 className="font-display text-4xl md:text-5xl mb-10">
-          Registrar compra de <span className="text-gradient-gold italic">casca de coco</span>
-        </h1>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+          <div>
+            <div className="text-xs font-mono uppercase tracking-widest text-accent mb-3">Brasil Eco Fibras · Compra de matéria-prima</div>
+            <h1 className="font-display text-4xl md:text-5xl">
+              Registrar compra de <span className="text-gradient-gold italic">casca de coco</span>
+            </h1>
+          </div>
+          <Link to="/esg" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full border border-gold/30 bg-gold/5 text-gold hover:bg-gold/15 transition text-sm font-medium whitespace-nowrap">
+            <Award className="size-4" />
+            Galeria ESG
+          </Link>
+        </div>
 
         <div className="grid lg:grid-cols-[1.2fr_1fr] gap-6">
           {/* Form */}
