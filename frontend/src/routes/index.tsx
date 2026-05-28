@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { ArrowRight, Sprout, Factory, Building2, Shield, Zap, Leaf } from "lucide-react";
+import { ArrowRight, Sprout, Factory, Building2, Shield, Zap, Leaf, MapPin } from "lucide-react";
 import heroImg from "@/assets/hero-coconut.png";
 import briquettesImg from "@/assets/briquettes.png";
 import { Nav } from "@/components/Nav";
@@ -66,20 +66,28 @@ function Landing() {
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
-              className="mt-10 flex flex-wrap items-center gap-4"
+              className="mt-10 flex flex-col sm:flex-row items-center gap-4"
             >
               <Link
                 to="/dashboard"
-                className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow hover:scale-[1.02] transition"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow hover:scale-[1.02] transition"
               >
-                Acessar plataforma
-                <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
+                <Sprout className="size-4" />
+                Sou Catador
               </Link>
               <Link
                 to="/coleta"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-border hover:border-gold/40 hover:bg-card transition"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-border hover:border-accent/40 hover:bg-accent/5 transition"
               >
-                Registrar coleta
+                <MapPin className="size-4" />
+                Sou Posto de Coleta
+              </Link>
+              <Link
+                to="/registrar"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-border hover:border-gold/40 hover:bg-gold/5 transition"
+              >
+                <Factory className="size-4" />
+                Sou Indústria
               </Link>
             </motion.div>
 

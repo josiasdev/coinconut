@@ -52,7 +52,7 @@ function Coleta() {
   // Carrega pontos de coleta on-chain quando o signer estiver disponível
   useEffect(() => {
     async function fetchCps() {
-      if (!signer) return;
+      if (!signer || !account) return;
       setLoadingCps(true);
       try {
         const registry = getRegistryContract(signer);
@@ -60,7 +60,9 @@ function Coleta() {
         const pts: CollectionPoint[] = [];
         for (let i = 1; i <= Number(count); i++) {
           const cp = await registry.collectionPoints(i);
-          if (cp.active) pts.push({ id: i, name: cp.name, wallet: cp.wallet });
+          if (cp.active && cp.wallet.toLowerCase() === account.toLowerCase()) {
+            pts.push({ id: i, name: cp.name, wallet: cp.wallet });
+          }
         }
         setCollectionPoints(pts);
         if (pts.length > 0) setSelectedCp(pts[0].id);
@@ -253,36 +255,27 @@ function Coleta() {
                   <div className="text-sm text-amber-500 flex items-start gap-2">
                     <AlertCircle className="size-4 mt-0.5 shrink-0" />
                     <span>
-                      Nenhum ponto de coleta ativo no contrato.{" "}
-                      <code className="bg-secondary px-1 rounded text-xs">
-                        npx hardhat run scripts/setup.js --network sepolia
-                      </code>
+                      Sua carteira ({account.slice(0, 6)}...{account.slice(-4)}) não está vinculada a nenhum Ponto de Coleta ativo. Solicite autorização à cooperativa.
                     </span>
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    {collectionPoints.map((cp) => (
-                      <button
+                    {collectionPoints.filter(cp => cp.id === selectedCp).map((cp) => (
+                      <div
                         key={cp.id}
-                        type="button"
-                        onClick={() => setSelectedCp(cp.id)}
-                        className={`w-full text-left p-4 rounded-xl border transition flex items-center justify-between ${
-                          selectedCp === cp.id
-                            ? "border-accent/60 bg-accent/5"
-                            : "border-border hover:border-border/80 bg-secondary/30"
-                        }`}
+                        className="w-full text-left p-4 rounded-xl border border-accent/60 bg-accent/5 flex items-center justify-between"
                       >
                         <div className="flex items-center gap-3">
                           <MapPin className="size-4 text-accent shrink-0" />
                           <div>
                             <div className="text-sm font-medium">{cp.name}</div>
                             <div className="text-xs text-muted-foreground font-mono mt-0.5">
-                              ID #{cp.id} · {cp.wallet.slice(0, 10)}…
+                              ID #{cp.id} · Vinculado à sua carteira
                             </div>
                           </div>
                         </div>
-                        {selectedCp === cp.id && <Check className="size-4 text-accent" />}
-                      </button>
+                        <Check className="size-4 text-accent" />
+                      </div>
                     ))}
                   </div>
                 )}

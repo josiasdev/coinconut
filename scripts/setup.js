@@ -19,8 +19,8 @@ const DEPLOYER_ADDRESS = "0xcf42E0D067e715A5f6fB6241645194c3C2876923";
 
 const COLLECTION_POINTS = [
   { name: "Pindoretama — Ponto Principal", wallet: DEPLOYER_ADDRESS },
-  { name: "Cascavel — Associação CE",      wallet: DEPLOYER_ADDRESS },
-  { name: "Aquiraz — Ponto Leste",         wallet: DEPLOYER_ADDRESS },
+  { name: "Cascavel — Associação CE",      wallet: "0x1111111111111111111111111111111111111111" },
+  { name: "Aquiraz — Ponto Leste",         wallet: "0x2222222222222222222222222222222222222222" },
 ];
 
 async function main() {
@@ -87,6 +87,13 @@ async function main() {
     console.log("  ✓ ORACLE_ROLE → Deployer (MVP oracle) no Market");
   } else {
     console.log("  · Deployer já tem ORACLE_ROLE no Market");
+  }
+  if (!(await market.hasRole(FACTORY_ROLE, DEPLOYER_ADDRESS))) {
+    const tx = await market.grantRole(FACTORY_ROLE, DEPLOYER_ADDRESS);
+    await tx.wait();
+    console.log("  ✓ FACTORY_ROLE → Deployer no Market");
+  } else {
+    console.log("  · Deployer já tem FACTORY_ROLE no Market");
   }
 
   // Autorizar deployer como operador no Registry (permite chamar registerDelivery)
