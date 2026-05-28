@@ -88,5 +88,10 @@ npm run dev
 - **Vídeo-pitch:** Pendente de inclusão do link.
 
 ## Equipe
-- Josias (Full Stack & Web3 Developer)
-- *(Adicione os demais membros aqui)*
+
+| Membro | Foco |
+|---|---|
+| <img src="https://github.com/josiasdev.png" width="50" style="border-radius:50%"/><br/>**[Josias](https://github.com/josiasdev)** | Frontend · UX · Integração |
+| <img src="https://github.com/davicorreia-dev.png" width="50" style="border-radius:50%"/><br/>**[Davi](https://github.com/davicorreia-dev)** | Smart Contracts · Solidity · Deploy |
+| <img src="https://github.com/JadeProg.png" width="50" style="border-radius:50%"/><br/>**[Jade](https://github.com/JadeProg)** | Pitch |
+| <img src="https://github.com/willian-uiu.png" width="50" style="border-radius:50%"/><br/>**[Willian](https://github.com/willian-uiu)** | Pitch |
