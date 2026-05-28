@@ -16,11 +16,7 @@ export const Route = createFileRoute("/coleta")({
 });
 
 const produtores = [
-  { id: "p0", name: "Meu Produtor (Teste)", cidade: "Pindoretama, CE", wallet: "0xcf42E0D067e715A5f6fB6241645194c3C2876923", pixKey: "meu@pix.com" },
-  { id: "p1", name: "Maria das Graças Silva", cidade: "Pindoretama, CE", wallet: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8", pixKey: "maria@pix.com" },
-  { id: "p2", name: "João Batista Pereira",   cidade: "Cascavel, CE",    wallet: "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC", pixKey: "joao@pix.com"  },
-  { id: "p3", name: "Francisca Lima",          cidade: "Aquiraz, CE",     wallet: "0x90F79bf6EB2c4f870365E785982E1f101E93b906", pixKey: "francisca@pix.com" },
-  { id: "p4", name: "Antônio Ferreira",        cidade: "Pacajus, CE",     wallet: "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65", pixKey: "antonio@pix.com"   },
+  { id: "p0", name: "Meu Produtor (Teste)", cidade: "Pindoretama, CE", wallet: "0xcf42E0D067e715A5f6fB6241645194c3C2876923", pixKey: "meu@pix.com" }
 ];
 
 type Stage = "idle" | "aguardando_carteira" | "registrando" | "confirmado";

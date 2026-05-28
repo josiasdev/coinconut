@@ -12,14 +12,6 @@ export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
 });
 
-type Role = "produtor" | "agente" | "fabrica";
-
-const roles: { key: Role; label: string; icon: React.ElementType }[] = [
-  { key: "produtor", label: "Produtor", icon: Sprout },
-  { key: "agente", label: "Agente de Coleta", icon: Package },
-  { key: "fabrica", label: "Fábrica", icon: Factory },
-];
-
 // ── Dados mockados ─────────────────────────────────────────────────────────────
 
 const produtorData = {
@@ -35,37 +27,7 @@ const produtorData = {
   ],
 };
 
-const agenteData = {
-  nome: "Carlos Mendes",
-  posto: "Pindoretama, CE — Rua do Cajueiro",
-  registrosHoje: 5,
-  kgHoje: 312,
-  filaOffline: 0,
-  entradas: [
-    { hora: "10:45", produtor: "João Batista Pereira", kg: 120, valor: 288.00 },
-    { hora: "09:30", produtor: "Maria das Graças Silva", kg: 80, valor: 192.00 },
-    { hora: "08:15", produtor: "Francisca Lima", kg: 112, valor: 268.80 },
-    { hora: "07:50", produtor: "Antônio Ferreira", kg: 55, valor: 132.00 },
-  ],
-};
-
-const fabricaData = {
-  nome: "Brasil Eco Fibras",
-  estoqueKg: 8420,
-  produtos: {
-    fibra: 2400,
-    substrato: 4800,
-    chip: 1220,
-    briquetes: 3789,
-  },
-  saldoBRL: 128450,
-  compras: [
-    { data: "28/mai", produtor: "Maria das Graças Silva (Pindoretama)", kg: 1000, valor: 2400.00 },
-    { data: "26/mai", produtor: "Coop. Verde Litoral (Cascavel)", kg: 2500, valor: 6000.00 },
-    { data: "20/mai", produtor: "João Batista Pereira (Pacajus)", kg: 800, valor: 1920.00 },
-    { data: "15/mai", produtor: "Francisca Lima", kg: 500, valor: 1200.00 },
-  ],
-};
+// Limpamos os mocks do agente e fábrica, pois eles têm telas próprias agora
 
 // ── Componentes auxiliares ─────────────────────────────────────────────────────
 
@@ -199,136 +161,16 @@ function ProdutorView() {
   );
 }
 
-function AgenteView() {
-  const d = agenteData;
-  return (
-    <div>
-      <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
-        <div>
-          <div className="text-xs font-mono uppercase tracking-widest text-accent mb-2">{d.posto}</div>
-          <h1 className="font-display text-4xl md:text-5xl">Olá, <span className="text-gradient-gold italic">{d.nome}</span> 👋</h1>
-        </div>
-        <Link to="/coleta" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow">
-          Registrar entrega <ArrowUpRight className="size-4" />
-        </Link>
-      </div>
 
-      <div className="grid md:grid-cols-3 gap-4 mb-8">
-        <StatCard label="Registros hoje" value={`${d.registrosHoje}`} sub="entregas certificadas" color="bg-gradient-to-br from-gold to-coconut" />
-        <StatCard label="Kg certificados hoje" value={`${d.kgHoje} kg`} color="bg-gradient-to-br from-moss to-accent" />
-        <div className="glass-card rounded-2xl p-6 flex items-center gap-4">
-          <div className={`size-10 rounded-full grid place-items-center ${d.filaOffline === 0 ? "bg-accent/20" : "bg-amber-500/20"}`}>
-            <Wifi className={`size-4 ${d.filaOffline === 0 ? "text-accent" : "text-amber-500"}`} />
-          </div>
-          <div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest">Fila offline</div>
-            <div className="font-display text-2xl mt-1">{d.filaOffline === 0 ? "Nenhuma" : `${d.filaOffline} pendente`}</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="glass-card rounded-2xl p-6">
-        <h2 className="font-display text-xl mb-5 flex items-center gap-2"><Activity className="size-4 text-gold" /> Entradas de hoje</h2>
-        <div className="space-y-2">
-          {d.entradas.map((e, i) => (
-            <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
-              className="flex items-center justify-between p-4 rounded-xl hover:bg-secondary/40 transition border border-transparent hover:border-border">
-              <div>
-                <div className="text-sm">{e.produtor}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{e.hora} · {e.kg} kg</div>
-              </div>
-              <div className="text-right">
-                <div className="text-sm font-medium">R$ {e.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</div>
-                <div className="text-xs text-accent mt-0.5">✓ Certificado</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function FabricaView() {
-  const d = fabricaData;
-  return (
-    <div>
-      <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
-        <div>
-          <div className="text-xs font-mono uppercase tracking-widest text-accent mb-2">Conta empresarial</div>
-          <h1 className="font-display text-4xl md:text-5xl"><span className="text-gradient-gold italic">Olá, Fábrica</span> 👋</h1>
-          <p className="text-xs text-muted-foreground mt-1">{d.nome}</p>
-        </div>
-        <Link to="/registrar" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow">
-          Registrar compra <ArrowUpRight className="size-4" />
-        </Link>
-      </div>
-
-      <div className="grid md:grid-cols-4 gap-4 mb-8">
-        <StatCard label="Estoque de casca" value={`${d.estoqueKg.toLocaleString("pt-BR")} kg`} sub="matéria-prima" color="bg-gradient-to-br from-coconut to-gold" />
-        <StatCard label="Fibra produzida" value={`${d.produtos.fibra.toLocaleString("pt-BR")} kg`} sub="produto acabado" color="bg-gradient-to-br from-moss to-accent" />
-        <StatCard label="Substrato / Pó" value={`${d.produtos.substrato.toLocaleString("pt-BR")} kg`} sub="produto acabado" color="bg-gradient-to-br from-moss to-accent" />
-        <StatCard label="Chip / Briquete" value={`${(d.produtos.chip + d.produtos.briquetes).toLocaleString("pt-BR")} kg`} sub="produto acabado" color="bg-gradient-to-br from-moss to-accent" />
-      </div>
-
-      <div className="glass-card rounded-2xl p-6">
-        <h2 className="font-display text-xl mb-5 flex items-center gap-2"><TrendingUp className="size-4 text-gold" /> Compras recentes</h2>
-        <div className="space-y-2">
-          {d.compras.map((c, i) => (
-            <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
-              className="flex items-center justify-between p-4 rounded-xl hover:bg-secondary/40 transition border border-transparent hover:border-border">
-              <div>
-                <div className="text-sm">{c.produtor}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{c.data} · {c.kg.toLocaleString("pt-BR")} kg</div>
-              </div>
-              <div className="text-right">
-                <div className="text-sm font-medium">R$ {c.valor.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</div>
-                <div className="text-xs text-accent mt-0.5">✓ Pago</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ── Componente principal ────────────────────────────────────────────────────────
 
 function Dashboard() {
-  const [role, setRole] = useState<Role>("produtor");
-
   return (
     <div className="min-h-screen">
       <Nav />
       <main className="max-w-7xl mx-auto px-6 pt-24 pb-12">
-
-        {/* Role switcher */}
-        <div className="mb-8 flex items-center gap-1 p-1 rounded-full border border-border/60 bg-secondary/30 w-fit">
-          <span className="text-xs text-muted-foreground px-3 font-mono">Demo:</span>
-          {roles.map((r) => (
-            <button
-              key={r.key}
-              onClick={() => setRole(r.key)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm transition ${
-                role === r.key
-                  ? "bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <r.icon className="size-3.5" />
-              {r.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Role view */}
-        <motion.div key={role} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-          {role === "produtor" && <ProdutorView />}
-          {role === "agente" && <AgenteView />}
-          {role === "fabrica" && <FabricaView />}
-        </motion.div>
-
+        <ProdutorView />
       </main>
       <Footer />
     </div>
