@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { ArrowRight, Sprout, Factory, Building2, Shield, Zap, Leaf, MapPin } from "lucide-react";
-import heroImg from "@/assets/hero-coconut.png";
-import briquettesImg from "@/assets/briquettes.png";
+import heroImg from "@/assets/hero-coconut.webp";
+import briquettesImg from "@/assets/briquettes.jpg";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
@@ -43,12 +43,6 @@ function Landing() {
       <section className="relative pt-32 pb-24 overflow-hidden grain">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1.05fr_1fr] gap-16 items-center">
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gold/30 bg-gold/5 text-xs font-mono uppercase tracking-widest text-gold mb-6"
-            >
-              <span className="size-1.5 rounded-full bg-gold animate-pulse" /> Hackathon Web3 RESTIC 29
-            </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
               className="font-display text-5xl md:text-7xl leading-[0.95] tracking-tight"
@@ -113,13 +107,6 @@ function Landing() {
             className="relative aspect-square rounded-3xl overflow-hidden glass-card"
           >
             <img src={heroImg} alt="Produtor separando casca de coco em posto de coleta no Ceará" className="w-full h-full object-cover" width={1024} height={1024} />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/70 backdrop-blur-sm text-xs text-foreground/90">
-                <Leaf className="size-3 text-accent" />
-                Posto de coleta · Limoeiro do Norte, CE
-              </div>
-            </div>
           </motion.div>
         </div>
       </section>
