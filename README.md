@@ -7,8 +7,20 @@ Projeto oficial submetido ao desafio **ImpactLedger** do Hackathon Web3 RESTIC 2
 Construir uma solução baseada em blockchain capaz de registrar, validar e certificar ações de impacto social e ambiental. A **COINCONUT** alcança isso certificando toda a logística reversa e a reciclagem da casca do coco.
 
 ## O Problema e a Solução
-- **O Problema:** O descarte irregular da casca do coco (que representa 85% do peso do fruto) gera poluição ambiental. Além disso, a coleta é feita de forma invisível por catadores que sofrem com a falta de transparência e atrasos nos pagamentos, enquanto indústrias lutam para comprovar suas práticas ESG sem cair no greenwashing.
-- **A Solução:** Uma infraestrutura Web3 descentralizada onde a pesagem da casca gera um registro on-chain auditável. Quando a Indústria adquire a casca para transformação, os Smart Contracts emitem automaticamente um **Selo ESG em NFT (Soulbound)** para a fábrica e liberam o pagamento instantâneo via integração com Oráculo PIX para o catador.
+
+### Problemática
+O descarte irregular da casca do coco, no qual representa **85% do peso total do fruto**, acarreta graves problemas ambientais e logísticos. Essa cadeia sofre hoje com três grandes gargalos:
+
+- **Iniciativa Pública Ineficiente:** A coleta seletiva municipal frequentemente falha ou inexiste, deixando a responsabilidade nos ombros de catadores locais.
+- **Vulnerabilidade Social:** Esses trabalhadores atuam de forma invisível, sofrendo com a falta de transparência e atrasos crônicos nos pagamentos.
+- **Greenwashing Industrial:** As indústrias enfrentam sérias dificuldades para rastrear e comprovar suas práticas ESG de ponta a ponta de maneira verdadeiramente auditável.
+
+### Solução
+Desenvolvemos uma **infraestrutura Web3 descentralizada** que transforma o resíduo em impacto social e ambiental mensurável, estruturada em três pilares:
+
+- **Rastreabilidade On-Chain:** A pesagem da casca do coco gera um registro imutável e auditável diretamente na blockchain.
+- **Selo ESG em NFT (Soulbound):** Quando a indústria adquire a matéria-prima para transformação, os Smart Contracts emitem um token intransferível (Soulbound) que atesta a prática ecológica real da empresa.
+- **Pagamento Instantâneo via Pix:** Utilizando a tecnologia de Oráculos, o sistema liquida o pagamento do catador de forma automatizada e imediata assim que a pesagem é validada, eliminando intermediários e atrasos.
 
 ## Links e Demonstração
 
