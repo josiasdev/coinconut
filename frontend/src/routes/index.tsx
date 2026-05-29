@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { ArrowRight, Sprout, Factory, Building2, Shield, Zap, Leaf, MapPin } from "lucide-react";
-import heroImg from "@/assets/hero-coconut.webp";
-import briquettesImg from "@/assets/briquettes.jpg";
+import heroImg from "../../../assets/hero-coconut.webp";
+import briquettesImg from "../../../assets/briquettes.jpg";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 

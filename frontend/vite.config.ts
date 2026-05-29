@@ -14,4 +14,9 @@ export default defineConfig({
     tailwindcss(),
     tsconfigPaths(),
   ],
+  server: {
+    fs: {
+      allow: [".."]
+    }
+  }
 });
