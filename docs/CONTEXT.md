@@ -1,4 +1,4 @@
-# 🥥 COINCONUT — Guia de Contexto para Desenvolvedores (CONTEXT.md)
+# COINCONUT — Guia de Contexto para Desenvolvedores (CONTEXT.md)
 
 Este documento foi criado para ajudar novos desenvolvedores a entenderem a arquitetura, o fluxo de negócios e as tecnologias por trás do COINCONUT em seu estado final de MVP.
 
@@ -73,4 +73,4 @@ npx hardhat run scripts/setup.js --network sepolia
 npx hardhat run scripts/grant_minter.js --network sepolia
 ```
 
-**Desenvolvido para o Hackathon Web3 RESTIC 29. 💚🥥**
+**Desenvolvido para o Hackathon Web3 RESTIC 29.**
