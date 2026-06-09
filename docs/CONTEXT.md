@@ -4,7 +4,7 @@ Este documento foi criado para ajudar novos desenvolvedores a entenderem a arqui
 
 ---
 
-## 🏗️ Visão Geral da Arquitetura
+## Visão Geral da Arquitetura
 
 O COINCONUT é um DApp (Decentralized Application) focado na rastreabilidade e monetização da reciclagem da casca do coco. Ele une um **Frontend em React 19 (Vite)** com uma suíte de **Smart Contracts na rede Sepolia Testnet**.
 
@@ -12,7 +12,7 @@ A plataforma não foca apenas na rastreabilidade (onde o resíduo foi parar), ma
 
 ---
 
-## 📜 Os Smart Contracts
+## Os Smart Contracts
 
 Todo o fluxo logístico e financeiro da cadeia é controlado por um ecossistema de contratos construídos com Solidity.
 
@@ -37,7 +37,7 @@ Todo o fluxo logístico e financeiro da cadeia é controlado por um ecossistema 
 
 ---
 
-## 💻 O Frontend (Vite + React)
+## O Frontend (Vite + React)
 
 O Frontend usa a estratégia de "Portais", isolando a experiência por tipo de usuário: Catador, Agente de Coleta e Indústria.
 
@@ -51,7 +51,7 @@ O Frontend usa a estratégia de "Portais", isolando a experiência por tipo de u
 
 ---
 
-## 🛣️ O Fluxo de Apresentação (Pitch / "Happy Path")
+## O Fluxo de Apresentação (Pitch / "Happy Path")
 
 Para você testar toda a plataforma end-to-end e impressionar qualquer avaliador, siga exatamente este fluxo:
 
@@ -62,7 +62,7 @@ Para você testar toda a plataforma end-to-end e impressionar qualquer avaliador
 
 ---
 
-## 🔧 Scripts Úteis
+## Scripts Úteis
 
 Se você fez um novo deploy na Sepolia e precisa rodar as configurações iniciais do MVP (como conceder Roles e cadastrar o Deployer como operador e minter):
 ```bash

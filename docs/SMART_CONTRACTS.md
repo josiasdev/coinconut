@@ -1,4 +1,4 @@
-# 📜 Documentação dos Smart Contracts
+# Documentação dos Smart Contracts
 
 Este documento provê uma visão detalhada dos Smart Contracts desenvolvidos para o ecossistema **COINCONUT**.
 
@@ -41,7 +41,7 @@ Permite abstração de conta (Account Abstraction via ERC-4337).
 
 ---
 
-## 🔒 Segurança e Edge Cases Tratados
+## Segurança e Edge Cases Tratados
 
 Nossa bateria de testes cobre os seguintes cenários de segurança:
 - **Restrição de Atores:** Somente pontos de coleta autorizados podem gerar recebíveis no Ledger.

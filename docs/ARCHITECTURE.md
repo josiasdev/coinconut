@@ -1,4 +1,4 @@
-# 🏗️ Arquitetura do COINCONUT
+# Arquitetura do COINCONUT
 
 Este documento descreve a topologia e as decisões arquiteturais do projeto **COINCONUT**, submetido ao Hackathon Web3 RESTIC 29.
 
@@ -15,18 +15,18 @@ O COINCONUT adota uma arquitetura descentralizada (DApp) com separação estrita
 
 A plataforma é dividida em "Portais" (Views), garantindo que cada participante interaja apenas com a sua responsabilidade na cadeia logística.
 
-### 👨‍🌾 A. Produtor / Catador (O Início da Cadeia)
+### A. Produtor / Catador (O Início da Cadeia)
 - Não precisa assinar transações complexas.
 - Visualiza suas entregas validadas.
 - Solicita o saque do valor em moeda fiduciária (BRL) via integração com o **Oráculo PIX**.
 - **Contrato Principal Acessado (via Leitura):** `PaymentLedger`.
 
-### 📍 B. Ponto de Coleta / Quiosque (O Validador)
+### B. Ponto de Coleta / Quiosque (O Validador)
 - Funciona como um oráculo humano que confirma a entrega física da casca.
 - Pesa o material e assina a transação na blockchain.
 - **Contratos Acessados:** `CoconutRegistry` (Registra Entrega) -> Gera tokens em `CocoAsset`.
 
-### 🏭 C. Indústria / Fábrica (A Transformação)
+### C. Indústria / Fábrica (A Transformação)
 - Sincroniza os lotes recolhidos nos pontos de coleta.
 - Avança o estágio do lote (`advanceBatchStage`), declarando que a casca virou Fibra, Substrato ou Briquete.
 - Lista o produto no Mercado B2B (`BriquetteMarket`).
