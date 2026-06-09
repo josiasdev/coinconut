@@ -58,32 +58,7 @@ function Landing() {
               a logística é rastreada e o produtor não paga nenhuma taxa.
               Tudo em <span className="text-foreground">uma única operação</span>.
             </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
-              className="mt-10 flex flex-col sm:flex-row items-center gap-4"
-            >
-              <Link
-                to="/dashboard"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.02] transition"
-              >
-                <Sprout className="size-4" />
-                Sou Coletor
-              </Link>
-              <Link
-                to="/coleta"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-border hover:border-accent/40 hover:bg-accent/5 transition"
-              >
-                <MapPin className="size-4" />
-                Sou Ponto de Coleta
-              </Link>
-              <Link
-                to="/registrar"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-border hover:border-gold/40 hover:bg-gold/5 transition"
-              >
-                <Factory className="size-4" />
-                Sou Indústria
-              </Link>
-            </motion.div>
+
 
             <div className="mt-12 grid grid-cols-3 gap-6 max-w-lg">
               {[
@@ -215,17 +190,11 @@ function Landing() {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link
-                to="/coleta"
+                to="/login"
                 className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.02] transition"
               >
-                Registrar entrega
+                Acessar a Plataforma
                 <ArrowRight className="size-4" />
-              </Link>
-              <Link
-                to="/dashboard"
-                className="inline-flex items-center gap-2 px-7 py-4 rounded-full border border-border hover:border-gold/40 transition"
-              >
-                Ver painel
               </Link>
             </div>
           </div>

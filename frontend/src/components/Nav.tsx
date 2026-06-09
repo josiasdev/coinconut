@@ -9,7 +9,7 @@ export function Nav() {
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border/50">
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5">
-          <img src="/logo.jpeg" alt="COINCONUT Logo" className="size-8 rounded-full object-cover gold-glow" />
+          <img src="/logo.jpeg" alt="COINCONUT Logo" className="h-10 w-auto object-contain mix-blend-multiply" />
           <span className="font-display text-xl tracking-tight">
             COIN<span className="text-gradient-gold font-bold">CONUT</span>
           </span>
@@ -25,13 +25,21 @@ export function Nav() {
             </Link>
           </div>
 
-          <button
-            onClick={toggleTheme}
-            aria-label={isDark ? "Ativar modo claro" : "Ativar modo escuro"}
-            className="size-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-border/80 hover:bg-secondary/50 transition-all"
-          >
-            {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              aria-label={isDark ? "Ativar modo claro" : "Ativar modo escuro"}
+              className="size-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-border/80 hover:bg-secondary/50 transition-all"
+            >
+              {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
+            </button>
+            <Link
+              to="/login"
+              className="px-5 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+            >
+              Entrar
+            </Link>
+          </div>
         </div>
 
       </nav>
