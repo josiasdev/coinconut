@@ -99,6 +99,21 @@ npm run dev
 - **README funcional:** Sim.
 - **Vídeo-pitch:** Pendente de inclusão do link.
 
+## Declaração de Uso de Inteligência Artificial (IA)
+
+Em conformidade com as diretrizes do Hackweb, declaramos que ferramentas de IA generativa foram utilizadas estritamente em papel de apoio ao desenvolvimento do projeto, mantendo a autoria intelectual e supervisão técnica totalmente centralizadas na equipe.
+
+### Ferramentas Utilizadas
+- **Modelos:** Google Gemini, OpenAI ChatGPT, Anthropic Claude.
+
+### Escopo de Aplicação
+1. **Concepção:** Brainstorm inicial de ideias, validação de regras de negócio e refinamento da proposta de valor do ImpactLedger.
+2. **Qualidade e Segurança do Código:** Auxílio na correção de vulnerabilidades e refatoração dos Smart Contracts após as auditorias estáticas locais utilizando as ferramentas **Slither** e **Mythril**.
+3. **Documentação:** Apoio na estruturação lógica, revisão ortográfica e formatação deste arquivo README.
+4. **Apresentação Visual:** Geração e refinamento de imagens de apoio utilizadas nos slides e artefatos visuais do pitch.
+
+*> **OBS:** Toda a arquitetura do ecossistema de contratos inteligentes, integrações Web3 e lógica de liquidação financeira foi desenvolvida, revisada e é perfeitamente compreendida e explicável pelos integrantes do time.*
+
 ## Equipe
 
 | Membro | Foco |
