@@ -1,4 +1,4 @@
-# 🥥 COINCONUT — ImpactLedger
+# COINCONUT — ImpactLedger
 
 ## Sobre o desafio
 Projeto oficial submetido ao desafio **ImpactLedger** do Hackathon Web3 RESTIC 29.
@@ -28,9 +28,9 @@ Desenvolvemos uma **infraestrutura Web3 descentralizada** que transforma o resí
 
 **Demonstração funcional:** 
 O fluxo principal é orquestrado através de 3 portais:
-1. **📍 Posto de Coleta:** Pesa a casca e assina a transação, emitindo o registro imutável do lote e transferindo a custódia.
-2. **🏭 Indústria:** Adquire a matéria-prima rastreada no painel e a converte em produtos ecológicos (Briquete, Fibra).
-3. **👨‍🌾 Catador:** Acessa seu Dashboard para ver suas entregas validadas e sacar a sua remuneração de forma instantânea via simulador de Oráculo PIX.
+1. **Posto de Coleta:** Pesa a casca e assina a transação, emitindo o registro imutável do lote e transferindo a custódia.
+2. **Indústria:** Adquire a matéria-prima rastreada no painel e a converte em produtos ecológicos (Briquete, Fibra).
+3. **Catador:** Acessa seu Dashboard para ver suas entregas validadas e sacar a sua remuneração de forma instantânea via simulador de Oráculo PIX.
 
 **Demonstração auditável:** 
 - A cada pesagem, um lote tokenizado (`ERC-1155`) é gerado no contrato `CocoAsset`.
