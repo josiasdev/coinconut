@@ -14,7 +14,7 @@ const actors = [
   {
     icon: Sprout,
     name: "Produtor",
-    role: "Entrega a casca de coco nos postos de coleta e recebe o pagamento direto via PIX.",
+    role: "Entrega a casca de coco nos pontos de coleta e recebe o pagamento direto via PIX.",
     detail: "Sem cadastro complicado, sem taxa",
     color: "from-moss to-accent",
   },
@@ -74,7 +74,7 @@ function Landing() {
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-border hover:border-accent/40 hover:bg-accent/5 transition"
               >
                 <MapPin className="size-4" />
-                Sou Posto de Coleta
+                Sou Ponto de Coleta
               </Link>
               <Link
                 to="/registrar"
@@ -124,7 +124,7 @@ function Landing() {
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9 }}
             className="relative aspect-square rounded-3xl overflow-hidden glass-card"
           >
-            <img src={heroImg} alt="Produtor separando casca de coco em posto de coleta no Ceará" className="w-full h-full object-cover" width={1024} height={1024} />
+            <img src={heroImg} alt="Produtor separando casca de coco em ponto de coleta no Ceará" className="w-full h-full object-cover" width={1024} height={1024} />
           </motion.div>
         </div>
       </section>

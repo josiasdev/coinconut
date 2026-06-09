@@ -20,10 +20,10 @@ const produtorData = {
   kgMes: 142,
   bonusVerde: 28.00,
   entregas: [
-    { data: "28/mai", local: "Posto Pindoretama, CE", kg: 80, valor: 192.00, status: "certificado" },
-    { data: "21/mai", local: "Posto Cascavel, CE", kg: 62, valor: 148.80, status: "certificado" },
-    { data: "14/mai", local: "Posto Pacajus, CE", kg: 45, valor: 108.00, status: "certificado" },
-    { data: "07/mai", local: "Posto Pindoretama, CE", kg: 90, valor: 216.00, status: "certificado" },
+    { data: "28/mai", local: "Ponto Pindoretama, CE", kg: 80, valor: 192.00, status: "certificado" },
+    { data: "21/mai", local: "Ponto Cascavel, CE", kg: 62, valor: 148.80, status: "certificado" },
+    { data: "14/mai", local: "Ponto Pacajus, CE", kg: 45, valor: 108.00, status: "certificado" },
+    { data: "07/mai", local: "Ponto Pindoretama, CE", kg: 90, valor: 216.00, status: "certificado" },
   ],
 };
 
