@@ -75,24 +75,6 @@ function Landing() {
                 </motion.div>
               ))}
             </div>
-
-            {/* AVISO PARA O JURADO DO HACKATHON */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.6 }}
-              className="mt-10 p-5 rounded-2xl bg-gradient-to-r from-accent/10 to-transparent border border-accent/20 backdrop-blur-sm max-w-2xl relative overflow-hidden"
-            >
-              <div className="absolute top-0 left-0 w-1 h-full bg-accent"></div>
-              <h3 className="flex items-center gap-2 text-accent font-semibold mb-2">
-                <Shield className="size-5" />
-                Área do Avaliador (Hackathon)
-              </h3>
-              <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
-                Para testar todas as funcionalidades na Vercel (Cadastrar Lotes e Processar como Indústria) sem erros de permissão, importe a <b>Private Key</b> abaixo no seu MetaMask. Ela já possui fundos em Sepolia ETH e acesso Master:
-              </p>
-              <div className="bg-background/80 px-3 py-2 rounded-lg font-mono text-xs text-foreground select-all border border-border flex items-center justify-between">
-                <span>0x31ba3ca5e8d472456a36f7d47f6112da943dbb8c4a3d869e3098d6abc2321d46</span>
-              </div>
-            </motion.div>
           </div>
 
           <motion.div
