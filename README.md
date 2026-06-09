@@ -25,7 +25,7 @@ Desenvolvemos uma **infraestrutura Web3 descentralizada** que transforma o resí
 
 ## Links e Demonstração
 
-**Link da aplicação:** [https://coinconut-hackathon.vercel.app](https://coinconut-hackathon.vercel.app)
+**Link da aplicação:** [coinconut-b6qp.vercel.app](coinconut-b6qp.vercel.app)
 
 **Demonstração funcional:** 
 O fluxo principal é orquestrado através de 3 portais:
