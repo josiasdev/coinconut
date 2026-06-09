@@ -122,7 +122,7 @@ function ProdutorView() {
             </button>
           )}
         </div>
-        <Link to="/saque" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow">
+        <Link to="/saque" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-primary text-primary-foreground font-medium gold-glow">
           Sacar via PIX <ArrowUpRight className="size-4" />
         </Link>
       </div>

@@ -30,7 +30,7 @@ const actors = [
     name: "Compradora",
     role: "Adquire briquetes com certificado de origem sustentável e impacto social.",
     detail: "Produto com selo auditável",
-    color: "from-gold to-[oklch(0.72_0.18_60)]",
+    color: "from-primary to-primary",
   },
 ];
 
@@ -64,10 +64,10 @@ function Landing() {
             >
               <Link
                 to="/dashboard"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow hover:scale-[1.02] transition"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.02] transition"
               >
                 <Sprout className="size-4" />
-                Sou Catador
+                Sou Coletor
               </Link>
               <Link
                 to="/coleta"
@@ -216,7 +216,7 @@ function Landing() {
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link
                 to="/coleta"
-                className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow hover:scale-[1.02] transition"
+                className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.02] transition"
               >
                 Registrar entrega
                 <ArrowRight className="size-4" />

@@ -243,7 +243,7 @@ function Registrar() {
             <button
               type="submit"
               disabled={stage !== "idle" || batchId === 0 || isConnecting}
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow hover:scale-[1.01] transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.01] transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isConnecting ? <><Loader2 className="size-4 animate-spin"/> Conectando...</> : 
                stage === "idle" ? (<>Confirmar Processamento <ArrowRight className="size-4" /></>) : 

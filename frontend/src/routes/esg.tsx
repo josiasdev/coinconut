@@ -55,7 +55,7 @@ function ESG() {
             <Wallet className="size-12 text-muted-foreground mx-auto mb-4 opacity-50" />
             <h3 className="font-display text-xl mb-2">Conecte sua carteira empresarial</h3>
             <p className="text-sm text-muted-foreground mb-6">Para visualizar seus selos de sustentabilidade on-chain.</p>
-            <button onClick={connectWallet} disabled={isConnecting} className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow hover:scale-[1.01] transition disabled:opacity-50">
+            <button onClick={connectWallet} disabled={isConnecting} className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.01] transition disabled:opacity-50">
               {isConnecting ? <Loader2 className="size-4 animate-spin"/> : "Conectar MetaMask"}
             </button>
           </div>
