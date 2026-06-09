@@ -208,7 +208,7 @@ function Landing() {
 
 function FlowRow({ label, amount, type }: { label: string; amount: string; type: "entrada" | "saida" | "pago" }) {
   const colors = {
-    entrada: "text-amber-400 border-amber-400/30 bg-amber-400/5",
+    entrada: "text-amber-600 border-amber-600/30 bg-amber-600/10",
     saida: "text-accent border-accent/30 bg-accent/5",
     pago: "text-gold border-gold/30 bg-gold/5",
   } as const;
