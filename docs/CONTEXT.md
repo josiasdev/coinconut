@@ -6,9 +6,9 @@ Este documento foi criado para ajudar novos desenvolvedores a entenderem a arqui
 
 ## Visão Geral da Arquitetura
 
-O COINCONUT é um DApp (Decentralized Application) focado na rastreabilidade e monetização da reciclagem da casca do coco. Ele une um **Frontend em React 19 (Vite)** com uma suíte de **Smart Contracts na rede Sepolia Testnet**.
+O COINCONUT (Submissão ImpactLedger) é um DApp (Decentralized Application) focado na rastreabilidade e monetização da reciclagem da casca do coco. Ele une um **Frontend em React 19 (Vite)** com uma suíte de **Smart Contracts na rede Sepolia Testnet**.
 
-A plataforma não foca apenas na rastreabilidade (onde o resíduo foi parar), mas também na **inclusão financeira e recompensa ESG**. Produtores rurais (catadores) são pagos instantaneamente via Oráculo PIX por resíduos que antes eram descartados, e fábricas ganham NFTs ao comprarem matéria-prima com origem 100% atestada na Blockchain.
+A plataforma não foca apenas na rastreabilidade (onde o resíduo foi parar), mas também na **inclusão financeira e recompensa ESG**. Produtores rurais (catadores) são pagos instantaneamente via Oráculo PIX por resíduos que antes eram descartados, e fábricas ganham Certificados ImpactLedger (NFTs) ao comprarem matéria-prima com origem 100% atestada na Blockchain.
 
 ---
 
@@ -43,10 +43,11 @@ O Frontend usa a estratégia de "Portais", isolando a experiência por tipo de u
 
 ### Estrutura de Pastas e Rotas
 - **`src/routes/__root.tsx`**: Rota base e layout (Nav, Footer).
+- **`src/routes/login.tsx`**: Acesso simplificado (Account Abstraction ERC-4337). Remove a barreira do Web3 simulando login social (Google/E-mail).
 - **`src/routes/dashboard.tsx`**: Portal do Catador (Produtor). Puxa o saldo total e histórico.
 - **`src/routes/coleta.tsx`**: Tela do Ponto de Coleta (Quiosque). Pesa o material e cadastra o lote.
 - **`src/routes/registrar.tsx`**: Tela da Indústria. Sincroniza lotes novos, faz o processamento (Avança Estágio) e lista o produto no Mercado. *Nota: Para efeitos de demonstração (Pitch), essa tela também emite o NFT ESG diretamente para a fábrica simulando a compra B2B final.*
-- **`src/routes/esg.tsx`**: **Fator UAU!** Uma galeria visual premium que lê o saldo do contrato `SustainabilityNFT` e exibe os certificados conquistados pela empresa.
+- **`src/routes/esg.tsx`**: **Fator UAU!** Uma galeria visual premium no formato "Trading Cards" (Tiers Genesis, Esmeralda, etc.) que lê o saldo do contrato `SustainabilityNFT` e exibe os certificados ImpactLedger conquistados pela empresa.
 - **`src/routes/saque.tsx`**: Tela do Produtor onde o valor do `PaymentLedger` é sacado. **Fator UAU:** Possui um botão "Admin: Simular Oráculo PIX" escondido no canto inferior, que atualiza a blockchain em tempo real chamando o `confirmPayment`.
 
 ---
@@ -55,9 +56,10 @@ O Frontend usa a estratégia de "Portais", isolando a experiência por tipo de u
 
 Para você testar toda a plataforma end-to-end e impressionar qualquer avaliador, siga exatamente este fluxo:
 
-1. **Agente (A Coleta):** Acesse a Home, clique em "Sou Ponto de Coleta". Registre uma pesagem qualquer. Assine a transação MetaMask. O lote entrará na rede como `COLLECTED`.
-2. **Fábrica (O Processamento):** Acesse "Sou Indústria". A tela sincronizará o lote recém-criado. Clique em Registrar Compra. A transação mudará o lote para `PROCESSED`, listará no mercado e **emitirá automaticamente o seu Selo ESG**.
-3. **Galeria ESG:** Ainda na tela da Indústria, clique em "Galeria ESG" (canto superior direito) para ver o NFT Soulbound de sustentabilidade brilhar na tela!
+1. **Acesso Sem Atrito:** Na Home, clique em "Entrar". Selecione o perfil de Catador ou Ponto de Coleta e clique em "Continuar com Google". A carteira Web3 será gerada nos bastidores.
+2. **Agente (A Coleta):** No portal de Ponto de Coleta, registre uma pesagem. O lote entrará na rede como `COLLECTED`.
+3. **Fábrica (O Processamento):** Entre como Indústria. A tela sincronizará o lote recém-criado. Clique em Registrar Compra. A transação mudará o lote para `PROCESSED` e **emitirá automaticamente o seu Selo ImpactLedger**.
+4. **Galeria ESG:** Ainda na tela da Indústria, clique em "Galeria ESG" (canto superior direito) para ver a galeria de Trading Cards NFT dinâmicos saltarem na tela!
 4. **Produtor (O Oráculo PIX):** Acesse "Sou Catador" -> "Sacar via PIX". O valor daquela pesagem estará lá! Clique no botão oculto no rodapé "Admin: Simular Oráculo PIX". A transação será executada, o saldo zerará e os confetes cairão!
 
 ---
