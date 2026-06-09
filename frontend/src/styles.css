@@ -82,50 +82,6 @@
 }
 
 
-.dark {
-  color-scheme: dark;
-
-  /* COINCONUT palette — Dark Mode (forest premium) */
-  --background: oklch(0.18 0.025 150);
-  --foreground: oklch(0.96 0.015 80);
-  --card: oklch(0.22 0.03 150);
-  --card-foreground: oklch(0.96 0.015 80);
-  --popover: oklch(0.22 0.03 150);
-  --popover-foreground: oklch(0.96 0.015 80);
-
-  --primary: oklch(0.82 0.16 80);
-  --primary-foreground: oklch(0.18 0.04 60);
-  --secondary: oklch(0.32 0.05 150);
-  --secondary-foreground: oklch(0.96 0.015 80);
-  --muted: oklch(0.26 0.025 150);
-  --muted-foreground: oklch(0.7 0.02 100);
-  --accent: oklch(0.55 0.14 150);
-  --accent-foreground: oklch(0.98 0.01 80);
-  --destructive: oklch(0.6 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.32 0.03 150 / 60%);
-  --input: oklch(0.32 0.03 150 / 60%);
-  --ring: oklch(0.82 0.16 80);
-
-  --gold: oklch(0.82 0.16 80);
-  --gold-foreground: oklch(0.18 0.04 60);
-  --coconut: oklch(0.42 0.08 50);
-  --moss: oklch(0.55 0.14 150);
-
-  --gradient-hero: radial-gradient(ellipse at top, oklch(0.32 0.08 150 / 0.6), transparent 60%),
-                   linear-gradient(180deg, oklch(0.18 0.025 150) 0%, oklch(0.14 0.02 150) 100%);
-  --gradient-gold: linear-gradient(135deg, oklch(0.85 0.18 85), oklch(0.72 0.18 60));
-  --gradient-card: linear-gradient(160deg, oklch(0.24 0.035 150 / 0.8), oklch(0.18 0.025 150 / 0.6));
-
-  --shadow-gold: 0 10px 40px -10px oklch(0.82 0.16 80 / 0.4);
-  --shadow-elegant: 0 20px 60px -20px oklch(0.05 0 0 / 0.6);
-  --shadow-glow: 0 0 80px oklch(0.82 0.16 80 / 0.25);
-}
-
-.dark .glass-card {
-  border-color: oklch(0.82 0.16 80 / 0.15);
-}
-
 
 @layer base {
   * { border-color: var(--color-border); }
