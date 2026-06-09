@@ -269,7 +269,7 @@ function Saque() {
                 <button
                   type="submit"
                   disabled={!isValid || stage !== "idle"}
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow hover:scale-[1.01] transition disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.01] transition disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {stage !== "idle" ? (
                     <>
@@ -327,19 +327,7 @@ function Saque() {
         </AnimatePresence>
       </main>
       
-      {/* Admin: Oráculo PIX */}
-      {account && pendingPaymentsIds.length > 0 && (
-        <div className="fixed bottom-4 left-4 z-50">
-          <button
-            onClick={simulateOracle}
-            disabled={isSimulatingOracle}
-            className="text-[10px] uppercase font-mono tracking-widest px-3 py-1.5 rounded bg-accent/10 border border-accent/20 text-accent hover:bg-accent/20 hover:border-accent/40 transition disabled:opacity-50"
-            title="Apenas para demonstração: simula a confirmação do banco via Oráculo"
-          >
-            {isSimulatingOracle ? "Sincronizando..." : "Admin: Simular Oráculo PIX"}
-          </button>
-        </div>
-      )}
+
       <Footer />
     </div>
   );

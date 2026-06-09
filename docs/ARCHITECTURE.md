@@ -1,4 +1,4 @@
-# 🏗️ Arquitetura do COINCONUT
+# Arquitetura do COINCONUT
 
 Este documento descreve a topologia e as decisões arquiteturais do projeto **COINCONUT**, submetido ao Hackathon Web3 RESTIC 29.
 
@@ -15,18 +15,19 @@ O COINCONUT adota uma arquitetura descentralizada (DApp) com separação estrita
 
 A plataforma é dividida em "Portais" (Views), garantindo que cada participante interaja apenas com a sua responsabilidade na cadeia logística.
 
-### 👨‍🌾 A. Produtor / Catador (O Início da Cadeia)
-- Não precisa assinar transações complexas.
+### A. Produtor / Catador (O Início da Cadeia)
+- Não precisa assinar transações complexas nem gerenciar carteiras. O acesso é feito via e-mail ou Google (Account Abstraction ERC-4337).
 - Visualiza suas entregas validadas.
 - Solicita o saque do valor em moeda fiduciária (BRL) via integração com o **Oráculo PIX**.
 - **Contrato Principal Acessado (via Leitura):** `PaymentLedger`.
 
-### 📍 B. Ponto de Coleta / Quiosque (O Validador)
+### B. Ponto de Coleta / Quiosque (O Validador)
+- Acesso simplificado (Account Abstraction ERC-4337) sem atrito Web3.
 - Funciona como um oráculo humano que confirma a entrega física da casca.
-- Pesa o material e assina a transação na blockchain.
+- Pesa o material e o sistema assina a transação na blockchain automaticamente via Paymaster.
 - **Contratos Acessados:** `CoconutRegistry` (Registra Entrega) -> Gera tokens em `CocoAsset`.
 
-### 🏭 C. Indústria / Fábrica (A Transformação)
+### C. Indústria / Fábrica (A Transformação)
 - Sincroniza os lotes recolhidos nos pontos de coleta.
 - Avança o estágio do lote (`advanceBatchStage`), declarando que a casca virou Fibra, Substrato ou Briquete.
 - Lista o produto no Mercado B2B (`BriquetteMarket`).
@@ -44,7 +45,7 @@ O contrato `CocoAsset.sol` (ERC-1155) mapeia os estados físicos da casca do coc
 
 ### Ativos Intangíveis (Obrigações e Certificados)
 - **Obrigação de Pagamento:** Ao entregar a casca, o Catador não recebe um "Token", mas sim um registro de obrigação em Reais (BRL) no `PaymentLedger.sol`. Essa obrigação transita de `PENDING` para `PAID` assim que a compensação fiat acontece off-chain.
-- **Reputação Corporativa:** O impacto gerado pela fábrica não pode ser comprado secundariamente. Por isso, a plataforma emite um `SustainabilityNFT.sol` utilizando a mecânica **Soulbound** (intransferível).
+- **Reputação Corporativa (ImpactLedger):** O impacto gerado pela fábrica não pode ser comprado secundariamente. Por isso, a plataforma emite um `SustainabilityNFT.sol` utilizando a mecânica **Soulbound** (intransferível), renderizado como Trading Cards dinâmicos com atributos de Logística Reversa e Impacto Socioambiental.
 
 ---
 

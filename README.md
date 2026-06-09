@@ -1,4 +1,4 @@
-# 🥥 COINCONUT — ImpactLedger
+# COINCONUT — ImpactLedger
 
 ## Sobre o desafio
 Projeto oficial submetido ao desafio **ImpactLedger** do Hackathon Web3 RESTIC 29.
@@ -24,13 +24,13 @@ Desenvolvemos uma **infraestrutura Web3 descentralizada** que transforma o resí
 
 ## Links e Demonstração
 
-**Link da aplicação:** [https://coinconut-b6qp.vercel.app](https://coinconut-b6qp.vercel.app)
+**Link da aplicação:** [https://coinconut-hackathon.vercel.app](https://coinconut-hackathon.vercel.app)
 
 **Demonstração funcional:** 
 O fluxo principal é orquestrado através de 3 portais:
-1. **📍 Posto de Coleta:** Pesa a casca e assina a transação, emitindo o registro imutável do lote e transferindo a custódia.
-2. **🏭 Indústria:** Adquire a matéria-prima rastreada no painel e a converte em produtos ecológicos (Briquete, Fibra).
-3. **👨‍🌾 Catador:** Acessa seu Dashboard para ver suas entregas validadas e sacar a sua remuneração de forma instantânea via simulador de Oráculo PIX.
+1. **Posto de Coleta:** Pesa a casca e assina a transação, emitindo o registro imutável do lote e transferindo a custódia.
+2. **Indústria:** Adquire a matéria-prima rastreada no painel e a converte em produtos ecológicos (Briquete, Fibra).
+3. **Catador:** Acessa seu Dashboard para ver suas entregas validadas e sacar a sua remuneração de forma instantânea via simulador de Oráculo PIX.
 
 **Demonstração auditável:** 
 - A cada pesagem, um lote tokenizado (`ERC-1155`) é gerado no contrato `CocoAsset`.
@@ -98,6 +98,21 @@ npm run dev
 - **Histórico verificável:** Sim (Página `/transparencia` sem banco de dados backend).
 - **README funcional:** Sim.
 - **Vídeo-pitch:** Pendente de inclusão do link.
+
+## Declaração de Uso de Inteligência Artificial (IA)
+
+Em conformidade com as diretrizes do Hackweb, declaramos que ferramentas de IA generativa foram utilizadas estritamente em papel de apoio ao desenvolvimento do projeto, mantendo a autoria intelectual e supervisão técnica totalmente centralizadas na equipe.
+
+### Ferramentas Utilizadas
+- **Modelos:** Google Gemini, OpenAI ChatGPT, Anthropic Claude.
+
+### Escopo de Aplicação
+1. **Concepção:** Brainstorm inicial de ideias, validação de regras de negócio e refinamento da proposta de valor do ImpactLedger.
+2. **Qualidade e Segurança do Código:** Auxílio na correção de vulnerabilidades e refatoração dos Smart Contracts após as auditorias estáticas locais utilizando as ferramentas **Slither** e **Mythril**.
+3. **Documentação:** Apoio na estruturação lógica, revisão ortográfica e formatação deste arquivo README.
+4. **Apresentação Visual:** Geração e refinamento de imagens de apoio utilizadas nos slides e artefatos visuais do pitch.
+
+*> **OBS:** Toda a arquitetura do ecossistema de contratos inteligentes, integrações Web3 e lógica de liquidação financeira foi desenvolvida, revisada e é perfeitamente compreendida e explicável pelos integrantes do time.*
 
 ## Equipe
 

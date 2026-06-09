@@ -21,7 +21,7 @@ function NotFoundComponent() {
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] px-6 py-3 text-sm font-medium text-gold-foreground transition hover:scale-[1.02]"
+            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition hover:scale-[1.02]"
           >
             Voltar ao início
           </Link>
@@ -50,7 +50,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] px-5 py-2.5 text-sm font-medium text-gold-foreground transition hover:scale-[1.02]"
+            className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition hover:scale-[1.02]"
           >
             Tentar novamente
           </button>
@@ -80,7 +80,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
-      <Toaster position="top-right" theme="dark" toastOptions={{ className: 'font-display' }} />
+      <Toaster position="top-right" theme="light" toastOptions={{ className: 'font-display' }} />
     </QueryClientProvider>
   );
 }

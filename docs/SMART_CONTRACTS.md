@@ -1,4 +1,4 @@
-# 📜 Documentação dos Smart Contracts
+# Documentação dos Smart Contracts
 
 Este documento provê uma visão detalhada dos Smart Contracts desenvolvidos para o ecossistema **COINCONUT**.
 
@@ -29,19 +29,19 @@ Ponto de saída do material para outras indústrias comprarem os blocos de resí
 - **Roles:** `FACTORY_ROLE` (quem lista).
 - **Mecânica Principal:** A função `list()` disponibiliza o ativo. A função `buy()` efetua a compra, registra o pagamento no Ledger e engatilha a emissão do NFT de sustentabilidade para o comprador.
 
-### 5. `SustainabilityNFT.sol` (O Selo ESG)
-O certificado de impacto ecológico gerado na cadeia.
+### 5. `SustainabilityNFT.sol` (Certificado ImpactLedger / Selo ESG)
+O certificado de impacto ecológico gerado na cadeia. No frontend, ele é renderizado dinamicamente como "Trading Cards" que exibem atributos como "Redução de Descarte" e "Logística Reversa".
 - **Padrão:** ERC-721 Soulbound.
 - **Roles:** `MINTER_ROLE`.
 - **Mecânica Principal:** O contrato sobrescreve a função de transferência `_update()` forçando um revert caso a transferência não seja uma cunhagem (Endereço 0). Isso torna o selo irrevogável e intransferível.
 
-### 6. `CoinconutPaymaster.sol` (Gás Patrocinado)
+### 6. `CoinconutPaymaster.sol` (Gás Patrocinado & Login Social)
 Permite abstração de conta (Account Abstraction via ERC-4337).
-- **Mecânica:** Isenta os pontos de coleta e catadores do pagamento de Gas Fees (Taxas da rede Ethereum), utilizando os fundos deste Paymaster depositados via EntryPoint.
+- **Mecânica:** Trabalhando em conjunto com carteiras geradas via Google/E-mail, o Paymaster isenta os pontos de coleta e catadores do pagamento de Gas Fees (Taxas da rede Ethereum), utilizando os fundos depositados via EntryPoint. Isso garante uma experiência Web2 sem atritos.
 
 ---
 
-## 🔒 Segurança e Edge Cases Tratados
+## Segurança e Edge Cases Tratados
 
 Nossa bateria de testes cobre os seguintes cenários de segurança:
 - **Restrição de Atores:** Somente pontos de coleta autorizados podem gerar recebíveis no Ledger.

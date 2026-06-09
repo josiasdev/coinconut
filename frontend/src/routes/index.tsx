@@ -14,7 +14,7 @@ const actors = [
   {
     icon: Sprout,
     name: "Produtor",
-    role: "Entrega a casca de coco nos postos de coleta e recebe o pagamento direto via PIX.",
+    role: "Entrega a casca de coco nos pontos de coleta e recebe o pagamento direto via PIX.",
     detail: "Sem cadastro complicado, sem taxa",
     color: "from-moss to-accent",
   },
@@ -30,7 +30,7 @@ const actors = [
     name: "Compradora",
     role: "Adquire briquetes com certificado de origem sustentável e impacto social.",
     detail: "Produto com selo auditável",
-    color: "from-gold to-[oklch(0.72_0.18_60)]",
+    color: "from-primary to-primary",
   },
 ];
 
@@ -58,32 +58,7 @@ function Landing() {
               a logística é rastreada e o produtor não paga nenhuma taxa.
               Tudo em <span className="text-foreground">uma única operação</span>.
             </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
-              className="mt-10 flex flex-col sm:flex-row items-center gap-4"
-            >
-              <Link
-                to="/dashboard"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow hover:scale-[1.02] transition"
-              >
-                <Sprout className="size-4" />
-                Sou Catador
-              </Link>
-              <Link
-                to="/coleta"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-border hover:border-accent/40 hover:bg-accent/5 transition"
-              >
-                <MapPin className="size-4" />
-                Sou Posto de Coleta
-              </Link>
-              <Link
-                to="/registrar"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-border hover:border-gold/40 hover:bg-gold/5 transition"
-              >
-                <Factory className="size-4" />
-                Sou Indústria
-              </Link>
-            </motion.div>
+
 
             <div className="mt-12 grid grid-cols-3 gap-6 max-w-lg">
               {[
@@ -124,7 +99,7 @@ function Landing() {
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9 }}
             className="relative aspect-square rounded-3xl overflow-hidden glass-card"
           >
-            <img src={heroImg} alt="Produtor separando casca de coco em posto de coleta no Ceará" className="w-full h-full object-cover" width={1024} height={1024} />
+            <img src={heroImg} alt="Produtor separando casca de coco em ponto de coleta no Ceará" className="w-full h-full object-cover" width={1024} height={1024} />
           </motion.div>
         </div>
       </section>
@@ -215,17 +190,11 @@ function Landing() {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link
-                to="/coleta"
-                className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-gradient-to-br from-gold to-[oklch(0.72_0.18_60)] text-gold-foreground font-medium gold-glow hover:scale-[1.02] transition"
+                to="/login"
+                className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.02] transition"
               >
-                Registrar entrega
+                Acessar a Plataforma
                 <ArrowRight className="size-4" />
-              </Link>
-              <Link
-                to="/dashboard"
-                className="inline-flex items-center gap-2 px-7 py-4 rounded-full border border-border hover:border-gold/40 transition"
-              >
-                Ver painel
               </Link>
             </div>
           </div>
@@ -239,7 +208,7 @@ function Landing() {
 
 function FlowRow({ label, amount, type }: { label: string; amount: string; type: "entrada" | "saida" | "pago" }) {
   const colors = {
-    entrada: "text-amber-400 border-amber-400/30 bg-amber-400/5",
+    entrada: "text-amber-600 border-amber-600/30 bg-amber-600/10",
     saida: "text-accent border-accent/30 bg-accent/5",
     pago: "text-gold border-gold/30 bg-gold/5",
   } as const;
