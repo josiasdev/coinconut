@@ -1,50 +1,39 @@
-# Documentação dos Smart Contracts
+# Documentação do Smart Contract (Soroban / Rust)
 
-Este documento provê uma visão detalhada dos Smart Contracts desenvolvidos para o ecossistema **COINCONUT**.
+Este documento provê uma visão detalhada do Smart Contract desenvolvido para o ecossistema **COINCONUT** na rede **Stellar**.
 
-Todos os contratos foram desenvolvidos em Solidity v0.8.24 e utilizam a biblioteca OpenZeppelin para padronização e segurança (RBAC, ERCs, Reentrancy Guards).
-
----
-
-## Estrutura de Contratos
-
-### 1. `CocoAsset.sol` (O Resíduo Físico)
-Representa o lote (Batch) de casca de coco do momento em que é coletado até se tornar um produto com valor de mercado.
-- **Padrão:** ERC-1155.
-- **Roles:** `FACTORY_ROLE`.
-- **Mecânica Principal:** A função `advanceStage()` destrói o token no estágio atual (ex: Casca) e recria o token no estágio seguinte (ex: Fibra), garantindo que o rastreio da matéria não seja clonado.
-
-### 2. `CoconutRegistry.sol` (Logística)
-Responsável por autorizar pontos de coleta e mapear as transações entre o produtor rural e o ativo físico.
-- **Roles:** Usa o padrão `Ownable` associado a uma lista branca de `authorizedOperators`.
-- **Mecânica Principal:** `registerDelivery()`. Ao ser chamado pelo ponto de coleta, este contrato se comunica com o `CocoAsset` para cunhar a matéria e com o `PaymentLedger` para assinar o compromisso financeiro com o produtor.
-
-### 3. `PaymentLedger.sol` (Financeiro / Oráculo)
-Em vez de emitir um Token ERC-20 volátil, a plataforma trabalha com paridade 1:1 com o BRL via PIX off-chain. Este contrato é o fiador.
-- **Roles:** `OPERATOR_ROLE` (pode criar cobranças), `ORACLE_ROLE` (pode confirmar pagamento).
-- **Mecânica Principal:** A promessa de pagamento é iniciada em `PENDING`. Somente o Oráculo (conectado ao Banco Central/BaaS) pode chamar a função `confirmPayment(id, pixProof)` para liquidar o débito on-chain para `PAID`.
-
-### 4. `BriquetteMarket.sol` (Marketplace B2B)
-Ponto de saída do material para outras indústrias comprarem os blocos de resíduos processados.
-- **Roles:** `FACTORY_ROLE` (quem lista).
-- **Mecânica Principal:** A função `list()` disponibiliza o ativo. A função `buy()` efetua a compra, registra o pagamento no Ledger e engatilha a emissão do NFT de sustentabilidade para o comprador.
-
-### 5. `SustainabilityNFT.sol` (Certificado ImpactLedger / Selo ESG)
-O certificado de impacto ecológico gerado na cadeia. No frontend, ele é renderizado dinamicamente como "Trading Cards" que exibem atributos como "Redução de Descarte" e "Logística Reversa".
-- **Padrão:** ERC-721 Soulbound.
-- **Roles:** `MINTER_ROLE`.
-- **Mecânica Principal:** O contrato sobrescreve a função de transferência `_update()` forçando um revert caso a transferência não seja uma cunhagem (Endereço 0). Isso torna o selo irrevogável e intransferível.
-
-### 6. `CoinconutPaymaster.sol` (Gás Patrocinado & Login Social)
-Permite abstração de conta (Account Abstraction via ERC-4337).
-- **Mecânica:** Trabalhando em conjunto com carteiras geradas via Google/E-mail, o Paymaster isenta os pontos de coleta e catadores do pagamento de Gas Fees (Taxas da rede Ethereum), utilizando os fundos depositados via EntryPoint. Isso garante uma experiência Web2 sem atritos.
+Para o PULSO Hackathon, migramos nossa antiga infraestrutura EVM para um modelo unificado, eficiente e seguro, construído inteiramente em **Rust** utilizando o **Soroban SDK**.
 
 ---
 
-## Segurança e Edge Cases Tratados
+## Estrutura do Contrato (`CoinconutContract`)
 
-Nossa bateria de testes cobre os seguintes cenários de segurança:
-- **Restrição de Atores:** Somente pontos de coleta autorizados podem gerar recebíveis no Ledger.
-- **Double-Spending Logístico:** Um lote não pode ter seu estágio avançado caso não exista ou já tenha sido convertido no produto final.
-- **Intransferibilidade ESG:** O NFT de sustentabilidade falha caso alguém tente vendê-lo no mercado secundário (prevenindo que empresas "comprem" a reputação ambiental de terceiros).
-- **Imutabilidade Financeira:** O valor financeiro de um `Delivery` é matematicamente fixado no instante do registro, prevenindo que alterações futuras no preço do quilo afetem as remunerações retroativas.
+Todo o ciclo logístico e a emissão de certificados ESG ocorrem no escopo do contrato central, cujas estruturas principais são:
+
+### 1. `Batch` (O Resíduo Físico e Rastreamento)
+Representa o lote de casca de coco do momento em que é coletado (Estágio 0) até se tornar um produto com valor de mercado (Estágios 1 e 2).
+- **Mecânica de Emissão:** A função `create_batch(supplier, weight_grams)` é chamada pelo Ecoponto, cunhando o rastreio inicial e associando o fornecedor (Endereço Stellar do catador).
+- **Mecânica de Transformação:** A função `advance_stage(batch_id)` altera o estado físico documentado na rede, certificando de que a mesma matéria-prima não seja contada ou processada em duplicidade na plataforma.
+- **Destinação Final:** `finalize_as_adubo(batch_id)` é uma rota rápida e sustentável caso o material não tenha qualidade para ser convertido em Fibra/Briquetes, servindo diretamente como biomassa/adubo.
+
+### 2. `Certificate` (Certificado ImpactLedger / Selo ESG)
+O certificado de impacto ecológico final. Na arquitetura antiga (EVM) era tratado como um NFT (ERC-721). Na Stellar, utilizamos uma abordagem limpa através de armazenamento de dados nativo no Soroban.
+- **Estrutura:** `DataKey::Certificate(u32)` armazena no estado do contrato atributos cruciais: `buyer` (Dono do certificado), `batch_id` (Lote vinculado), `weight_grams` (Impacto quantitativo) e `product_type` (Tipo do resíduo processado).
+- **Mecânica Principal:** `issue_cert(buyer, batch_id, weight_grams, product_type)` atrela de forma irrevogável o peso e a glória da reciclagem ao endereço (Address) do comprador B2B. Essa propriedade não possui uma função de transferência (transfer), tornando-se análoga ao conceito de "Soulbound", evitando o comércio secundário de reputação ambiental (Greenwashing).
+
+---
+
+## Estratégias de Usabilidade e Taxas (Fee Bumps)
+
+Enquanto redes convencionais exigem abstração de contas baseadas em contratos pesados (Paymasters), a migração para a **Stellar** solucionou naturalmente o atrito do pagamento do "Gás" pelo usuário final:
+
+- **Fee Bumps Nativo:** As transações orquestradas pelo frontend no dispositivo do Ecoponto ou Produtor podem ter a taxa de rede patrocinada pela plataforma ou pela indústria final. O catador assina apenas os parâmetros da função, sem necessitar deter fundos XLM na sua conta local. Isso permite uma adesão orgânica de populações desbancarizadas e sem afinidade técnica.
+
+---
+
+## Segurança e Edge Cases Tratados (Testes Unitários)
+
+Nossa bateria de testes unitários (`test.rs`) cobre nativamente na VM local os seguintes cenários de segurança:
+- **Controle de Fluxo Físico:** Lotes não podem ter seu estágio avançado de forma aleatória ou regredida; o processo obedece o lifecycle biológico/industrial.
+- **Bloqueio de Emissão Dupla de ESG:** É impossível emitir um certificado ESG duplo (Greenwashing duplo) com base no mesmo `batch_id`.
+- **Validação Nativa Rust:** Tipagem segura do Rust que impede overflows em conversões de peso do material físico ou contadores corrompidos (`BatchCount` / `CertCount`).

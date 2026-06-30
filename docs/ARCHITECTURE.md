@@ -1,13 +1,13 @@
-# Arquitetura do COINCONUT
+# Arquitetura do COINCONUT (Versão Stellar)
 
-Este documento descreve a topologia e as decisões arquiteturais do projeto **COINCONUT**, submetido ao Hackathon Web3 RESTIC 29.
+Este documento descreve a topologia e as decisões arquiteturais do projeto **COINCONUT**, submetido ao PULSO Hackathon da rede Stellar.
 
 ## 1. Visão Geral
 
 O COINCONUT adota uma arquitetura descentralizada (DApp) com separação estrita de responsabilidades:
-- **Camada de Consenso e Negócios (Blockchain):** Smart Contracts na rede Ethereum (Sepolia Testnet).
-- **Camada de Apresentação e Interação (Frontend):** Single Page Application construída com React e Vite.
-- **Armazenamento de Metadados:** IPFS / APIs de suporte para visualização de mídias (quando aplicável).
+- **Camada de Consenso e Negócios (Blockchain):** Smart Contract desenvolvido em Rust utilizando o Soroban SDK na rede Stellar (Testnet).
+- **Camada de Apresentação e Interação (Frontend):** Single Page Application construída com React 19 e Vite, conectada via `@stellar/freighter-api`.
+- **Camada de Liquidação Fiduciária:** Projetada para integração com Âncoras Stellar (SEP-24) para viabilizar conversão FIAT (PIX) instantânea no off-ramp.
 
 ---
 
@@ -16,49 +16,48 @@ O COINCONUT adota uma arquitetura descentralizada (DApp) com separação estrita
 A plataforma é dividida em "Portais" (Views), garantindo que cada participante interaja apenas com a sua responsabilidade na cadeia logística.
 
 ### A. Produtor / Catador (O Início da Cadeia)
-- Não precisa assinar transações complexas nem gerenciar carteiras. O acesso é feito via e-mail ou Google (Account Abstraction ERC-4337).
-- Visualiza suas entregas validadas.
-- Solicita o saque do valor em moeda fiduciária (BRL) via integração com o **Oráculo PIX**.
-- **Contrato Principal Acessado (via Leitura):** `PaymentLedger`.
+- Interação protegida de atritos com taxas. O acesso utiliza **Fee Bumps** da rede Stellar, onde a indústria ou plataforma patrocina a taxa da transação (`fee`).
+- Visualiza suas entregas validadas (Registros on-chain).
+- Solicita o saque do valor em moeda fiduciária (BRL) via simulação de off-ramp nas Âncoras Stellar.
 
-### B. Ponto de Coleta / Quiosque (O Validador)
-- Acesso simplificado (Account Abstraction ERC-4337) sem atrito Web3.
-- Funciona como um oráculo humano que confirma a entrega física da casca.
-- Pesa o material e o sistema assina a transação na blockchain automaticamente via Paymaster.
-- **Contratos Acessados:** `CoconutRegistry` (Registra Entrega) -> Gera tokens em `CocoAsset`.
+### B. Ponto de Coleta / Ecoponto (O Validador Logístico)
+- Acesso nativo integrado à carteira Freighter.
+- Funciona como oráculo humano e primeiro ponto de validação física da matéria-prima.
+- Pesa o material e chama a função `create_batch` do Smart Contract.
 
 ### C. Indústria / Fábrica (A Transformação)
-- Sincroniza os lotes recolhidos nos pontos de coleta.
-- Avança o estágio do lote (`advanceBatchStage`), declarando que a casca virou Fibra, Substrato ou Briquete.
-- Lista o produto no Mercado B2B (`BriquetteMarket`).
-- Recebe a certificação ESG (`SustainabilityNFT`).
+- Sincroniza os lotes recebidos e confirmados pelos ecopontos.
+- Avança o estágio do lote (`advance_stage`), atestando a transformação física (ex: Casca para Fibra ou Briquete).
+- Finaliza o ciclo e recebe a certificação ESG (`issue_cert`), atrelando os atributos ambientais (Soulbound) à sua conta na rede Stellar.
 
 ---
 
-## 3. Modelo de Dados Descentralizado
+## 3. Modelo de Dados Descentralizado (Soroban)
 
-### Ativos Tangíveis (Físicos)
-O contrato `CocoAsset.sol` (ERC-1155) mapeia os estados físicos da casca do coco:
-1. **Estágio 0:** Casca Recebida.
-2. **Estágio 1:** Moida (Fibra).
-3. **Estágio 2:** Briquete/Adubo.
+A complexidade de múltiplos contratos EVM foi consolidada em um único contrato Soroban altamente otimizado (`CoinconutCore`).
 
-### Ativos Intangíveis (Obrigações e Certificados)
-- **Obrigação de Pagamento:** Ao entregar a casca, o Catador não recebe um "Token", mas sim um registro de obrigação em Reais (BRL) no `PaymentLedger.sol`. Essa obrigação transita de `PENDING` para `PAID` assim que a compensação fiat acontece off-chain.
-- **Reputação Corporativa (ImpactLedger):** O impacto gerado pela fábrica não pode ser comprado secundariamente. Por isso, a plataforma emite um `SustainabilityNFT.sol` utilizando a mecânica **Soulbound** (intransferível), renderizado como Trading Cards dinâmicos com atributos de Logística Reversa e Impacto Socioambiental.
+### Ativos Físicos (Batches)
+O estado `Batch` acompanha o produto físico:
+1. **Estágio 0:** Casca Recebida (Coletada).
+2. **Estágio 1:** Processada (Fibra/Chip).
+3. **Estágio 2:** Produto Finalizado (Briquete/Adubo).
+
+### Ativos Intangíveis (Obrigações e Certificados ESG)
+- **Liquidação Fiduciária (Off-ramp):** O registro on-chain valida o peso e cria os parâmetros para que o Frontend, via SEP-24 (Âncoras Stellar), realize o saque instantâneo para PIX, protegendo o catador da volatilidade das criptomoedas.
+- **Selo ImpactLedger (Certificado ESG):** Registrado permanentemente no contrato via `DataKey::Certificate`. É atrelado publicamente ao endereço do comprador (indústria) com garantias criptográficas antifraude (intransferível), prevenindo o comércio secundário de reputação climática (Greenwashing).
 
 ---
 
 ## 4. Tecnologias Empregadas
 
-- **Linguagem de Smart Contracts:** Solidity (v0.8.24)
-- **Framework de Blockchain:** Hardhat
-- **Integração Web3:** Ethers.js v6
+- **Linguagem de Smart Contracts:** Rust
+- **Framework de Blockchain:** Soroban SDK & Stellar CLI
+- **Integração Web3 Frontend:** `@stellar/stellar-sdk` e `@stellar/freighter-api`
 - **Frontend SPA:** React 19 + TypeScript + Vite
 - **Roteamento Frontend:** TanStack Router (Typesafe)
 - **Design System:** Tailwind CSS v4 + Framer Motion
 - **Notificações:** Sonner (Toasts)
 
-## 5. Próximos Passos (Evolução)
-- Implementação real de um relayer Biconomy para o Paymaster (ERC-4337).
-- Conexão do Oráculo com uma API de BaaS (Banking as a Service) como a Stark Bank ou Banco Central para automação definitiva dos PIX.
+## 5. Próximos Passos (Evolução Pós-Hackathon)
+- Integração plena e em produção com um provedor de SEP-24 (Âncora BRL) para automatizar o envio de PIX via transferência de USDc/BRLT.
+- Implementação de um serviço Backend (`Sponsor`) para assinar as `FeeBumpTransactions` sem depender exclusivamente de extensões de navegador nos dispositivos móveis dos catadores.
