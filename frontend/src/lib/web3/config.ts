@@ -5,7 +5,7 @@ export const SOROBAN_RPC_URL = "https://soroban-testnet.stellar.org";
 export const NETWORK_PASSPHRASE = StellarSdk.Networks.TESTNET;
 
 export const CONTRACT_ADDRESSES = {
-  CoinconutCore: import.meta.env.VITE_COINCONUT_CORE_ADDRESS || "CB6IOBT6MCBGPUKAI3EIVN26GQWVIFHRXG5CEPPPHOSEGNT22LB7J2X5",
+  CoinconutCore: import.meta.env.VITE_COINCONUT_CORE_ADDRESS || "CCIJZTJJBPU3CHI3235FR7SY22F5IOYQJOV3WAYNB3OY3MQ7TOI4AA3P",
 };
 
 export const server = new StellarSdk.rpc.Server(SOROBAN_RPC_URL, { allowHttp: true });

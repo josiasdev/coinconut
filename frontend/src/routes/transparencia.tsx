@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Globe, Leaf, Banknote, ShieldCheck, ExternalLink, Loader2, MapPin } from "lucide-react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { CONTRACT_ADDRESSES } from "@/lib/web3/config";
 
 export const Route = createFileRoute("/transparencia")({
   component: Transparencia,
@@ -47,7 +48,7 @@ function Transparencia() {
             Impacto <span className="text-gradient-gold italic">Auditável</span>
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Os números abaixo são extraídos diretamente da blockchain Sepolia em tempo real.
+            Os números abaixo são extraídos do estado de contratos Soroban na blockchain Stellar em tempo real.
             Nenhum servidor centralizado pode alterar ou falsificar esses dados.
           </p>
         </div>
@@ -117,10 +118,10 @@ function Transparencia() {
             <h3 className="font-display text-2xl mb-2">Governança Transparente</h3>
             <p className="text-muted-foreground text-sm leading-relaxed mb-4">
               Qualquer governo, auditoria ou empresa financiadora (ESG) pode rodar o próprio nó (node) 
-              da blockchain para verificar essas transações. Não precisamos de confiança ("Trustless"), precisamos de consenso.
+              da blockchain Stellar ou acessar um explorador para verificar essas transações em Soroban. Não precisamos de confiança ("Trustless"), precisamos de consenso.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="https://sepolia.etherscan.io/address/0xF6f39040a3dA724E466Eb31f9Da0EBc8Fc552E70" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs font-mono border border-border px-4 py-2 rounded-lg hover:border-gold/50 hover:text-gold transition">
+              <a href={`https://stellar.expert/explorer/testnet/contract/${CONTRACT_ADDRESSES.CoinconutCore}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs font-mono border border-border px-4 py-2 rounded-lg hover:border-gold/50 hover:text-gold transition">
                 <ExternalLink className="size-3" /> Explorar Contrato Base
               </a>
             </div>

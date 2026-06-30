@@ -17,7 +17,7 @@ export const Route = createFileRoute("/coleta")({
 });
 
 const produtores = [
-  { id: "p0", name: "Meu Produtor (Teste)", cidade: "Pindoretama, CE", wallet: "GBQ4RZW2I5XMB35EHQK7LBY7CHOPW6E5WIVT2MOPQWHLHVKXV2J2A5W4", pixKey: "meu@pix.com" }
+  { id: "p0", name: "Meu Produtor (Teste)", cidade: "Pindoretama, CE", wallet: "GCR5BQRJZU5B6VPZGNRFECSYVPUI5MDQVE6BXNFEL4Y2VWHAQXEK5IMZ", pixKey: "meu@pix.com" }
 ];
 
 type Stage = "idle" | "aguardando_carteira" | "registrando" | "confirmado";

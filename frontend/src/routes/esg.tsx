@@ -46,7 +46,7 @@ function ESG() {
         </h1>
         <p className="text-muted-foreground max-w-2xl mb-12">
           Cada selo representa um lote de casca de coco processado através da rede COINCONUT. 
-          Estes certificados são NFTs (Soulbound Tokens) intransferíveis, emitidos na blockchain Sepolia, garantindo a rastreabilidade e a transparência do seu impacto ambiental.
+          Estes certificados são ativos digitais intransferíveis emitidos nativamente via Soroban na blockchain Stellar, garantindo a rastreabilidade e a transparência antifraude do seu impacto ambiental.
         </p>
 
         {!account ? (
@@ -55,7 +55,7 @@ function ESG() {
             <h3 className="font-display text-xl mb-2">Conecte sua carteira empresarial</h3>
             <p className="text-sm text-muted-foreground mb-6">Para visualizar seus selos de sustentabilidade on-chain.</p>
             <button onClick={connectWallet} disabled={isConnecting} className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.01] transition disabled:opacity-50">
-              {isConnecting ? <Loader2 className="size-4 animate-spin"/> : "Conectar MetaMask"}
+              {isConnecting ? <Loader2 className="size-4 animate-spin"/> : "Conectar Freighter"}
             </button>
           </div>
         ) : isLoading ? (
@@ -145,8 +145,8 @@ function ESG() {
                       </div>
                       
                       <div className="pt-3 border-t border-border/60 flex justify-between items-center text-[10px] text-muted-foreground">
-                        <span>Sepolia Network</span>
-                        <span className="font-mono bg-secondary px-2 py-1 rounded text-foreground">ERC-721</span>
+                        <span>Stellar Testnet</span>
+                        <span className="font-mono bg-secondary px-2 py-1 rounded text-foreground">Soroban DataKey</span>
                       </div>
                     </div>
                   </div>

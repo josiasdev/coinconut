@@ -7,9 +7,6 @@ export function Footer() {
           <span className="font-display">COINCONUT</span>
           <span className="opacity-60">Da casca ao pagamento, rastreado.</span>
         </div>
-        <div className="text-xs opacity-70">
-          Hackathon Web3 RESTIC 29 · ImpactLedger · 2026
-        </div>
       </div>
     </footer>
   );
