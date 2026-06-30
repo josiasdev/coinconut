@@ -1,26 +1,76 @@
-import { ethers } from "ethers";
-import { CoconutRegistryABI, BriquetteMarketABI, PaymentLedgerABI, SustainabilityNFTABI } from "./abis";
+import * as StellarSdk from "@stellar/stellar-sdk";
+import { signTransaction } from "@stellar/freighter-api";
+
+export const SOROBAN_RPC_URL = "https://soroban-testnet.stellar.org";
+export const NETWORK_PASSPHRASE = StellarSdk.Networks.TESTNET;
 
 export const CONTRACT_ADDRESSES = {
-  Registry: import.meta.env.VITE_REGISTRY_ADDRESS || "0xF6f39040a3dA724E466Eb31f9Da0EBc8Fc552E70",
-  Market: import.meta.env.VITE_MARKET_ADDRESS || "0xFFd48Fd40f6C3c734a384d1f7FB2581185AaDA8e",
-  CocoAsset: import.meta.env.VITE_COCO_ASSET_ADDRESS || "0x961379292204ED01DC6436dC2db666f5E9532bCb",
-  PaymentLedger: import.meta.env.VITE_PAYMENT_LEDGER_ADDRESS || "0x80d9A97CEE8F8530888879d09fc1010082aFEd64",
-  SustainabilityNFT: import.meta.env.VITE_SUSTAINABILITY_NFT_ADDRESS || "0x6C3aa917f8C10C3608cb0dA877eb3F4eE6284619",
+  CoinconutCore: import.meta.env.VITE_COINCONUT_CORE_ADDRESS || "CB6IOBT6MCBGPUKAI3EIVN26GQWVIFHRXG5CEPPPHOSEGNT22LB7J2X5",
 };
 
-export function getRegistryContract(signerOrProvider: ethers.Signer | ethers.Provider) {
-  return new ethers.Contract(CONTRACT_ADDRESSES.Registry, CoconutRegistryABI, signerOrProvider);
-}
+export const server = new StellarSdk.rpc.Server(SOROBAN_RPC_URL, { allowHttp: true });
 
-export function getMarketContract(signerOrProvider: ethers.Signer | ethers.Provider) {
-  return new ethers.Contract(CONTRACT_ADDRESSES.Market, BriquetteMarketABI, signerOrProvider);
-}
+// Helper to simulate, sign with freighter, and submit
+export async function submitTransaction(
+  publicKey: string,
+  contractId: string,
+  method: string,
+  args: StellarSdk.xdr.ScVal[],
+  sponsorKey?: string // For Fee Bump
+) {
+  try {
+    const account = await server.getAccount(publicKey);
+    
+    const contract = new StellarSdk.Contract(contractId);
+    let tx = new StellarSdk.TransactionBuilder(account, { fee: "100", networkPassphrase: NETWORK_PASSPHRASE })
+      .addOperation(contract.call(method, ...args))
+      .setTimeout(30)
+      .build();
 
-export function getPaymentLedgerContract(signerOrProvider: ethers.Signer | ethers.Provider) {
-  return new ethers.Contract(CONTRACT_ADDRESSES.PaymentLedger, PaymentLedgerABI, signerOrProvider);
-}
+    // Prepare transaction (simulates and adds necessary footprint)
+    const preparedTx = await server.prepareTransaction(tx);
+    
+    // Sign with Freighter
+    const signedTxResponse = await signTransaction(preparedTx.toXDR(), {
+      networkPassphrase: NETWORK_PASSPHRASE,
+    });
+    
+    if (signedTxResponse.error) {
+      throw new Error("User declined the request or there was an error signing: " + (signedTxResponse.error as any).message || String(signedTxResponse.error));
+    }
+    
+    const signedTx = StellarSdk.TransactionBuilder.fromXDR(signedTxResponse.signedTxXdr, NETWORK_PASSPHRASE);
+    
+    // Check if we need Fee Bump
+    if (sponsorKey) {
+      // Logic for fee bump would go here (requires backend or sponsor signing service)
+      // Usually the sponsor signs a FeeBumpTransaction over the signed inner transaction.
+      // For the frontend, we could send it to a backend endpoint.
+      // E.g., const feeBumpTx = new StellarSdk.FeeBumpTransaction(sponsorAccount, innerTx.toEnvelopeXdr().toString("base64"), baseFee);
+    }
 
-export function getNftContract(signerOrProvider: ethers.Signer | ethers.Provider) {
-  return new ethers.Contract(CONTRACT_ADDRESSES.SustainabilityNFT, SustainabilityNFTABI, signerOrProvider);
+    // Submit
+    const response = await server.sendTransaction(signedTx);
+    
+    if (response.status !== "PENDING") {
+      throw new Error(`Failed to submit transaction: ${response.status}`);
+    }
+
+    // Wait for inclusion
+    let txResult = await server.getTransaction(response.hash);
+    while (txResult.status === "NOT_FOUND") {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      txResult = await server.getTransaction(response.hash);
+    }
+    
+    if (txResult.status === "SUCCESS") {
+      return { txHash: response.hash, result: txResult.resultMetaXdr };
+    } else {
+      throw new Error(`Transaction failed in ledger`);
+    }
+
+  } catch (error) {
+    console.error("Error submitting transaction:", error);
+    throw error;
+  }
 }

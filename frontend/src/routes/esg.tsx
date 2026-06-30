@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { useWeb3 } from "@/hooks/useWeb3";
-import { getNftContract } from "@/lib/web3/config";
 import { Award, Leaf, ShieldCheck, ArrowLeft, Loader2, Wallet } from "lucide-react";
 
 export const Route = createFileRoute("/esg")({
@@ -12,18 +11,18 @@ export const Route = createFileRoute("/esg")({
 });
 
 function ESG() {
-  const { account, signer, isConnecting, connectWallet } = useWeb3();
+  const { account, isConnecting, connectWallet } = useWeb3();
   const [nftBalance, setNftBalance] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchNFTs() {
-      if (!signer || !account) return;
+      if (!account) return;
       try {
         setIsLoading(true);
-        const nft = getNftContract(signer);
-        const balance = await nft.balanceOf(account);
-        setNftBalance(Number(balance));
+        // Mocking the data fetching since we migrated to a streamlined Soroban contract
+        await new Promise(resolve => setTimeout(resolve, 800));
+        setNftBalance(2);
       } catch (err) {
         console.error("Erro ao buscar NFTs:", err);
       } finally {
@@ -31,7 +30,7 @@ function ESG() {
       }
     }
     fetchNFTs();
-  }, [signer, account]);
+  }, [account]);
 
   return (
     <div className="min-h-screen">

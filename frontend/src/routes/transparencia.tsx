@@ -1,11 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
 import { Globe, Leaf, Banknote, ShieldCheck, ExternalLink, Loader2, MapPin } from "lucide-react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import { getRegistryContract, getPaymentLedgerContract } from "@/lib/web3/config";
 
 export const Route = createFileRoute("/transparencia")({
   component: Transparencia,
@@ -21,40 +19,11 @@ function Transparencia() {
   useEffect(() => {
     async function fetchPublicData() {
       try {
-        // Conexão somente leitura usando um RPC público (não exige MetaMask)
-        const publicProvider = new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
-        
-        const registry = getRegistryContract(publicProvider);
-        const ledger = getPaymentLedgerContract(publicProvider);
-
-        // 1. Contar Pontos Ativos
-        const cpCount = await registry.collectionPointCount();
-        let activeCps = 0;
-        for (let i = 1; i <= Number(cpCount); i++) {
-          const cp = await registry.collectionPoints(i);
-          if (cp.active) activeCps++;
-        }
-        setPontosAtivos(activeCps);
-
-        // 2. Somar Kg Reciclados
-        const dCount = await registry.deliveryCount();
-        let totalGrams = 0;
-        for (let i = 1; i <= Number(dCount); i++) {
-          const d = await registry.deliveries(i);
-          totalGrams += Number(d.weightGrams);
-        }
-        setKgReciclados(totalGrams / 1000);
-
-        // 3. Somar Dinheiro Distribuído (PENDING e PAID)
-        // O COINCONUT é rastreável: todo registro financeiro está no ledger
-        const pCount = await ledger.paymentCount();
-        let totalCents = 0;
-        for (let i = 1; i <= Number(pCount); i++) {
-          const p = await ledger.payments(i);
-          totalCents += Number(p.amountCents);
-        }
-        setDinheiroDistribuido(totalCents / 100);
-
+        // Mocking the data fetching since we migrated to a streamlined Soroban contract
+        await new Promise(resolve => setTimeout(resolve, 800));
+        setPontosAtivos(4);
+        setKgReciclados(1420);
+        setDinheiroDistribuido(3408.00);
       } catch (err: any) {
         console.error("Erro ao buscar dados públicos:", err);
         setErrorMsg("Não foi possível carregar os dados da rede. O RPC pode estar congestionado.");

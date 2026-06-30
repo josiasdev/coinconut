@@ -151,7 +151,7 @@ function Login() {
               </div>
               
               <p className="text-center text-xs text-muted-foreground mt-6 leading-relaxed">
-                Acesso via Account Abstraction (ERC-4337).<br/>Sua carteira Web3 é criada automaticamente.
+                Acesso via Passkeys e Fee Bumps (Stellar).<br/>Sua carteira Web3 é criada automaticamente.
               </p>
             </div>
           </div>

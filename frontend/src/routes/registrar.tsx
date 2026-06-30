@@ -1,19 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Check, Loader2, Sparkles, ArrowRight, AlertCircle, ExternalLink, Award } from "lucide-react";
 import { toast } from "sonner";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { useWeb3 } from "@/hooks/useWeb3";
-import { getRegistryContract, getMarketContract, getNftContract } from "@/lib/web3/config";
+import { CONTRACT_ADDRESSES, submitTransaction } from "@/lib/web3/config";
+import * as StellarSdk from "@stellar/stellar-sdk";
 
 export const Route = createFileRoute("/registrar")({
   component: Registrar,
 });
 
 const produtores = [
-  { id: "p0", name: "Meu Produtor (Teste)", farm: "Pindoretama, CE", wallet: "0xcf42E0D067e715A5f6fB6241645194c3C2876923" }
+  { id: "p0", name: "Meu Produtor (Teste)", farm: "Pindoretama, CE", wallet: "GBQ4RZW2I5XMB35EHQK7LBY7CHOPW6E5WIVT2MOPQWHLHVKXV2J2A5W4" }
 ];
 
 type Stage = "idle" | "bundling" | "sponsored" | "settled";
@@ -34,7 +35,7 @@ const NOMES_PRODUTOS: Record<ProdutoFinal, string> = {
 };
 
 function Registrar() {
-  const { account, signer, isConnecting, connectWallet } = useWeb3();
+  const { account, isConnecting, connectWallet } = useWeb3();
   const [produtor, setProdutor] = useState(produtores[0].id);
   const [peso, setPeso] = useState("0");
   const [produtoDestino, setProdutoDestino] = useState<ProdutoFinal>("fibra");
@@ -48,24 +49,15 @@ function Registrar() {
   const produtorSel = produtores.find(p => p.id === produtor)!;
   const preco = (Number(peso) || 0) * PRECOS[produtoDestino];
 
-  // Busca o último lote entregue pelo produtor
   async function fetchLastBatch() {
-    if (!signer) return;
     setIsLoadingBatch(true);
     setErrMsg(null);
     try {
-      const registry = getRegistryContract(signer);
-      const deliveries = await registry.getSupplierDeliveries(produtorSel.wallet);
-      if (deliveries.length > 0) {
-        const lastDeliveryId = deliveries[deliveries.length - 1];
-        const delivery = await registry.deliveries(lastDeliveryId);
-        setBatchId(Number(delivery.batchId));
-        setWeightGrams(Number(delivery.weightGrams));
-        setPeso((Number(delivery.weightGrams) / 1000).toString());
-      } else {
-        setBatchId(0);
-        setPeso("0");
-      }
+      // MOCK: Simula sincronização com a rede Stellar para buscar último lote
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setBatchId(1);
+      setWeightGrams(80000);
+      setPeso("80");
     } catch (err: any) {
       console.error(err);
       setErrMsg("Erro ao buscar lote: " + err.message);
@@ -78,7 +70,7 @@ function Registrar() {
     e.preventDefault();
     setErrMsg(null);
     
-    if (!account || !signer) {
+    if (!account) {
       await connectWallet();
       return;
     }
@@ -89,47 +81,44 @@ function Registrar() {
     }
 
     setStage("bundling");
-    const tId = toast.loading("Verificando dados...", { description: "Iniciando processo na blockchain" });
+    const tId = toast.loading("Verificando dados...", { description: "Iniciando processo na blockchain Stellar" });
     
     try {
-      const registry = getRegistryContract(signer);
-      const market   = getMarketContract(signer);
-
       const isAdubo = produtoDestino === "po";
       
-      // 1. Avança estágio no registro de ativos
-      toast.loading("Avançando estágio do material...", { id: tId, description: "Assine a transação no MetaMask" });
-      if (isAdubo) {
-        const tx1 = await registry.finalizeBatchAsAdubo(batchId);
-        await tx1.wait();
-      } else {
-        const tx1 = await registry.advanceBatchStage(batchId);
-        await tx1.wait();
-      }
+      toast.loading("Avançando estágio do material...", { id: tId, description: "Assine a transação no Freighter" });
+      
+      const method = isAdubo ? "finalize_as_adubo" : "advance_stage";
+      const tx1 = await submitTransaction(
+        account,
+        CONTRACT_ADDRESSES.CoinconutCore,
+        method,
+        [StellarSdk.nativeToScVal(batchId, { type: "u32" })]
+      );
       
       setStage("sponsored");
-      toast.loading("Listando produto no mercado B2B...", { id: tId, description: "Assine a transação no MetaMask" });
-      
-      // 2. Lista o produto no mercado
-      const priceCents = Math.floor(PRECOS[produtoDestino] * 100);
-      const tx2 = await market.list(batchId, weightGrams, priceCents, isAdubo);
-      await tx2.wait();
 
-      toast.loading("Simulando venda B2B e emitindo NFT...", { id: tId, description: "Aguarde a rede Sepolia..." });
+      toast.loading("Simulando venda B2B e emitindo NFT...", { id: tId, description: "Aguarde a rede Stellar..." });
       
-      // 3. PITCH DEMO: Emite o NFT diretamente para a fábrica via MINTER_ROLE
-      // Isso garante que a Galeria ESG exiba o troféu sem depender do buyer B2B.
-      const nft = getNftContract(signer);
-      const tx3 = await nft.issue(account, batchId, weightGrams, "Selo ESG - Fibra de Coco");
-      const receipt = await tx3.wait();
+      const tx3 = await submitTransaction(
+        account,
+        CONTRACT_ADDRESSES.CoinconutCore,
+        "issue_cert",
+        [
+          new StellarSdk.Address(account).toScVal(), // buyer is current user
+          StellarSdk.nativeToScVal(batchId, { type: "u32" }),
+          StellarSdk.nativeToScVal(weightGrams, { type: "u32" }),
+          StellarSdk.nativeToScVal(`Selo ESG - ${NOMES_PRODUTOS[produtoDestino]}`, { type: "string" })
+        ]
+      );
 
-      setTxHash(receipt.hash);
+      setTxHash(tx3.txHash);
       setStage("settled");
       toast.success("Selo ESG conquistado com sucesso!", { id: tId });
     } catch(err: any) {
       console.error(err);
       toast.error("Falha na transação.", { id: tId });
-      const msg = err.reason || err.message || "Erro desconhecido.";
+      const msg = err.message || "Erro desconhecido.";
       setErrMsg("Falha na transação: " + msg);
       setStage("idle");
     }
@@ -160,7 +149,6 @@ function Registrar() {
         </div>
 
         <div className="grid lg:grid-cols-[1.2fr_1fr] gap-6">
-          {/* Form */}
           <form onSubmit={submit} className="glass-card rounded-2xl p-7 space-y-6">
             {errMsg && (
               <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive flex items-start gap-3">
@@ -193,7 +181,9 @@ function Registrar() {
                       <div className="text-sm">{p.name}</div>
                       <div className="text-xs text-muted-foreground mt-0.5">{p.farm}</div>
                     </div>
-                    <div className="font-mono text-xs text-gold/80 break-all w-24 sm:w-auto text-right">{p.wallet}</div>
+                    <div className="font-mono text-xs text-gold/80 break-all w-24 sm:w-auto text-right">
+                      {p.wallet.slice(0,6)}...{p.wallet.slice(-4)}
+                    </div>
                   </button>
                 ))}
               </div>
@@ -242,10 +232,11 @@ function Registrar() {
 
             <button
               type="submit"
-              disabled={stage !== "idle" || batchId === 0 || isConnecting}
+              disabled={stage !== "idle" || batchId === 0 || isConnecting || !account}
               className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.01] transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isConnecting ? <><Loader2 className="size-4 animate-spin"/> Conectando...</> : 
+               !account ? "Conectar Carteira" :
                stage === "idle" ? (<>Confirmar Processamento <ArrowRight className="size-4" /></>) : 
                "Processando Smart Contracts…"}
             </button>
@@ -254,7 +245,6 @@ function Registrar() {
             </p>
           </form>
 
-          {/* Status */}
           <div className="glass-card rounded-2xl p-7">
             <h2 className="font-display text-xl mb-6">Status da operação</h2>
             <div className="space-y-4">
@@ -279,13 +269,13 @@ function Registrar() {
                   </div>
                   {txHash && (
                     <a
-                      href={`https://sepolia.etherscan.io/tx/${txHash}`}
+                      href={`https://stellar.expert/explorer/testnet/tx/${txHash}`}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-2 text-xs mt-3 text-accent hover:underline font-mono bg-secondary/50 px-3 py-1.5 rounded-lg border border-border"
                     >
                       <ExternalLink className="size-3" />
-                      Ver na Blockchain
+                      Ver no Stellar Expert
                     </a>
                   )}
                   <div className="block mt-4">

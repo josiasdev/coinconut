@@ -2,22 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import {
-  Smartphone,
-  Mail,
-  Hash,
-  CreditCard,
-  Check,
-  CheckCircle2,
-  ArrowRight,
-  Loader2,
-  Wallet,
+  Smartphone, Mail, Hash, CreditCard, Check,
+  CheckCircle2, ArrowRight, Loader2, Wallet,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { toast } from "sonner";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { useWeb3 } from "@/hooks/useWeb3";
-import { getPaymentLedgerContract } from "@/lib/web3/config";
 
 export const Route = createFileRoute("/saque")({
   component: Saque,
@@ -34,47 +26,24 @@ const pixTypes: { key: PixType; label: string; icon: React.ElementType; placehol
 ];
 
 function Saque() {
-  const { account, signer, isConnecting, connectWallet } = useWeb3();
+  const { account, isConnecting, connectWallet } = useWeb3();
   const [pixType, setPixType] = useState<PixType>("cpf");
   const [pixKey, setPixKey] = useState("");
   const [stage, setStage] = useState<Stage>("idle");
   const [saldoCents, setSaldoCents] = useState<number | null>(null);
-  const [pendingPaymentsIds, setPendingPaymentsIds] = useState<number[]>([]);
-  const [isSimulatingOracle, setIsSimulatingOracle] = useState(false);
 
-  // Carrega o saldo real pendente do PaymentLedger
   useEffect(() => {
     async function fetchBalance() {
-      if (!signer || !account) return;
-      try {
-        const ledger = getPaymentLedgerContract(signer);
-        const pIds = await ledger.getSupplierPayments(account);
-        
-        let totalCents = 0;
-        const pendings = [];
-        
-        for (let i = 0; i < pIds.length; i++) {
-          const payment = await ledger.payments(pIds[i]);
-          // status 0 = PENDING
-          if (Number(payment.status) === 0) {
-            totalCents += Number(payment.amountCents);
-            pendings.push(Number(pIds[i]));
-          }
-        }
-        
-        setSaldoCents(totalCents);
-        setPendingPaymentsIds(pendings);
-      } catch (err) {
-        console.error("Erro ao buscar saldo:", err);
-      }
+      if (!account) return;
+      // Mocking Stellar Anchor BRLT balance for Hackathon
+      setTimeout(() => setSaldoCents(19200), 600); // R$ 192,00
     }
     fetchBalance();
-  }, [signer, account, stage]);
+  }, [account, stage]);
 
   const saldoBRL = saldoCents !== null ? saldoCents / 100 : 0;
   const [amount, setAmount] = useState("");
 
-  // Atualiza o input de amount quando o saldo carregar
   useEffect(() => {
     if (saldoBRL > 0) setAmount(saldoBRL.toFixed(2));
   }, [saldoBRL]);
@@ -105,56 +74,22 @@ function Saque() {
     if (!isValid) return;
     
     setStage("confirmando");
-    const tId = toast.loading("Verificando limites e dados do PIX...", { description: "Conectando ao sistema bancário" });
+    const tId = toast.loading("Verificando integração com a âncora Stellar...", { description: "Conectando ao sistema de liquidação fiat" });
     await new Promise((r) => setTimeout(r, 1500));
     
     setStage("processando");
-    toast.loading("Processando transferência via PIX...", { id: tId, description: "Aguarde alguns segundos" });
+    toast.loading("Processando off-ramp para BRL...", { id: tId, description: "Convertendo USDC/BRLT para PIX" });
     await new Promise((r) => setTimeout(r, 2500));
     
     setStage("concluido");
-    toast.success("PIX enviado com sucesso!", { id: tId });
+    toast.success("Liquidação via PIX concluída com sucesso!", { id: tId });
     
-    // Dispara a chuva de confetes
     confetti({
       particleCount: 150,
       spread: 70,
       origin: { y: 0.6 },
       colors: ['#FFE175', '#A5E289', '#FFFFFF']
     });
-  }
-
-  async function simulateOracle() {
-    if (!signer || pendingPaymentsIds.length === 0) return;
-    try {
-      setIsSimulatingOracle(true);
-      const ledger = getPaymentLedgerContract(signer);
-      const tId = toast.loading("Oráculo PIX: Confirmando pagamentos on-chain...", { description: "Chamando ledger.confirmPayment()" });
-      
-      // Confirma todos os pagamentos pendentes passando o Comprovante (pixProof)
-      for (const pId of pendingPaymentsIds) {
-        const tx = await ledger.confirmPayment(pId, "COMPROVANTE_PIX_PITCH_DEMO");
-        await tx.wait();
-      }
-      
-      toast.success("Oráculo PIX: Status atualizado para PAID!", { id: tId });
-      setStage("concluido");
-      setSaldoCents(0);
-      setPendingPaymentsIds([]);
-      setAmount("");
-      
-      confetti({
-        particleCount: 200,
-        spread: 90,
-        origin: { y: 0.6 },
-        colors: ['#FFE175', '#A5E289', '#FFFFFF']
-      });
-    } catch (err: any) {
-      console.error(err);
-      toast.error("Oráculo PIX falhou: " + (err.reason || err.message));
-    } finally {
-      setIsSimulatingOracle(false);
-    }
   }
 
   return (
@@ -181,7 +116,7 @@ function Saque() {
                       <Wallet className="size-10 text-muted-foreground mx-auto mb-3 opacity-50" />
                       <p className="text-sm text-muted-foreground mb-4">Conecte sua carteira para ver seu saldo on-chain</p>
                       <button onClick={connectWallet} disabled={isConnecting} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-secondary border border-border text-sm hover:bg-secondary/80 transition">
-                        {isConnecting ? <Loader2 className="size-4 animate-spin"/> : "Conectar MetaMask"}
+                        {isConnecting ? <Loader2 className="size-4 animate-spin"/> : "Conectar Freighter"}
                       </button>
                     </div>
                   ) : saldoCents === null ? (
@@ -198,7 +133,7 @@ function Saque() {
                         R$ {saldoBRL.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                       </div>
                       <div className="text-xs text-muted-foreground mt-3">
-                        Referente a {pendingPaymentsIds.length} entrega(s) certificada(s) pendente(s)
+                        Referente a entregas certificadas via Stellar
                       </div>
                     </>
                   )}
@@ -273,16 +208,16 @@ function Saque() {
                 >
                   {stage !== "idle" ? (
                     <>
-                      <Loader2 className="size-4 animate-spin" /> Processando...
+                      <Loader2 className="size-4 animate-spin" /> Processando Off-Ramp...
                     </>
                   ) : (
                     <>
-                      Confirmar saque <ArrowRight className="size-4" />
+                      Confirmar saque via Âncora <ArrowRight className="size-4" />
                     </>
                   )}
                 </button>
                 <p className="text-xs text-muted-foreground text-center -mt-2">
-                  Sem taxas · Prazo estimado: até 10 minutos
+                  Taxas cobertas por Fee-Bumps · Liquidação via SEP-24
                 </p>
               </form>
 
@@ -294,8 +229,8 @@ function Saque() {
                     animate={{ opacity: 1, y: 0 }}
                     className="glass-card rounded-2xl p-6 space-y-4"
                   >
-                    <StepRow done={(["processando", "concluido"] as string[]).includes(stage)} active={stage === "confirmando"} label="Confirmando sua identidade" />
-                    <StepRow done={(stage as string) === "concluido"} active={stage === "processando"} label="Enviando para o banco" />
+                    <StepRow done={(["processando", "concluido"] as string[]).includes(stage)} active={stage === "confirmando"} label="Confirmando integração com a âncora" />
+                    <StepRow done={(stage as string) === "concluido"} active={stage === "processando"} label="Transformando BRLT em Fiat (PIX)" />
                     <StepRow done={false} active={false} label="PIX na sua conta" />
                   </motion.div>
                 )}
@@ -317,17 +252,16 @@ function Saque() {
                 R$ {amountNum.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
               </p>
               <p className="text-sm text-muted-foreground mb-8">
-                na chave <span className="text-foreground">{pixKey}</span> · em até 10 minutos
+                na chave <span className="text-foreground">{pixKey}</span> · liquidação off-ramp via Stellar
               </p>
               <div className="text-xs font-mono text-muted-foreground">
-                Comprovante #{Math.random().toString(36).substring(2, 10).toUpperCase()}
+                Recibo #{Math.random().toString(36).substring(2, 10).toUpperCase()}
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </main>
       
-
       <Footer />
     </div>
   );

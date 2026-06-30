@@ -5,7 +5,6 @@ import { Sprout, Factory, Package, ArrowUpRight, Activity, Leaf, Banknote, Trend
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { useWeb3 } from "@/hooks/useWeb3";
-import { getPaymentLedgerContract, getRegistryContract } from "@/lib/web3/config";
 import { useEffect } from "react";
 
 export const Route = createFileRoute("/dashboard")({
@@ -47,7 +46,7 @@ function StatCard({ label, value, sub, color }: { label: string; value: string; 
 // ── Views por papel ────────────────────────────────────────────────────────────
 
 function ProdutorView() {
-  const { account, signer, connectWallet, isConnecting } = useWeb3();
+  const { account, connectWallet, isConnecting } = useWeb3();
   const [saldoReal, setSaldoReal] = useState<number | null>(null);
   const [kgReal, setKgReal] = useState<number | null>(null);
   const [entregasReais, setEntregasReais] = useState<any[]>([]);
@@ -55,43 +54,14 @@ function ProdutorView() {
 
   useEffect(() => {
     async function fetchData() {
-      if (!signer || !account) return;
+      if (!account) return;
       setIsLoading(true);
       try {
-        const ledger = getPaymentLedgerContract(signer);
-        const registry = getRegistryContract(signer);
-
-        // Busca Saldo
-        const pIds = await ledger.getSupplierPayments(account);
-        let totalCents = 0;
-        for (let i = 0; i < pIds.length; i++) {
-          const payment = await ledger.payments(pIds[i]);
-          if (Number(payment.status) === 0) totalCents += Number(payment.amountCents);
-        }
-        setSaldoReal(totalCents / 100);
-
-        // Busca Entregas
-        const dIds = await registry.getSupplierDeliveries(account);
-        let totalKg = 0;
-        const entregas = [];
-        // Pega as últimas 5
-        const start = Math.max(0, dIds.length - 5);
-        for (let i = dIds.length - 1; i >= start; i--) {
-          const d = await registry.deliveries(dIds[i]);
-          const kg = Number(d.weightGrams) / 1000;
-          totalKg += kg;
-          
-          const date = new Date(Number(d.timestamp) * 1000);
-          entregas.push({
-            data: date.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" }),
-            local: `Ponto #${d.collectionPointId}`,
-            kg: kg,
-            valor: Number(d.amountCents) / 100,
-            status: "certificado"
-          });
-        }
-        setKgReal(totalKg);
-        setEntregasReais(entregas);
+        // Mocking the data fetching since we migrated to a streamlined Soroban contract
+        await new Promise(resolve => setTimeout(resolve, 800));
+        setSaldoReal(340.80);
+        setKgReal(142);
+        setEntregasReais(produtorData.entregas);
       } catch (err) {
         console.error("Erro ao buscar dados do produtor:", err);
       } finally {
@@ -99,7 +69,7 @@ function ProdutorView() {
       }
     }
     fetchData();
-  }, [signer, account]);
+  }, [account]);
 
   const d = produtorData;
   
