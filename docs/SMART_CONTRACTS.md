@@ -21,6 +21,11 @@ O certificado de impacto ecológico final. Na arquitetura antiga (EVM) era trata
 - **Estrutura:** `DataKey::Certificate(u32)` armazena no estado do contrato atributos cruciais: `buyer` (Dono do certificado), `batch_id` (Lote vinculado), `weight_grams` (Impacto quantitativo) e `product_type` (Tipo do resíduo processado).
 - **Mecânica Principal:** `issue_cert(buyer, batch_id, weight_grams, product_type)` atrela de forma irrevogável o peso e a glória da reciclagem ao endereço (Address) do comprador B2B. Essa propriedade não possui uma função de transferência (transfer), tornando-se análoga ao conceito de "Soulbound", evitando o comércio secundário de reputação ambiental (Greenwashing).
 
+### 3. Integração de Privacidade Zero-Knowledge (Noir)
+Para garantir a confidencialidade da cadeia de suprimentos B2B (Supply Chain Privacy), introduzimos a função paralela `issue_cert_zk`.
+- **Mecânica Confidencial:** Em vez de transmitir pesos logísticos exatos abertamente, a indústria usa a linguagem **Noir** (ZK-SNARK) para gerar uma prova matemática de que o requisito ESG foi cumprido.
+- **Validação on-chain:** O Smart Contract Soroban recebe e verifica essa prova criptográfica (UltraHonk). Se for válida, ele emite o Selo ESG mantendo o lote oculto (`batch_id: 0`), garantindo que volumes de produção reais não sejam espionados por concorrentes no explorador público.
+
 ---
 
 ## Estratégias de Usabilidade e Taxas (Fee Bumps)
