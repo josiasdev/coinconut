@@ -212,7 +212,7 @@ function ESG() {
                   <div className="flex flex-col items-center justify-center py-8 space-y-6 text-center">
                     <Loader2 className={`size-12 ${zkStatus === "success" ? "text-primary" : "text-muted-foreground animate-spin"}`} />
                     <div className="font-mono text-sm space-y-2 text-left bg-secondary/50 p-4 rounded-xl w-full border border-border/50">
-                      <div className={zkStatus !== "idle" ? "text-foreground" : "text-muted-foreground opacity-50"}>
+                      <div className="text-foreground">
                         <span className="text-primary mr-2">❯</span> Inicializando Noir.js Prover...
                       </div>
                       <div className={zkStatus === "solving" || zkStatus === "submitting" || zkStatus === "success" ? "text-foreground" : "text-muted-foreground opacity-50"}>
