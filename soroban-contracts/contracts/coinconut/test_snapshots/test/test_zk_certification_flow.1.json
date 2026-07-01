@@ -1,14 +1,10 @@
 {
   "generators": {
-    "address": 4,
+    "address": 3,
     "nonce": 0,
     "mux_id": 0
   },
   "auth": [
-    [],
-    [],
-    [],
-    [],
     [],
     [],
     [],
@@ -34,90 +30,6 @@
               "key": {
                 "vec": [
                   {
-                    "symbol": "Batch"
-                  },
-                  {
-                    "u32": 1
-                  }
-                ]
-              },
-              "durability": "persistent",
-              "val": {
-                "map": [
-                  {
-                    "key": {
-                      "symbol": "created_at"
-                    },
-                    "val": {
-                      "u64": "0"
-                    }
-                  },
-                  {
-                    "key": {
-                      "symbol": "id"
-                    },
-                    "val": {
-                      "u32": 1
-                    }
-                  },
-                  {
-                    "key": {
-                      "symbol": "is_adubo"
-                    },
-                    "val": {
-                      "bool": false
-                    }
-                  },
-                  {
-                    "key": {
-                      "symbol": "stage"
-                    },
-                    "val": {
-                      "u32": 1
-                    }
-                  },
-                  {
-                    "key": {
-                      "symbol": "supplier"
-                    },
-                    "val": {
-                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M"
-                    }
-                  },
-                  {
-                    "key": {
-                      "symbol": "updated_at"
-                    },
-                    "val": {
-                      "u64": "0"
-                    }
-                  },
-                  {
-                    "key": {
-                      "symbol": "weight_grams"
-                    },
-                    "val": {
-                      "u32": 1000
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "ext": "v0"
-        },
-        "live_until": 4095
-      },
-      {
-        "entry": {
-          "last_modified_ledger_seq": 0,
-          "data": {
-            "contract_data": {
-              "ext": "v0",
-              "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-              "key": {
-                "vec": [
-                  {
                     "symbol": "Certificate"
                   },
                   {
@@ -133,7 +45,7 @@
                       "symbol": "batch_id"
                     },
                     "val": {
-                      "u32": 1
+                      "u32": 0
                     }
                   },
                   {
@@ -141,7 +53,7 @@
                       "symbol": "buyer"
                     },
                     "val": {
-                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITA4"
+                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M"
                     }
                   },
                   {
@@ -157,7 +69,7 @@
                       "symbol": "product_type"
                     },
                     "val": {
-                      "string": "briquette"
+                      "string": "Confidential_ZK_Processed_Husk"
                     }
                   },
                   {
@@ -165,7 +77,7 @@
                       "symbol": "weight_grams"
                     },
                     "val": {
-                      "u32": 1000
+                      "u32": 5000
                     }
                   }
                 ]
@@ -212,7 +124,7 @@
                         ]
                       },
                       "val": {
-                        "u32": 1
+                        "u32": 0
                       }
                     },
                     {
