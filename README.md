@@ -1,100 +1,95 @@
-# COINCONUT — ImpactLedger no Stellar
-  <img src="docs/images/hero.jpg" alt="COINCONUT Banner" style="width: 100%; border-radius: 12px; margin-bottom: 20px;" />
+[Leia em Português](README_PT_BR.md)
 
-## Sobre o projeto
-Projeto oficial submetido ao **PULSO Hackathon** da rede Stellar. A **COINCONUT** foi totalmente migrada e arquitetada nativamente para rodar na Blockchain Stellar, utilizando **Soroban** para os Smart Contracts e as funcionalidades nativas da rede para facilitar a adoção.
+# COINCONUT — ImpactLedger on Stellar
+<img src="docs/images/hero.jpg" alt="COINCONUT Banner" style="width: 100%; border-radius: 12px; margin-bottom: 20px;" />
 
-## Objetivo
-Construir uma solução baseada em blockchain capaz de registrar, validar e certificar ações de impacto social e ambiental. A **COINCONUT** alcança isso certificando toda a logística reversa e a reciclagem da casca do coco, que no estado do Ceará e em grande parte do nordeste representa um grande passivo ambiental.
+## About the Project
+Official project submitted to the **PULSO Hackathon** (Stellar Network). **COINCONUT** was entirely migrated and architected to run natively on the Stellar Blockchain, utilizing **Soroban** for Smart Contracts and native network functionalities for seamless adoption.
 
-## O Problema e a Solução
+## Objective
+To build a blockchain-based solution capable of registering, validating, and certifying social and environmental impact actions. **COINCONUT** achieves this by certifying the entire reverse logistics and recycling of coconut husks, which represent a massive environmental liability in northeastern Brazil.
 
-### Problemática
-O descarte irregular da casca do coco, que representa **80% do peso total do fruto**, acarreta graves problemas ambientais e logísticos. Essa cadeia sofre hoje com três grandes gargalos:
+## The Problem and Solution
 
-- **Iniciativa Pública Ineficiente:** A coleta seletiva municipal frequentemente falha ou inexiste, deixando a responsabilidade nos ombros de pequenos catadores locais (frequentemente desorganizados).
-- **Vulnerabilidade Social:** Esses trabalhadores atuam de forma invisível, sofrendo com a falta de transparência e atrasos crônicos nos pagamentos por parte de intermediários.
-- **Greenwashing Industrial:** As indústrias de sustentabilidade enfrentam sérias dificuldades para rastrear e comprovar suas práticas ESG de ponta a ponta de maneira verdadeiramente auditável.
+### The Problem
+The improper disposal of coconut husks, which make up **80% of the fruit's total weight**, causes severe environmental and logistical problems. This supply chain currently suffers from three major bottlenecks:
+- **Inefficient Public Systems:** Municipal selective collection frequently fails or doesn't exist, shifting the burden to disorganized, low-income rural collectors.
+- **Social Vulnerability:** These workers operate invisibly, suffering from a lack of transparency and chronic payment delays from intermediaries.
+- **Industrial Greenwashing:** ESG-focused industries face serious difficulties tracing and proving their sustainable practices from end to end in a truly auditable manner.
 
-### Solução (Powered by Stellar)
-Desenvolvemos uma **infraestrutura Web3 descentralizada** na Stellar que transforma o resíduo em impacto social e ambiental mensurável, estruturada em três pilares:
+### The Solution (Powered by Stellar)
+We developed a **decentralized Web3 infrastructure** on Stellar that transforms waste into measurable socio-environmental impact, structured on three pillars:
+- **On-Chain Traceability (Soroban):** Weighing the coconut husk generates an immutable, auditable record directly on our Rust-based Soroban Smart Contract (`CoinconutContract`).
+- **ESG Certificate:** When the industry processes the acquired raw material, the Soroban Smart Contract issues an immutable Sustainability Certificate (Soulbound) that attests to the company's real ecological practice, serving as anti-greenwashing ESG proof.
+- **Instant Fiat Settlement (Stellar Anchors / Fee Bumps):** To ensure producers don't have to deal with complex network fees, the industry uses **Fee Bumps** to cover transaction costs (via Freighter). The final payment settlement (off-ramp) is automated (PIX) via Stellar Anchors (SEP-24).
 
-- **Rastreabilidade On-Chain (Soroban):** A pesagem da casca do coco gera um registro imutável e auditável diretamente no nosso Smart Contract Soroban em Rust (`CoinconutContract`).
-- **Selo ESG:** Quando a indústria processa a matéria-prima adquirida, o Smart Contract Soroban emite um Certificado de Sustentabilidade imutável que atesta a prática ecológica real da empresa, servindo como prova de ESG antifraude.
-- **Liquidação Fiat Instantânea (Stellar Anchors / Fee Bumps):** Para o produtor não lidar com taxas de rede complexas, a indústria utiliza **Fee Bumps** para cobrir o custo da transação (via Freighter). A liquidação do pagamento final (off-ramp) se dá de forma automatizada (PIX) via Âncoras da Stellar.
+## Links and Demonstration
 
-## Links e Demonstração
+**Application Link:** [coinconut-b6qp.vercel.app](https://coinconut-b6qp.vercel.app)
 
-**Link da aplicação:** [coinconut-b6qp.vercel.app](https://coinconut-b6qp.vercel.app)
+**Demo Video:** [Watch our Demo on Loom](https://www.loom.com/share/5119680e19fb4e7199c4891e65c51f3f)
 
-**Demonstração funcional:** 
-O fluxo principal é orquestrado através de 3 portais no frontend:
-1. **Ponto de Coleta:** Pesa a casca, assina a transação e interage com o contrato na Testnet para registrar o Lote.
-2. **Indústria:** Adquire o lote rastreado no painel e aciona as funções de avançar estágio e emissão de ESG (Certificado On-Chain) no Soroban.
-3. **Catador (Produtor):** Acessa seu Dashboard para ver suas entregas validadas na rede Stellar e realizar a conversão (off-ramp) via simulador de SEP-24 (Oráculo PIX).
+**Functional Demonstration:** 
+The main flow is orchestrated through 3 frontend portals:
+1. **Collection Hub:** Weighs the husk, signs the transaction, and interacts with the contract on Testnet to register the Batch.
+2. **Industry:** Acquires the tracked batch on the dashboard and triggers the advance stage and ESG emission functions (On-Chain Certificate) in Soroban.
+3. **Collector (Producer):** Accesses their Dashboard to see their validated deliveries on the Stellar network and performs the conversion (off-ramp) via a simulated SEP-24 (PIX Oracle).
 
-**Demonstração auditável:** 
-- A cada interação, a lógica unificada em Rust (`lib.rs`) garante a conformidade.
-- **Vídeo Pitch:** *(Inserir Link do YouTube do novo Pitch de 2 minutos aqui)*
-
-**Smart Contract Soroban (Stellar Testnet):**
-- **CoinconutCore (Gestão de Lotes e ESG):** `CB6IOBT6MCBGPUKAI3EIVN26GQWVIFHRXG5CEPPPHOSEGNT22LB7J2X5`
-- Visualize as transações no [Stellar Expert Testnet](https://stellar.expert/explorer/testnet/contract/CB6IOBT6MCBGPUKAI3EIVN26GQWVIFHRXG5CEPPPHOSEGNT22LB7J2X5)
+**Soroban Smart Contract (Stellar Testnet):**
+- **CoinconutCore (Batch and ESG Management):** `CCIJZTJJBPU3CHI3235FR7SY22F5IOYQJOV3WAYNB3OY3MQ7TOI4AA3P`
+- View transactions on [Stellar Expert Testnet](https://stellar.expert/explorer/testnet/contract/CCIJZTJJBPU3CHI3235FR7SY22F5IOYQJOV3WAYNB3OY3MQ7TOI4AA3P)
 
 ---
 
-## Exemplos de aplicação
-- Certificação de impacto ESG antifraude para fábricas de substrato e fibra de coco (Ex: Indústrias no Ceará).
-- Registro de rastreabilidade de impacto e reciclagem (Logística Reversa).
-- Remuneração justa e instantânea para pequenos produtores através do ecossistema Fiat-to-Crypto da Stellar.
+## Application Examples
+- Anti-fraud ESG impact certification for coconut substrate and fiber factories (e.g., Industries in Ceará).
+- Traceability record of impact and recycling (Reverse Logistics).
+- Fair and instant remuneration for small producers through Stellar's Fiat-to-Crypto ecosystem.
 
-## Tecnologias utilizadas
+## Technologies Used
 - **Smart Contracts:** Rust, Soroban SDK, Stellar CLI.
-- **Rede:** Stellar Testnet.
+- **Network:** Stellar Testnet.
 - **Frontend Web3:** React 19, TypeScript, Vite, `@stellar/stellar-sdk`, `@stellar/freighter-api`.
 - **Design:** Tailwind CSS v4, Framer Motion, TanStack Router.
 
-## Estrutura do Repositório
-- `/soroban-contracts/contracts/coinconut`: Código-fonte do Smart Contract centralizado em Rust.
-- `/frontend`: Aplicação Web SPA conectada nativamente à Freighter Wallet e ao RPC Stellar.
-- `/docs`: Documentações, incluindo validação de mercado (Customer Discovery em `CUSTOMER_DISCOVERY.md`).
+## Repository Structure
+- `/soroban-contracts/contracts/coinconut`: Centralized Smart Contract source code in Rust.
+- `/frontend`: Web SPA natively connected to the Freighter Wallet and Stellar RPC.
+- `/docs`: Documentation, including market validation (Customer Discovery in `CUSTOMER_DISCOVERY.md`).
 
-## Como executar o projeto localmente
+## How to Run Locally
 
-### 1. Backend (Smart Contract Soroban)
-Certifique-se de ter Rust, Stellar CLI e o target `wasm32-unknown-unknown` instalados.
+### 1. Backend (Soroban Smart Contract)
+Ensure you have Rust, Stellar CLI, and the `wasm32-unknown-unknown` target installed.
 ```bash
 cd soroban-contracts/contracts/coinconut
 
-# Para rodar os testes unitários do ciclo completo de ESG e rastreabilidade:
+# To run unit tests for the entire ESG and traceability cycle:
 make test
 
-# Para compilar o arquivo WASM de produção:
+# To compile the production WASM file:
 make build
 ```
 
-### 2. Frontend Web
+### 2. Web Frontend
 ```bash
-# Acesse a pasta do frontend e instale as dependências
+# Access the frontend folder and install dependencies
 cd frontend
 npm install
 
-# Rode a aplicação (Integração com Freighter wallet)
+# Run the application (Integrated with Freighter wallet)
 npm run dev
 ```
 
-## Requisitos mínimos do PULSO Hackathon atingidos
-- **Solução construída na Stellar:** Sim (Contrato Soroban `CoinconutContract`).
-- **Problema real:** Sim (Lidando com os 80% do lixo do coco e falta de transparência em ESG).
-- **Adequação ao Desafio:** Perfeito encaixe no Track de "ImpactLedger/Sustentabilidade".
-- **Account Abstraction / Fee Bumps:** Frontend modelado conceitualmente e preparado (config.ts) para subsidiar custos da carteira do produtor rural.
-- **Vídeo-pitch:** *(Pendente)*
+## PULSO Hackathon Minimum Requirements Met
+- **Solution built on Stellar:** Yes (Soroban `CoinconutContract`).
+- **Real problem:** Yes (Dealing with 80% coconut waste and lack of ESG transparency).
+- **Challenge Alignment:** Perfect fit for the "ImpactLedger/Sustainability" Track.
+- **Account Abstraction / Fee Bumps:** Frontend conceptually modeled and prepared (`config.ts`) to subsidize costs for rural producers.
+- **Pitch Video:** Yes (Loom link above).
 
-## Declaração de Uso de IA
-Ferramentas como o Google Gemini e Claude foram utilizadas no projeto para acelerar o desenvolvimento do Front-End Vite e auxiliar nas adaptações e compilações de Solidity para o ambiente Soroban SDK em Rust, sempre com total compreensão técnica da equipe sobre a arquitetura distribuída no código.
-
-## Equipe
-- **[Josias](https://github.com/josiasdev)** | Frontend · UX · Integração Web3 
+## Team
+- **[Josias](https://github.com/josiasdev)** | Frontend · UX · Web3 Integration 
 - **[Davi](https://github.com/davicorreia-dev)** | Smart Contracts · Soroban/Rust · Deploy 
-- **[Jade](https://github.com/JadeProg)** | Pitch & Validação de Negócio
-- **[Willian](https://github.com/willian-uiu)** | Pitch & Casos de Uso ESG
+- **[Jade](https://github.com/JadeProg)** | Pitch & Business Validation
+- **[Willian](https://github.com/willian-uiu)** | Pitch & ESG Use Cases
