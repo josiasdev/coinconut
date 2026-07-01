@@ -56,7 +56,8 @@ O fluxo principal é orquestrado através de 3 portais no frontend:
 ## Estrutura do Repositório
 - `/soroban-contracts/contracts/coinconut`: Código-fonte do Smart Contract centralizado em Rust.
 - `/frontend`: Aplicação Web SPA conectada nativamente à Freighter Wallet e ao RPC Stellar.
-- `/docs`: Documentações, incluindo validação de mercado (Customer Discovery em `CUSTOMER_DISCOVERY.md`).
+- `/docs/technical`: Documentações de arquitetura, fluxo e integração ZK.
+- `/docs/business`: Validação de mercado e Customer Discovery.
 
 ## Como executar o projeto localmente
 

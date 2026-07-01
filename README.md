@@ -56,7 +56,8 @@ The main flow is orchestrated through 3 frontend portals:
 ## Repository Structure
 - `/soroban-contracts/contracts/coinconut`: Centralized Smart Contract source code in Rust.
 - `/frontend`: Web SPA natively connected to the Freighter Wallet and Stellar RPC.
-- `/docs`: Documentation, including market validation (Customer Discovery in `CUSTOMER_DISCOVERY.md`).
+- `/docs/technical`: Technical documentation and ZK architecture.
+- `/docs/business`: Market validation and Customer Discovery.
 
 ## How to Run Locally
 

@@ -1,22 +1,41 @@
-# Soroban Project
+# COINCONUT Soroban Smart Contract
+
+This directory contains the central smart contract for the **COINCONUT** platform, built using Rust and the **Soroban SDK**.
 
 ## Project Structure
-
-This repository uses the recommended structure for a Soroban project:
 
 ```text
 .
 ├── contracts
-│   └── hello_world
-│       ├── src
-│       │   ├── lib.rs
-│       │   └── test.rs
-│       └── Cargo.toml
+│   └── coinconut          # Main Logic Contract
+│       ├── src
+│       │   ├── lib.rs     # Smart Contract Logic (Batch & ZK Certificates)
+│       │   └── test.rs    # Unit Tests
+│       ├── Cargo.toml     # Rust Dependencies
+│       └── Makefile       # Build scripts
 ├── Cargo.toml
+├── DEPLOYMENT.md          # Contract IDs and Interfaces
 └── README.md
 ```
 
-- New Soroban contracts can be put in `contracts`, each in their own directory. There is already a `hello_world` contract in there to get you started.
-- If you initialized this project with any other example contracts via `--with-example`, those contracts will be in the `contracts` directory as well.
-- Contracts should have their own `Cargo.toml` files that rely on the top-level `Cargo.toml` workspace for their dependencies.
-- Frontend libraries can be added to the top-level directory as well. If you initialized this project with a frontend template via `--frontend-template` you will have those files already included.
+## Features
+- **Supply Chain Traceability**: Immutable logs of coconut husk batches from origin to final transformation.
+- **ESG Certificates**: Issuance of Soulbound tokens attesting to the sustainable impact of industries.
+- **Zero-Knowledge Privacy (`issue_cert_zk`)**: Verification of off-chain Noir (ZK-SNARK) proofs via `UltraHonk` primitives to issue ESG certificates without revealing sensitive industrial processing volumes to the public network.
+
+## How to Build and Test
+
+Navigate to the contract directory:
+```bash
+cd contracts/coinconut
+```
+
+Run unit tests (Includes ZK failure and success mocking):
+```bash
+make test
+```
+
+Compile the contract to WASM:
+```bash
+make build
+```
