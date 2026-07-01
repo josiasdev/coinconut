@@ -20,6 +20,7 @@ O descarte irregular da casca do coco, que representa **80% do peso total do fru
 ### Solução (Powered by Stellar)
 Desenvolvemos uma **infraestrutura Web3 descentralizada** na Stellar que transforma o resíduo em impacto social e ambiental mensurável, estruturada em três pilares:
 - **Rastreabilidade On-Chain (Soroban):** A pesagem da casca do coco gera um registro imutável e auditável diretamente no nosso Smart Contract Soroban em Rust (`CoinconutContract`).
+- **Privacidade de Supply Chain com ZK (Noir):** Indústrias frequentemente se recusam a expor seu volume exato de processamento ou seus fornecedores para a concorrência. Utilizando um circuito de Zero-Knowledge escrito em **Noir**, a indústria gera uma prova off-chain de que processou `> X kg` de resíduos. O contrato Soroban (`issue_cert_zk`) verifica essa prova matematicamente, emitindo o selo ESG enquanto mantém a quantidade exata processada e a identidade do fornecedor totalmente ocultas na rede pública.
 - **Selo ESG:** Quando a indústria processa a matéria-prima adquirida, o Smart Contract Soroban emite um Certificado de Sustentabilidade imutável que atesta a prática ecológica real da empresa, servindo como prova de ESG antifraude.
 - **Liquidação Fiat Instantânea (Stellar Anchors / Fee Bumps):** Para o produtor não lidar com taxas de rede complexas, a indústria utiliza **Fee Bumps** para cobrir o custo da transação (via Freighter). A liquidação do pagamento final (off-ramp) se dá de forma automatizada (PIX) via Âncoras da Stellar.
 

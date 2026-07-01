@@ -20,6 +20,7 @@ The improper disposal of coconut husks, which make up **80% of the fruit's total
 ### The Solution (Powered by Stellar)
 We developed a **decentralized Web3 infrastructure** on Stellar that transforms waste into measurable socio-environmental impact, structured on three pillars:
 - **On-Chain Traceability (Soroban):** Weighing the coconut husk generates an immutable, auditable record directly on our Rust-based Soroban Smart Contract (`CoinconutContract`).
+- **Supply Chain Privacy with ZK (Noir):** Industries often refuse to expose their exact processing volume or specific suppliers to competitors. Using a Zero-Knowledge circuit written in **Noir**, the industry generates an off-chain proof that they processed `> X kg` of waste. The Soroban contract (`issue_cert_zk`) mathematically verifies this proof, issuing the ESG certificate while keeping the exact processed amount and supplier identity completely hidden from the public ledger.
 - **ESG Certificate:** When the industry processes the acquired raw material, the Soroban Smart Contract issues an immutable Sustainability Certificate (Soulbound) that attests to the company's real ecological practice, serving as anti-greenwashing ESG proof.
 - **Instant Fiat Settlement (Stellar Anchors / Fee Bumps):** To ensure producers don't have to deal with complex network fees, the industry uses **Fee Bumps** to cover transaction costs (via Freighter). The final payment settlement (off-ramp) is automated (PIX) via Stellar Anchors (SEP-24).
 

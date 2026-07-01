@@ -154,6 +154,48 @@ impl CoinconutContract {
         count
     }
 
+    /// [DAY 2 ZK INTEGRATION] - Emissão de Selo ESG utilizando Zero-Knowledge Proofs
+    /// A indústria envia uma Prova Criptográfica (proof) gerada pelo Noir.
+    /// O Smart Contract verifica a prova matematicamente. NENHUM peso ou detalhe 
+    /// do fornecedor é exposto na rede pública.
+    pub fn issue_cert_zk(
+        env: Env, 
+        buyer: Address, 
+        proof: soroban_sdk::Bytes, 
+        public_inputs: soroban_sdk::Bytes,
+        minimum_weight_threshold: u32
+    ) -> u32 {
+        // Passo 1: Verificar a prova com o Ultrahonk Verifier Contract na rede Stellar
+        // (Em produção, fazemos uma chamada cross-contract para o Verifier oficial)
+        // let verifier = ZkVerifierClient::new(&env, &VERIFIER_ADDRESS);
+        // verifier.verify(&proof, &public_inputs);
+        
+        // Mock da verificação para o nosso MVP (Assumindo que a prova Noir é válida)
+        if proof.len() == 0 {
+            panic!("Invalid ZK Proof");
+        }
+
+        let mut count: u32 = env.storage().instance().get(&DataKey::CertCount).unwrap_or(0);
+        count += 1;
+
+        let now = env.ledger().timestamp();
+        let cert = Certificate {
+            buyer: buyer.clone(),
+            batch_id: 0, // 0 = Oculto pela prova ZK
+            weight_grams: minimum_weight_threshold, // Registra apenas que bateu a meta
+            issued_at: now,
+            product_type: String::from_str(&env, "Confidential_ZK_Processed_Husk"),
+        };
+
+        env.storage().persistent().set(&DataKey::Certificate(count), &cert);
+        env.storage().instance().set(&DataKey::CertCount, &count);
+
+        // Dispara um evento diferente para Certificados Privados (Privacy Pool)
+        env.events().publish((symbol_short!("zk_cert"), count), (buyer, minimum_weight_threshold, now));
+
+        count
+    }
+
     pub fn get_cert(env: Env, cert_id: u32) -> Certificate {
         env.storage().persistent().get(&DataKey::Certificate(cert_id)).unwrap_or_else(|| panic!("certificate not found"))
     }

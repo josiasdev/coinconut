@@ -1,0 +1,7 @@
+[package]
+name = "coinconut_zk_esg"
+type = "bin"
+authors = ["COINCONUT Team"]
+compiler_version = ">=0.30.0"
+
+[dependencies]
