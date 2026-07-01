@@ -64,9 +64,9 @@ function ESG() {
           {account && (
             <button 
               onClick={() => setShowZkModal(true)}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-foreground text-background font-medium hover:bg-foreground/90 transition shadow-glow text-sm"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary text-primary-foreground font-medium gold-glow hover:scale-[1.02] transition text-sm"
             >
-              <ShieldCheck className="size-4 text-primary" /> Emitir Selo via ZK Proof
+              <ShieldCheck className="size-4" /> Emitir Selo via ZK Proof
             </button>
           )}
         </div>
@@ -216,7 +216,7 @@ function ESG() {
                         <span className="text-primary mr-2">❯</span> Inicializando Noir.js Prover...
                       </div>
                       <div className={zkStatus === "solving" || zkStatus === "submitting" || zkStatus === "success" ? "text-foreground" : "text-muted-foreground opacity-50"}>
-                        <span className="text-primary mr-2">❯</span> Resolvendo restrições do circuito (assert >= 5000)...
+                        <span className="text-primary mr-2">❯</span> Resolvendo restrições do circuito (assert &gt;= 5000)...
                       </div>
                       <div className={zkStatus === "submitting" || zkStatus === "success" ? "text-foreground" : "text-muted-foreground opacity-50"}>
                         <span className="text-primary mr-2">❯</span> Prova UltraHonk gerada (2.1kb)! Enviando ao Soroban...
