@@ -42,6 +42,9 @@ O estado `Batch` acompanha o produto físico:
 2. **Estágio 1:** Processada (Fibra/Chip).
 3. **Estágio 2:** Produto Finalizado (Briquete/Adubo).
 
+### Privacidade Corporativa com Zero-Knowledge (Noir)
+Para proteger o sigilo logístico (Supply Chain Privacy), o contrato inclui a função `issue_cert_zk`. A indústria gera uma prova criptográfica (UltraHonk) usando a linguagem Noir (ZK-SNARK), comprovando matematicamente o cumprimento de metas ESG off-chain, e enviando ao Soroban apenas o comprovante verificado, mantendo volumes e parceiros confidenciais.
+
 ### Ativos Intangíveis (Obrigações e Certificados ESG)
 - **Liquidação Fiduciária (Off-ramp):** O registro on-chain valida o peso e cria os parâmetros para que o Frontend, via SEP-24 (Âncoras Stellar), realize o saque instantâneo para PIX, protegendo o catador da volatilidade das criptomoedas.
 - **Selo ImpactLedger (Certificado ESG):** Registrado permanentemente no contrato via `DataKey::Certificate`. É atrelado publicamente ao endereço do comprador (indústria) com garantias criptográficas antifraude (intransferível), prevenindo o comércio secundário de reputação climática (Greenwashing).

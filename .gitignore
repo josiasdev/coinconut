@@ -32,3 +32,7 @@ cache/
 artifacts/
 typechain/
 typechain-types/
+
+# Noir / ZK
+zk-circuit/target/*.gz
+zk-circuit/Prover.toml

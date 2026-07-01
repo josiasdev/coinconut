@@ -19,7 +19,8 @@ A antiga suíte de contratos EVM foi refatorada e consolidada em um único e pod
 ### Mecânicas Principais
 - **`create_batch`:** Ponto de entrada da logística. Cadastra o peso físico coletado atrelado à carteira do produtor rural.
 - **`advance_stage` / `finalize_as_adubo`:** Funções de transformação utilizadas pelas indústrias para processar a casca em biomassa ou briquetes.
-- **`issue_cert`:** O grande diferencial para o B2B. Cunhagem e registro do Certificado ESG on-chain e intransferível, atrelando diretamente a reputação sustentável ao endereço Stellar da indústria compradora.
+- **`issue_cert`:** O grande diferencial para o B2B. Cunhagem e registro do Certificado ESG on-chain e intransferível.
+- **`issue_cert_zk`:** Integração com provas Zero-Knowledge usando Noir. Permite a emissão do Selo ESG corporativo sem expor os volumes de Supply Chain da indústria na rede pública.
 
 ---
 
