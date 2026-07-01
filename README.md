@@ -27,7 +27,7 @@ We developed a **decentralized Web3 infrastructure** on Stellar that transforms 
 
 **Application Link:** [coinconut-b6qp.vercel.app](https://coinconut-b6qp.vercel.app)
 
-**Demo Video:** [Watch our Demo on Loom](https://www.loom.com/share/5119680e19fb4e7199c4891e65c51f3f)
+**Demo Video:** [Watch our Demo on YouTube](https://youtu.be/LGsvX2m00U8)
 
 **Functional Demonstration:** 
 The main flow is orchestrated through 3 frontend portals:

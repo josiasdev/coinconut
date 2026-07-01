@@ -27,7 +27,7 @@ Desenvolvemos uma **infraestrutura Web3 descentralizada** na Stellar que transfo
 
 **Link da aplicação:** [coinconut-b6qp.vercel.app](https://coinconut-b6qp.vercel.app)
 
-**Vídeo Pitch:** [Assista ao nosso Demo (Loom)](https://www.loom.com/share/5119680e19fb4e7199c4891e65c51f3f)
+**Vídeo Pitch:** [Assista ao nosso Demo (YouTube)](https://youtu.be/LGsvX2m00U8)
 
 **Demonstração funcional:** 
 O fluxo principal é orquestrado através de 3 portais no frontend:
