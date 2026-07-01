@@ -58,6 +58,7 @@ O fluxo principal é orquestrado através de 3 portais no frontend:
 - `/frontend`: Aplicação Web SPA conectada nativamente à Freighter Wallet e ao RPC Stellar.
 - `/docs/technical`: Documentações de arquitetura, fluxo e integração ZK.
 - `/docs/business`: Validação de mercado e Customer Discovery.
+- `/docs/design`: Guia de estilo, Design System e arquitetura visual (UI/UX).
 
 ## Como executar o projeto localmente
 

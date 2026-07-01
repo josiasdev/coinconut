@@ -58,6 +58,7 @@ The main flow is orchestrated through 3 frontend portals:
 - `/frontend`: Web SPA natively connected to the Freighter Wallet and Stellar RPC.
 - `/docs/technical`: Technical documentation and ZK architecture.
 - `/docs/business`: Market validation and Customer Discovery.
+- `/docs/design`: Design System, UI guidelines, and aesthetics.
 
 ## How to Run Locally
 
