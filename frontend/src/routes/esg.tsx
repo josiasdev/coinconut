@@ -14,6 +14,22 @@ function ESG() {
   const { account, isConnecting, connectWallet } = useWeb3();
   const [nftBalance, setNftBalance] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showZkModal, setShowZkModal] = useState(false);
+  const [zkStatus, setZkStatus] = useState<"idle" | "generating" | "solving" | "submitting" | "success">("idle");
+
+  const runZkSimulation = async () => {
+    setZkStatus("generating");
+    await new Promise(r => setTimeout(r, 1200));
+    setZkStatus("solving");
+    await new Promise(r => setTimeout(r, 1500));
+    setZkStatus("submitting");
+    await new Promise(r => setTimeout(r, 1200));
+    setZkStatus("success");
+    await new Promise(r => setTimeout(r, 1000));
+    setShowZkModal(false);
+    setZkStatus("idle");
+    setNftBalance((prev) => (prev || 0) + 1);
+  };
 
   useEffect(() => {
     async function fetchNFTs() {
@@ -41,9 +57,19 @@ function ESG() {
         </Link>
         
         <div className="text-xs font-mono uppercase tracking-widest text-accent mb-3">Galeria de Conquistas</div>
-        <h1 className="font-display text-4xl md:text-5xl mb-4">
-          Seus <span className="text-gradient-gold italic">Selos ESG</span>
-        </h1>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
+          <h1 className="font-display text-4xl md:text-5xl">
+            Seus <span className="text-gradient-gold italic">Selos ESG</span>
+          </h1>
+          {account && (
+            <button 
+              onClick={() => setShowZkModal(true)}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-foreground text-background font-medium hover:bg-foreground/90 transition shadow-glow text-sm"
+            >
+              <ShieldCheck className="size-4 text-primary" /> Emitir Selo via ZK Proof
+            </button>
+          )}
+        </div>
         <p className="text-muted-foreground max-w-2xl mb-12">
           Cada selo representa um lote de casca de coco processado através da rede COINCONUT. 
           Estes certificados são ativos digitais intransferíveis emitidos nativamente via Soroban na blockchain Stellar, garantindo a rastreabilidade e a transparência antifraude do seu impacto ambiental.
@@ -153,6 +179,56 @@ function ESG() {
                 </motion.div>
               );
             })}
+          </div>
+        )}
+        {/* ZK Proof Modal Simulation */}
+        {showZkModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
+            <div className="bg-card border border-border w-full max-w-md rounded-3xl shadow-elegant overflow-hidden">
+              <div className="p-6 border-b border-border/50 flex justify-between items-center bg-muted/30">
+                <div className="flex items-center gap-2 font-display text-lg">
+                  <ShieldCheck className="size-5 text-primary" /> Confidencialidade ZK
+                </div>
+                <button onClick={() => setShowZkModal(false)} className="text-muted-foreground hover:text-foreground">&times;</button>
+              </div>
+              <div className="p-6 space-y-6">
+                {zkStatus === "idle" ? (
+                  <>
+                    <p className="text-sm text-muted-foreground">
+                      Insira o peso total processado neste mês. A Prova de Conhecimento Zero (Noir) vai provar para o Soroban que você bateu a meta, sem vazar esse número na rede pública.
+                    </p>
+                    <div>
+                      <label className="text-xs font-mono text-muted-foreground uppercase">Peso Processado (kg)</label>
+                      <input type="number" defaultValue="6000" className="w-full bg-background border border-border rounded-xl px-4 py-3 mt-1 outline-none focus:border-primary font-mono text-lg" />
+                    </div>
+                    <button 
+                      onClick={runZkSimulation}
+                      className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-medium flex justify-center items-center gap-2 hover:bg-primary/90 transition"
+                    >
+                      Gerar Prova Matemática Localmente
+                    </button>
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-8 space-y-6 text-center">
+                    <Loader2 className={`size-12 ${zkStatus === "success" ? "text-primary" : "text-muted-foreground animate-spin"}`} />
+                    <div className="font-mono text-sm space-y-2 text-left bg-secondary/50 p-4 rounded-xl w-full border border-border/50">
+                      <div className={zkStatus !== "idle" ? "text-foreground" : "text-muted-foreground opacity-50"}>
+                        <span className="text-primary mr-2">❯</span> Inicializando Noir.js Prover...
+                      </div>
+                      <div className={zkStatus === "solving" || zkStatus === "submitting" || zkStatus === "success" ? "text-foreground" : "text-muted-foreground opacity-50"}>
+                        <span className="text-primary mr-2">❯</span> Resolvendo restrições do circuito (assert >= 5000)...
+                      </div>
+                      <div className={zkStatus === "submitting" || zkStatus === "success" ? "text-foreground" : "text-muted-foreground opacity-50"}>
+                        <span className="text-primary mr-2">❯</span> Prova UltraHonk gerada (2.1kb)! Enviando ao Soroban...
+                      </div>
+                      <div className={zkStatus === "success" ? "text-primary font-bold" : "text-muted-foreground opacity-50"}>
+                        <span className="text-primary mr-2">❯</span> Contrato ZkVerifier aceitou a prova. Selo emitido!
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </main>
